@@ -535,10 +535,49 @@
       <!-- Map embed + Request form -->
       <div>
         <div class="area-map">
-          <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-77.75%2C38.15%2C-77.15%2C38.55&layer=mapnik&marker=38.3032%2C-77.4605" style="width:100%;height:320px;border:none;display:block;" loading="lazy" title="Fresh-Cut Landscaping service area map — Fredericksburg, Stafford, Spotsylvania, King George, Virginia"></iframe>
-          <div style="padding:12px 16px;background:var(--green-dark);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+          <div id="serviceMap" style="width:100%;height:380px;border-radius:var(--r-lg) var(--r-lg) 0 0;"></div>
+          <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+          <script>
+          (function(){
+            var map = L.map('serviceMap',{scrollWheelZoom:false}).setView([38.35,-77.52],10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+              attribution:'&copy; OpenStreetMap',maxZoom:18
+            }).addTo(map);
+
+            var greenIcon = L.divIcon({
+              html:'<div style="background:#1b4d2e;width:14px;height:14px;border-radius:50%;border:3px solid #C5A028;box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div>',
+              iconSize:[20,20],iconAnchor:[10,10],className:''
+            });
+            var goldIcon = L.divIcon({
+              html:'<div style="background:#C5A028;width:18px;height:18px;border-radius:50%;border:3px solid #1b4d2e;box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div>',
+              iconSize:[24,24],iconAnchor:[12,12],className:''
+            });
+
+            var areas = [
+              {lat:38.3032,lng:-77.4605,name:'Fredericksburg',main:true,desc:'📍 HQ — Call Alex: 540-455-7405'},
+              {lat:38.4220,lng:-77.4083,name:'Stafford',main:false,desc:'Serving all of Stafford County'},
+              {lat:38.1996,lng:-77.5886,name:'Spotsylvania',main:false,desc:'Spotsylvania County & Courthouse area'},
+              {lat:38.2690,lng:-77.1865,name:'King George',main:false,desc:'King George County'},
+              {lat:38.4730,lng:-77.9987,name:'Culpeper',main:false,desc:'Culpeper & surrounding area'},
+              {lat:38.6807,lng:-77.2497,name:'Woodbridge',main:false,desc:'Woodbridge & Prince William County'}
+            ];
+
+            areas.forEach(function(a){
+              L.marker([a.lat,a.lng],{icon:a.main?goldIcon:greenIcon})
+                .addTo(map)
+                .bindPopup('<div style="font-family:system-ui;text-align:center;"><strong style="font-size:14px;color:#1b4d2e;">'+a.name+'</strong><br><span style="font-size:12px;color:#555;">'+a.desc+'</span></div>');
+            });
+
+            // Draw service radius circle around Fredericksburg
+            L.circle([38.3032,-77.4605],{
+              radius:40000,color:'#1b4d2e',fillColor:'#2e7d32',fillOpacity:0.06,weight:2,dashArray:'8,6'
+            }).addTo(map);
+          })();
+          </script>
+          <div style="padding:12px 16px;background:var(--green-dark);border-radius:0 0 var(--r-lg) var(--r-lg);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
             <div style="display:flex;gap:16px;flex-wrap:wrap;">
-              <span style="color:#fff;font-size:.8rem;font-weight:700;">📍 Fredericksburg</span>
+              <span style="color:#C5A028;font-size:.8rem;font-weight:700;">⭐ Fredericksburg (HQ)</span>
               <span style="color:rgba(255,255,255,0.7);font-size:.8rem;">Stafford</span>
               <span style="color:rgba(255,255,255,0.7);font-size:.8rem;">Spotsylvania</span>
               <span style="color:rgba(255,255,255,0.7);font-size:.8rem;">King George</span>
