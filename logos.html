@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freshcut Landscaping — Logo Options</title>
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f4f0; margin: 0; padding: 40px 20px; }
+    h1 { text-align: center; color: #1b4d2e; font-size: 1.6rem; margin-bottom: 6px; }
+    .sub { text-align: center; color: #555; margin-bottom: 48px; font-size: 0.9rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px; max-width: 1100px; margin: 0 auto; }
+    .card {
+      background: #fff; border-radius: 16px; padding: 36px 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+      border: 2px solid transparent; transition: border-color 0.2s;
+    }
+    .card:hover { border-color: #4caf50; }
+    .card svg { max-width: 100%; }
+    .card-label { font-weight: 700; color: #1b4d2e; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+    .card-desc { color: #666; font-size: 0.82rem; text-align: center; line-height: 1.5; }
+
+    /* Dark bg preview */
+    .dark-preview { background: #1b4d2e; border-radius: 12px; padding: 20px 28px; width: 100%; box-sizing: border-box; display: flex; justify-content: center; }
+    .dark-preview svg { max-width: 100%; }
+
+    .variant-label {
+      background: #e8f5e9; color: #2e7d32; font-weight: 700;
+      font-size: 0.7rem; padding: 4px 12px; border-radius: 50px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Freshcut Landscaping LLC — Logo Options</h1>
+  <p class="sub">3 professional variations. Pick one for the website.</p>
+
+  <div class="grid">
+
+    <!-- ══════════════════════════════════
+         LOGO 1 — Circular Sun + Leaf Badge
+         ══════════════════════════════════ -->
+    <div class="card">
+      <span class="variant-label">Option 1 — Badge</span>
+
+      <!-- Light version -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-label="Freshcut Landscaping LLC logo option 1">
+        <defs>
+          <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#2e7d32"/>
+            <stop offset="100%" style="stop-color:#1b4d2e"/>
+          </linearGradient>
+          <linearGradient id="sun1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f5a623"/>
+            <stop offset="100%" style="stop-color:#d4861a"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Badge circle -->
+        <circle cx="60" cy="60" r="54" fill="url(#g1)"/>
+        <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+
+        <!-- Sun rays -->
+        <g transform="translate(60,60)">
+          <line x1="0" y1="-32" x2="0" y2="-26" stroke="url(#sun1)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22.6" y1="-22.6" x2="18.4" y2="-18.4" stroke="url(#sun1)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="32" y1="0" x2="26" y2="0" stroke="url(#sun1)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22.6" y1="22.6" x2="18.4" y2="18.4" stroke="url(#sun1)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="0" y1="32" x2="0" y2="26" stroke="url(#sun1)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-22.6" y1="22.6" x2="-18.4" y2="18.4" stroke="url(#sun1)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-32" y1="0" x2="-26" y2="0" stroke="url(#sun1)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-22.6" y1="-22.6" x2="-18.4" y2="-18.4" stroke="url(#sun1)" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Sun circle -->
+          <circle cx="0" cy="0" r="10" fill="url(#sun1)"/>
+        </g>
+
+        <!-- Leaf over sun -->
+        <path d="M60 35 C60 35 78 50 72 68 C66 78 48 78 48 78 C48 78 48 58 60 35Z" fill="#4caf50" opacity="0.9"/>
+        <path d="M60 35 C60 35 42 50 48 68 C54 78 72 78 72 78 C72 78 72 58 60 35Z" fill="#81c784" opacity="0.6"/>
+        <!-- Leaf stem -->
+        <line x1="60" y1="78" x2="60" y2="86" stroke="#4caf50" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- Text area -->
+        <text x="126" y="44" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" font-size="26" fill="#1b4d2e" letter-spacing="-0.5">FRESHCUT</text>
+        <text x="126" y="68" font-family="'Segoe UI', system-ui, sans-serif" font-weight="400" font-size="14.5" fill="#2e7d32" letter-spacing="4">LANDSCAPING</text>
+        <text x="126" y="88" font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" font-size="11" fill="#888" letter-spacing="2">LLC  ·  VIRGINIA</text>
+      </svg>
+
+      <!-- Dark version preview -->
+      <div class="dark-preview">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="300" height="100" role="img" aria-label="Freshcut Landscaping LLC logo option 1 dark">
+          <defs>
+            <linearGradient id="sun1d" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f5a623"/>
+              <stop offset="100%" style="stop-color:#d4861a"/>
+            </linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="54" fill="rgba(255,255,255,0.1)"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <g transform="translate(60,60)">
+            <line x1="0" y1="-32" x2="0" y2="-26" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="22.6" y1="-22.6" x2="18.4" y2="-18.4" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="32" y1="0" x2="26" y2="0" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="22.6" y1="22.6" x2="18.4" y2="18.4" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="0" y1="32" x2="0" y2="26" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="-22.6" y1="22.6" x2="-18.4" y2="18.4" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="-32" y1="0" x2="-26" y2="0" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="-22.6" y1="-22.6" x2="-18.4" y2="-18.4" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="0" cy="0" r="10" fill="#f5a623"/>
+          </g>
+          <path d="M60 35 C60 35 78 50 72 68 C66 78 48 78 48 78 C48 78 48 58 60 35Z" fill="#81c784" opacity="0.95"/>
+          <path d="M60 35 C60 35 42 50 48 68 C54 78 72 78 72 78 C72 78 72 58 60 35Z" fill="#a5d6a7" opacity="0.5"/>
+          <line x1="60" y1="78" x2="60" y2="86" stroke="#81c784" stroke-width="2.5" stroke-linecap="round"/>
+          <text x="126" y="44" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" font-size="26" fill="#ffffff" letter-spacing="-0.5">FRESHCUT</text>
+          <text x="126" y="68" font-family="'Segoe UI', system-ui, sans-serif" font-weight="400" font-size="14.5" fill="#81c784" letter-spacing="4">LANDSCAPING</text>
+          <text x="126" y="88" font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" font-size="11" fill="rgba(255,255,255,0.45)" letter-spacing="2">LLC  ·  VIRGINIA</text>
+        </svg>
+      </div>
+
+      <span class="card-label">Sun + Leaf Badge</span>
+      <p class="card-desc">Classic landscaping authority. Circular badge communicates trust, the sun+leaf icon mirrors their original card branding.</p>
+    </div>
+
+
+    <!-- ══════════════════════════════════
+         LOGO 2 — Lawn Blade / Modern Minimal
+         ══════════════════════════════════ -->
+    <div class="card">
+      <span class="variant-label">Option 2 — Modern Cut</span>
+
+      <!-- Light version -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-label="Freshcut Landscaping logo option 2">
+        <defs>
+          <linearGradient id="g2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#4caf50"/>
+            <stop offset="100%" style="stop-color:#1b4d2e"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Grass blades icon -->
+        <!-- Blade 1 (left) -->
+        <path d="M34 90 C34 90 28 60 36 40 C37 38 39 38 40 40 C44 55 38 90 38 90Z" fill="#4caf50"/>
+        <!-- Blade 2 (center, taller) -->
+        <path d="M52 90 C52 90 48 52 60 24 C61 21 63 21 64 24 C72 52 68 90 68 90Z" fill="#2e7d32"/>
+        <!-- Blade 3 (right) -->
+        <path d="M76 90 C76 90 72 60 80 40 C81 38 83 38 84 40 C88 55 82 90 82 90Z" fill="#4caf50"/>
+        <!-- Small accent blade -->
+        <path d="M18 90 C18 90 14 70 20 55 C21 53 23 54 23 56 C25 68 22 90 22 90Z" fill="#81c784"/>
+        <path d="M94 90 C94 90 92 70 96 55 C97 53 99 54 99 56 C101 68 98 90 98 90Z" fill="#81c784"/>
+
+        <!-- Ground line -->
+        <rect x="12" y="90" width="92" height="4" rx="2" fill="#1b4d2e"/>
+
+        <!-- Scissors / cut accent -->
+        <line x1="105" y1="45" x2="126" y2="90" stroke="#f5a623" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+        <!-- Text -->
+        <text x="134" y="52" font-family="'Segoe UI', system-ui, sans-serif" font-weight="900" font-size="30" fill="#1b4d2e" letter-spacing="-1">Freshcut</text>
+        <rect x="134" y="60" width="200" height="2" rx="1" fill="#f5a623"/>
+        <text x="134" y="78" font-family="'Segoe UI', system-ui, sans-serif" font-weight="500" font-size="13" fill="#2e7d32" letter-spacing="5.5">LANDSCAPING</text>
+        <text x="134" y="96" font-family="'Segoe UI', system-ui, sans-serif" font-weight="400" font-size="10" fill="#999" letter-spacing="2">LLC  ·  VIRGINIA</text>
+      </svg>
+
+      <!-- Dark version -->
+      <div class="dark-preview">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="300" height="100">
+          <path d="M34 90 C34 90 28 60 36 40 C37 38 39 38 40 40 C44 55 38 90 38 90Z" fill="#66bb6a"/>
+          <path d="M52 90 C52 90 48 52 60 24 C61 21 63 21 64 24 C72 52 68 90 68 90Z" fill="#81c784"/>
+          <path d="M76 90 C76 90 72 60 80 40 C81 38 83 38 84 40 C88 55 82 90 82 90Z" fill="#66bb6a"/>
+          <path d="M18 90 C18 90 14 70 20 55 C21 53 23 54 23 56 C25 68 22 90 22 90Z" fill="#a5d6a7"/>
+          <path d="M94 90 C94 90 92 70 96 55 C97 53 99 54 99 56 C101 68 98 90 98 90Z" fill="#a5d6a7"/>
+          <rect x="12" y="90" width="92" height="4" rx="2" fill="rgba(255,255,255,0.3)"/>
+          <text x="134" y="52" font-family="'Segoe UI', system-ui, sans-serif" font-weight="900" font-size="30" fill="#ffffff" letter-spacing="-1">Freshcut</text>
+          <rect x="134" y="60" width="200" height="2" rx="1" fill="#f5a623"/>
+          <text x="134" y="78" font-family="'Segoe UI', system-ui, sans-serif" font-weight="500" font-size="13" fill="#a5d6a7" letter-spacing="5.5">LANDSCAPING</text>
+          <text x="134" y="96" font-family="'Segoe UI', system-ui, sans-serif" font-weight="400" font-size="10" fill="rgba(255,255,255,0.4)" letter-spacing="2">LLC  ·  VIRGINIA</text>
+        </svg>
+      </div>
+
+      <span class="card-label">Grass Blade Cut</span>
+      <p class="card-desc">Modern, sharp, and niche-specific. The grass blades make the service instantly obvious. Works great on trucks, shirts, and social media.</p>
+    </div>
+
+
+    <!-- ══════════════════════════════════
+         LOGO 3 — FC Shield / Monogram Badge
+         ══════════════════════════════════ -->
+    <div class="card">
+      <span class="variant-label">Option 3 — Shield Crest</span>
+
+      <!-- Light version -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-label="Freshcut Landscaping logo option 3">
+        <defs>
+          <linearGradient id="shield-g" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#2e7d32"/>
+            <stop offset="100%" style="stop-color:#1a3d12"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Shield shape -->
+        <path d="M60 8 L106 22 L106 62 C106 84 85 100 60 112 C35 100 14 84 14 62 L14 22 Z" fill="url(#shield-g)"/>
+        <!-- Shield inner border -->
+        <path d="M60 16 L98 27 L98 62 C98 80 80 95 60 105 C40 95 22 80 22 62 L22 27 Z" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+
+        <!-- Leaf crown on top of shield -->
+        <path d="M60 14 C60 14 70 22 68 30 C66 36 54 36 54 36 C54 36 54 26 60 14Z" fill="#f5a623" opacity="0.9"/>
+        <path d="M60 14 C60 14 50 22 52 30 C54 36 66 36 66 36 C66 36 66 26 60 14Z" fill="#f5c04a" opacity="0.55"/>
+
+        <!-- FC monogram -->
+        <!-- F -->
+        <text x="38" y="74" font-family="'Segoe UI', system-ui, sans-serif" font-weight="900" font-size="34" fill="rgba(255,255,255,0.95)" letter-spacing="-3">FC</text>
+
+        <!-- Text right side -->
+        <text x="124" y="42" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" font-size="22" fill="#1b4d2e" letter-spacing="-0.5">FRESHCUT</text>
+        <text x="124" y="64" font-family="'Segoe UI', system-ui, sans-serif" font-weight="400" font-size="13" fill="#2e7d32" letter-spacing="3.5">LANDSCAPING</text>
+        <text x="124" y="82" font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" font-size="11" fill="#999" letter-spacing="1.5">LLC  ·  VIRGINIA</text>
+        <!-- Star dividers -->
+        <text x="124" y="100" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#f5a623" letter-spacing="4">★ FREE ESTIMATES ★</text>
+      </svg>
+
+      <!-- Dark version -->
+      <div class="dark-preview">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="300" height="100">
+          <defs>
+            <linearGradient id="shield-gd" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:rgba(255,255,255,0.18)"/>
+              <stop offset="100%" style="stop-color:rgba(255,255,255,0.05)"/>
+            </linearGradient>
+          </defs>
+          <path d="M60 8 L106 22 L106 62 C106 84 85 100 60 112 C35 100 14 84 14 62 L14 22 Z" fill="url(#shield-gd)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+          <path d="M60 14 C60 14 70 22 68 30 C66 36 54 36 54 36 C54 36 54 26 60 14Z" fill="#f5a623" opacity="0.95"/>
+          <path d="M60 14 C60 14 50 22 52 30 C54 36 66 36 66 36 C66 36 66 26 60 14Z" fill="#f5c04a" opacity="0.5"/>
+          <text x="38" y="74" font-family="'Segoe UI', system-ui, sans-serif" font-weight="900" font-size="34" fill="rgba(255,255,255,0.95)" letter-spacing="-3">FC</text>
+          <text x="124" y="42" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" font-size="22" fill="#ffffff" letter-spacing="-0.5">FRESHCUT</text>
+          <text x="124" y="64" font-family="'Segoe UI', system-ui, sans-serif" font-weight="400" font-size="13" fill="#a5d6a7" letter-spacing="3.5">LANDSCAPING</text>
+          <text x="124" y="82" font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" font-size="11" fill="rgba(255,255,255,0.4)" letter-spacing="1.5">LLC  ·  VIRGINIA</text>
+          <text x="124" y="100" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#f5a623" letter-spacing="4">★ FREE ESTIMATES ★</text>
+        </svg>
+      </div>
+
+      <span class="card-label">FC Shield Crest</span>
+      <p class="card-desc">Premium, established feel. The shield crest signals reliability and professionalism. The "FC" monogram makes it instantly recognizable at small sizes.</p>
+    </div>
+
+  </div>
+
+  <!-- Full-width usage examples -->
+  <div style="max-width:1100px;margin:48px auto 0;background:#fff;border-radius:16px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,0.07);">
+    <h2 style="color:#1b4d2e;font-size:1.1rem;margin-bottom:4px;">Logo Sizes — Option 1 (Recommended)</h2>
+    <p style="color:#666;font-size:0.83rem;margin-bottom:24px;">How it looks at nav bar, favicon, and full-width hero scales.</p>
+    <div style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
+
+      <!-- Nav size -->
+      <div style="text-align:center;">
+        <div style="background:#1b4d2e;border-radius:8px;padding:10px 16px;margin-bottom:8px;display:inline-block;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="180" height="60">
+            <defs><linearGradient id="sun-nav" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f5a623"/><stop offset="100%" style="stop-color:#d4861a"/></linearGradient></defs>
+            <circle cx="60" cy="60" r="54" fill="rgba(255,255,255,0.1)"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+            <g transform="translate(60,60)"><line x1="0" y1="-32" x2="0" y2="-26" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/><line x1="22.6" y1="-22.6" x2="18.4" y2="-18.4" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="0" x2="26" y2="0" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/><line x1="22.6" y1="22.6" x2="18.4" y2="18.4" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/><line x1="0" y1="32" x2="0" y2="26" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/><line x1="-22.6" y1="22.6" x2="-18.4" y2="18.4" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/><line x1="-32" y1="0" x2="-26" y2="0" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/><line x1="-22.6" y1="-22.6" x2="-18.4" y2="-18.4" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round"/><circle cx="0" cy="0" r="10" fill="#f5a623"/></g>
+            <path d="M60 35 C60 35 78 50 72 68 C66 78 48 78 48 78 C48 78 48 58 60 35Z" fill="#81c784" opacity="0.95"/>
+            <path d="M60 35 C60 35 42 50 48 68 C54 78 72 78 72 78 C72 78 72 58 60 35Z" fill="#a5d6a7" opacity="0.5"/>
+            <line x1="60" y1="78" x2="60" y2="86" stroke="#81c784" stroke-width="2.5" stroke-linecap="round"/>
+            <text x="126" y="44" font-family="'Segoe UI', system-ui, sans-serif" font-weight="800" font-size="26" fill="#ffffff" letter-spacing="-0.5">FRESHCUT</text>
+            <text x="126" y="68" font-family="'Segoe UI', system-ui, sans-serif" font-weight="400" font-size="14.5" fill="#81c784" letter-spacing="4">LANDSCAPING</text>
+          </svg>
+        </div>
+        <div style="font-size:0.75rem;color:#888;">Nav Bar</div>
+      </div>
+
+      <!-- Icon only (favicon size) -->
+      <div style="text-align:center;">
+        <div style="background:#1b4d2e;border-radius:8px;padding:8px;margin-bottom:8px;display:inline-block;width:56px;height:56px;display:flex;align-items:center;justify-content:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="40" height="40">
+            <circle cx="60" cy="60" r="54" fill="rgba(255,255,255,0.12)"/>
+            <g transform="translate(60,60)"><line x1="0" y1="-32" x2="0" y2="-26" stroke="#f5a623" stroke-width="4" stroke-linecap="round"/><line x1="22.6" y1="-22.6" x2="18.4" y2="-18.4" stroke="#f5a623" stroke-width="4" stroke-linecap="round"/><line x1="32" y1="0" x2="26" y2="0" stroke="#f5a623" stroke-width="4" stroke-linecap="round"/><line x1="-22.6" y1="-22.6" x2="-18.4" y2="-18.4" stroke="#f5a623" stroke-width="4" stroke-linecap="round"/><line x1="-32" y1="0" x2="-26" y2="0" stroke="#f5a623" stroke-width="4" stroke-linecap="round"/><circle cx="0" cy="0" r="12" fill="#f5a623"/></g>
+            <path d="M60 30 C60 30 82 50 74 72 C68 84 46 84 46 84 C46 84 46 58 60 30Z" fill="#81c784"/>
+            <path d="M60 30 C60 30 38 50 46 72 C52 84 74 84 74 84 C74 84 74 58 60 30Z" fill="#a5d6a7" opacity="0.55"/>
+          </svg>
+        </div>
+        <div style="font-size:0.75rem;color:#888;">Icon Only</div>
+      </div>
+
+    </div>
+  </div>
+
+  <p style="text-align:center;margin-top:40px;color:#999;font-size:0.8rem;">
+    All 3 logos are native SVG — no image files needed. They scale perfectly at any size and are embedded directly in the website.
+  </p>
+</body>
+</html>

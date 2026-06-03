@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kalnyesgrowth.github.io/freshcut-demo/sitemap.xml
