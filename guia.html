@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Profesional — Fresh-Cut Landscaping LLC</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="freshcut-logo.png">
+  <meta name="theme-color" content="#1b4d2e">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-x: hidden; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d0d0d;
+      color: #e8e8e8;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #1b4d2e 0%, #0f2d1a 60%, #0d0d0d 100%);
+      padding: 60px 20px 50px;
+      text-align: center;
+      border-bottom: 3px solid #2ecc71;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(46,204,113,0.15);
+      border: 1px solid #2ecc71;
+      color: #2ecc71;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    .hero p {
+      color: #a0c4b0;
+      font-size: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .section {
+      padding: 50px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .section:last-child { border-bottom: none; }
+    .section-number {
+      display: inline-block;
+      background: #2ecc71;
+      color: #0d0d0d;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2ecc71;
+      margin: 30px 0 12px;
+    }
+    p { margin-bottom: 14px; color: #ccc; }
+    .competitor-card {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .competitor-card:hover { border-color: #2ecc71; }
+    .competitor-name {
+      font-weight: 700;
+      font-size: 17px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .competitor-detail {
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 4px;
+    }
+    .competitor-win {
+      background: rgba(46,204,113,0.1);
+      border-left: 3px solid #2ecc71;
+      padding: 10px 14px;
+      margin-top: 12px;
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: #2ecc71;
+    }
+    .advantage-box {
+      background: linear-gradient(135deg, rgba(46,204,113,0.1), rgba(46,204,113,0.03));
+      border: 1px solid rgba(46,204,113,0.3);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 30px;
+    }
+    .advantage-box h3 { margin-top: 0; }
+    .advantage-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 15px;
+      color: #ccc;
+    }
+    .advantage-check {
+      color: #2ecc71;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .price-table th {
+      background: #1b4d2e;
+      color: #fff;
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .price-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #1a1a1a;
+      color: #ccc;
+    }
+    .price-table tr:hover td { background: #141414; }
+    .price-amount {
+      color: #2ecc71;
+      font-weight: 700;
+    }
+    .tip-box {
+      background: #141414;
+      border-left: 3px solid #f39c12;
+      padding: 16px 18px;
+      border-radius: 0 10px 10px 0;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .tip-box strong { color: #f39c12; }
+    .quote-example {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #ccc;
+      white-space: pre-wrap;
+    }
+    .quote-example .q-header {
+      color: #2ecc71;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .method-card {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .method-rank {
+      display: inline-block;
+      background: #2ecc71;
+      color: #0d0d0d;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .method-title {
+      font-weight: 700;
+      font-size: 17px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .method-cost {
+      display: inline-block;
+      background: rgba(46,204,113,0.15);
+      color: #2ecc71;
+      padding: 2px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .strategy-card {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .strategy-card h4 {
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .upsell-example {
+      background: rgba(46,204,113,0.08);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #a0c4b0;
+      font-style: italic;
+    }
+    .season-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    @media (max-width: 500px) {
+      .season-grid { grid-template-columns: 1fr; }
+    }
+    .season-card {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .season-name {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .season-spring { color: #2ecc71; }
+    .season-summer { color: #f1c40f; }
+    .season-fall { color: #e67e22; }
+    .season-winter { color: #3498db; }
+    .season-months { font-size: 12px; color: #666; margin-bottom: 10px; }
+    .season-services { font-size: 13px; color: #999; }
+    .season-services li { margin-bottom: 4px; list-style: none; }
+    .season-services li::before { content: "• "; color: #555; }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    @media (max-width: 500px) {
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+    .stat-card {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 28px;
+      font-weight: 800;
+      color: #2ecc71;
+      display: block;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+    .error-item {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .error-icon {
+      color: #e74c3c;
+      font-size: 20px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .error-title {
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .error-desc { font-size: 14px; color: #999; }
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #ccc;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .checklist-box {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #2ecc71;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .week-label {
+      display: inline-block;
+      background: #1b4d2e;
+      color: #2ecc71;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 24px 0 14px;
+    }
+    .review-script {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 14px 0;
+      font-size: 14px;
+      color: #a0c4b0;
+      font-style: italic;
+      line-height: 1.8;
+    }
+    .footer {
+      background: #111;
+      border-top: 1px solid #1a1a1a;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .footer-brand {
+      color: #2ecc71;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    .footer-contact {
+      color: #666;
+      font-size: 13px;
+    }
+    .footer-contact a {
+      color: #2ecc71;
+      text-decoration: none;
+    }
+    .footer-private {
+      margin-top: 20px;
+      font-size: 11px;
+      color: #444;
+      font-style: italic;
+    }
+    .toc {
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 30px 0;
+    }
+    .toc-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+    .toc a {
+      display: block;
+      color: #ccc;
+      text-decoration: none;
+      padding: 8px 0;
+      font-size: 15px;
+      border-bottom: 1px solid #1a1a1a;
+      transition: color 0.2s;
+    }
+    .toc a:last-child { border-bottom: none; }
+    .toc a:hover { color: #2ecc71; }
+    .toc-num {
+      color: #2ecc71;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Documento Privado</div>
+  <h1>Guia Profesional de Negocio</h1>
+  <p>Fresh-Cut Landscaping LLC — Preparado por KalnyesGrowth, Junio 2026</p>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="section">
+    <p>Alex, este documento es tu manual de negocio. Aqui vas a encontrar todo lo que necesitas saber sobre como manejar tu empresa de landscaping de manera profesional, como cobrar, como conseguir mas clientes, y como sacarle el maximo provecho a los clientes que ya tienes.</p>
+    <p>Leelo completo y guardalo. Esto es tu ventaja competitiva.</p>
+
+    <div class="toc">
+      <div class="toc-title">Contenido</div>
+      <a href="#competencia"><span class="toc-num">01</span> Tu Competencia en la Zona</a>
+      <a href="#precios"><span class="toc-num">02</span> Guia de Precios por Servicio</a>
+      <a href="#cotizaciones"><span class="toc-num">03</span> Como Hacer Cotizaciones Profesionales</a>
+      <a href="#clientes"><span class="toc-num">04</span> Como Conseguir Mas Clientes</a>
+      <a href="#upselling"><span class="toc-num">05</span> Sacar Mas Dinero de Clientes Existentes</a>
+      <a href="#reviews"><span class="toc-num">06</span> Como Pedir Reviews en Google</a>
+      <a href="#temporadas"><span class="toc-num">07</span> Calendario de Servicios por Temporada</a>
+      <a href="#errores"><span class="toc-num">08</span> Errores que Debes Evitar</a>
+      <a href="#numeros"><span class="toc-num">09</span> Numeros que Debes Conocer</a>
+      <a href="#plan"><span class="toc-num">10</span> Plan de Accion — Proximos 30 Dias</a>
+    </div>
+  </div>
+
+  <!-- 1. COMPETENCIA -->
+  <div class="section" id="competencia">
+    <span class="section-number">1</span>
+    <h2>Tu Competencia en la Zona</h2>
+    <p>Estas son las empresas de landscaping que compiten contigo en Fredericksburg, Stafford, y Spotsylvania. Conocerlas te ayuda a saber contra quien compites y donde puedes ganarles.</p>
+
+    <div class="competitor-card">
+      <div class="competitor-name">Affordable Lawn and Landscaping</div>
+      <div class="competitor-detail">Fredericksburg, Stafford, Spotsylvania. Desde 2005 (mas de 20 anos).</div>
+      <div class="competitor-detail">Servicios: Corte, landscaping, hardscaping, limpieza de hojas, remocion de nieve.</div>
+      <div class="competitor-detail">Fortaleza: Ganaron premio Angie's List Super Service 5 anos seguidos.</div>
+      <div class="competitor-win">COMO GANARLES: Tu eres mas rapido, mas flexible, y das atencion personal. Ellos son empresa grande. Tu eres el dueno que va al trabajo y habla directo con el cliente.</div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">Lewis Enterprises</div>
+      <div class="competitor-detail">Fredericksburg y alrededores. Mas de 10 anos en el mercado.</div>
+      <div class="competitor-detail">Fortaleza: Atienden propiedades comerciales (contratos grandes).</div>
+      <div class="competitor-win">COMO GANARLES: Enfocate en clientes residenciales. Los duenos de casa quieren alguien que conteste el telefono y llegue cuando dice.</div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">Grass Roots Lawn and Landscaping</div>
+      <div class="competitor-detail">Fredericksburg, Spotsylvania, Stafford. Empresa familiar, asegurada.</div>
+      <div class="competitor-detail">Fortaleza: Son familia, lo cual genera confianza.</div>
+      <div class="competitor-win">COMO GANARLES: Tu ofreces MAS servicios. Landscaping + arboles + canaletas + junk removal + tormentas. Tu eres la opcion completa.</div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">Green Paradise Landscaping & Tree Service</div>
+      <div class="competitor-detail">Fredericksburg. Buenos reviews y reputacion de profesionalismo.</div>
+      <div class="competitor-detail">Fortaleza: Compiten directamente en arboles y landscaping.</div>
+      <div class="competitor-win">COMO GANARLES: Responde mas rapido. El 78% de clientes eligen al que contesta primero. Si contestas en 5 minutos y ellos en 2 horas, tu ganas el trabajo.</div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">Imperial Landscaping</div>
+      <div class="competitor-detail">Stafford, Fredericksburg. Lawn care, landscaping, arboles, irrigacion.</div>
+      <div class="competitor-detail">Fortaleza: Ofrecen irrigacion (servicio premium).</div>
+      <div class="competitor-win">COMO GANARLES: Tu ventaja es que el dueno (tu) va al sitio personalmente. Eso vale mucho para el cliente.</div>
+    </div>
+
+    <div class="competitor-card">
+      <div class="competitor-name">Cardinal Outdoors</div>
+      <div class="competitor-detail">Fredericksburg, Spotsylvania, Stafford. Corte desde $55. Veteran-owned.</div>
+      <div class="competitor-detail">Fortaleza: Se posicionan como "premium".</div>
+      <div class="competitor-win">COMO GANARLES: Ofrece calidad igual o mejor a precio competitivo. Muchos clientes quieren buen trabajo a precio justo, no premium.</div>
+    </div>
+
+    <div class="advantage-box">
+      <h3>Tu Ventaja Competitiva</h3>
+      <div class="advantage-item"><span class="advantage-check">1.</span> El dueno va personalmente a cada trabajo. Los clientes valoran eso.</div>
+      <div class="advantage-item"><span class="advantage-check">2.</span> Servicios completos: landscaping + arboles + canaletas + junk removal + tormentas.</div>
+      <div class="advantage-item"><span class="advantage-check">3.</span> Hablas espanol e ingles. Muchos clientes hispanos prefieren comunicarse en espanol.</div>
+      <div class="advantage-item"><span class="advantage-check">4.</span> Presencia digital profesional (website + Google Maps) que la mayoria de landscapers no tienen.</div>
+      <div class="advantage-item"><span class="advantage-check">5.</span> Respondes rapido. Eso solo te pone arriba del 80% de la competencia.</div>
+    </div>
+  </div>
+
+  <!-- 2. PRECIOS -->
+  <div class="section" id="precios">
+    <span class="section-number">2</span>
+    <h2>Guia de Precios por Servicio</h2>
+    <p>Estos son los precios del mercado en tu zona (Fredericksburg/Stafford, Virginia) en 2026. Usalo como guia para no cobrar ni muy barato ni muy caro.</p>
+
+    <h3>Corte de Cesped (Mowing)</h3>
+    <table class="price-table">
+      <tr><th>Tamano de Propiedad</th><th>Precio por Corte</th></tr>
+      <tr><td>Pequena (menos de 1/4 acre)</td><td class="price-amount">$45 - $55</td></tr>
+      <tr><td>Mediana (1/4 a 1/2 acre)</td><td class="price-amount">$55 - $75</td></tr>
+      <tr><td>Grande (1/2 acre o mas)</td><td class="price-amount">$75 - $120</td></tr>
+    </table>
+
+    <h3>Mulching</h3>
+    <table class="price-table">
+      <tr><th>Servicio</th><th>Precio</th></tr>
+      <tr><td>Por yarda cubica instalada</td><td class="price-amount">$35 - $70</td></tr>
+      <tr><td>Trabajo tipico residencial (5-10 yardas)</td><td class="price-amount">$250 - $700</td></tr>
+    </table>
+
+    <h3>Landscaping Completo</h3>
+    <table class="price-table">
+      <tr><th>Tamano del Proyecto</th><th>Precio</th></tr>
+      <tr><td>Pequeno (menos de 2,500 sq ft)</td><td class="price-amount">$3,500 - $8,000</td></tr>
+      <tr><td>Mediano (2,500 - 5,000 sq ft)</td><td class="price-amount">$8,000 - $18,000</td></tr>
+      <tr><td>Grande (mas de 5,000 sq ft)</td><td class="price-amount">$18,000 - $50,000+</td></tr>
+    </table>
+
+    <h3>Poda y Remocion de Arboles</h3>
+    <table class="price-table">
+      <tr><th>Servicio</th><th>Precio</th></tr>
+      <tr><td>Poda - arbol pequeno (menos de 25 pies)</td><td class="price-amount">$150 - $400</td></tr>
+      <tr><td>Poda - arbol mediano (25-50 pies)</td><td class="price-amount">$400 - $800</td></tr>
+      <tr><td>Poda - arbol grande (mas de 50 pies)</td><td class="price-amount">$800 - $1,500+</td></tr>
+      <tr><td>Remocion - arbol pequeno</td><td class="price-amount">$300 - $700</td></tr>
+      <tr><td>Remocion - arbol mediano</td><td class="price-amount">$700 - $1,500</td></tr>
+      <tr><td>Remocion - arbol grande</td><td class="price-amount">$1,500 - $3,500+</td></tr>
+    </table>
+
+    <h3>Otros Servicios</h3>
+    <table class="price-table">
+      <tr><th>Servicio</th><th>Precio</th></tr>
+      <tr><td>Limpieza de canaletas - 1 piso</td><td class="price-amount">$100 - $175</td></tr>
+      <tr><td>Limpieza de canaletas - 2 pisos</td><td class="price-amount">$175 - $300</td></tr>
+      <tr><td>Limpieza de hojas - propiedad pequena</td><td class="price-amount">$150 - $300</td></tr>
+      <tr><td>Limpieza de hojas - propiedad mediana</td><td class="price-amount">$300 - $500</td></tr>
+      <tr><td>Limpieza de hojas - propiedad grande</td><td class="price-amount">$500 - $800+</td></tr>
+      <tr><td>Junk removal - carga pequena</td><td class="price-amount">$150 - $300</td></tr>
+      <tr><td>Junk removal - carga mediana</td><td class="price-amount">$300 - $600</td></tr>
+      <tr><td>Junk removal - carga grande</td><td class="price-amount">$600 - $1,000+</td></tr>
+      <tr><td>Limpieza de tormentas</td><td class="price-amount">$200 - $2,000+</td></tr>
+    </table>
+
+    <h3>Paquetes Mensuales de Mantenimiento</h3>
+    <table class="price-table">
+      <tr><th>Paquete</th><th>Precio/Mes</th></tr>
+      <tr><td>Basico (corte semanal + edging + soplado)</td><td class="price-amount">$150 - $350</td></tr>
+      <tr><td>Completo (+ poda + mulching + fertilizacion)</td><td class="price-amount">$350 - $800</td></tr>
+      <tr><td>Premium (+ canaletas + limpieza estacional)</td><td class="price-amount">$800 - $1,200</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>Regla de Oro:</strong> Nunca cobres por hora al cliente. Cobra por trabajo completado. Si le dices "$50 por hora" el cliente mira el reloj todo el tiempo. Si le dices "$350 por el trabajo completo" el se relaja y tu trabajas tranquilo.
+    </div>
+  </div>
+
+  <!-- 3. COTIZACIONES -->
+  <div class="section" id="cotizaciones">
+    <span class="section-number">3</span>
+    <h2>Como Hacer Cotizaciones Profesionales</h2>
+    <p>La cotizacion es donde ganas o pierdes el trabajo. Un landscaper que manda un precio por texto se ve poco profesional. Un landscaper que manda una cotizacion organizada se ve como un negocio serio.</p>
+
+    <h3>Paso 1: Visita al Sitio</h3>
+    <p>Obligatorio para trabajos de mas de $300. Ve a la propiedad, toma fotos de todo, mide las areas de trabajo, y pregunta al cliente EXACTAMENTE que quiere. Pregunta si tiene un presupuesto en mente.</p>
+
+    <h3>Paso 2: Calcula tus Costos</h3>
+    <table class="price-table">
+      <tr><th>Elemento</th><th>Como Calcular</th></tr>
+      <tr><td>Materiales</td><td>Costo de materiales + 15-20% de margen</td></tr>
+      <tr><td>Mano de obra</td><td>Horas x $45-$75/hora (tu tiempo vale minimo eso)</td></tr>
+      <tr><td>Gastos generales</td><td>Anade 10-15% (gasolina, equipo, seguro)</td></tr>
+      <tr><td>Ganancia</td><td>Margen minimo de 20-30% arriba del costo total</td></tr>
+    </table>
+
+    <h3>Paso 3: Manda la Cotizacion por Escrito</h3>
+    <p>Siempre por texto o email. Incluye: nombre del cliente, lista de lo que vas a hacer, precio total, que esta incluido y que NO, tiempo estimado, y validez (30 dias).</p>
+
+    <h3>Ejemplo de Cotizacion</h3>
+    <div class="quote-example"><span class="q-header">Fresh-Cut Landscaping LLC</span>
+<span class="q-header">Cotizacion #2026-015</span>
+
+Fecha: [fecha]
+Cliente: [nombre]
+Propiedad: [direccion]
+
+Trabajo solicitado:
+- Limpieza completa del patio trasero
+- Remocion de 3 arbustos muertos
+- Instalacion de 8 yardas cubicas de mulch
+- Edging de todas las areas de cesped
+- Limpieza final y remocion de escombros
+
+Precio total: $850.00
+
+Incluye: Materiales, mano de obra, transporte, limpieza.
+No incluye: Remocion de arboles grandes (se cotiza aparte).
+
+Tiempo estimado: 1 dia de trabajo.
+Precio valido por 30 dias.
+
+Para confirmar: 540-455-7405
+Alex Mendez | Fresh-Cut Landscaping LLC</div>
+
+    <h3>Paso 4: Seguimiento</h3>
+    <div class="tip-box">
+      <strong>Si no responde en 2 dias:</strong> "Hola [nombre], queria ver si tienes alguna pregunta sobre la cotizacion. Estoy disponible cuando quieras."
+    </div>
+    <div class="tip-box">
+      <strong>Si dice que esta caro:</strong> No bajes el precio. Pregunta: "Que parte te gustaria ajustar?" Reduce el alcance, no tu precio.
+    </div>
+    <div class="tip-box">
+      <strong>Si tiene cotizacion mas barata:</strong> "Verifica que incluya todo lo que la mia incluye. Muchas veces el precio bajo no incluye limpieza, transporte, o materiales de calidad."
+    </div>
+  </div>
+
+  <!-- 4. CONSEGUIR CLIENTES -->
+  <div class="section" id="clientes">
+    <span class="section-number">4</span>
+    <h2>Como Conseguir Mas Clientes</h2>
+    <p>Estos metodos estan ordenados de mas efectivo a menos efectivo para negocios de landscaping.</p>
+
+    <div class="method-card">
+      <span class="method-rank">#1</span>
+      <span class="method-cost">Gratis</span>
+      <div class="method-title">Google Maps / Google Business Profile</div>
+      <p>El 80% de busquedas de landscaping incluyen "near me" o el nombre de la ciudad. Una vez verificado tu perfil:</p>
+      <p>Publica una foto de un trabajo terminado cada semana. Pide reviews a cada cliente satisfecho. Responde a TODOS los reviews. Meta: 20+ reviews con 4.8+ estrellas en los primeros 6 meses.</p>
+    </div>
+
+    <div class="method-card">
+      <span class="method-rank">#2</span>
+      <span class="method-cost">Gratis</span>
+      <div class="method-title">Boca a Boca / Programa de Referidos</div>
+      <p>Cuesta 5-7 veces mas conseguir un cliente nuevo que mantener uno. Programa simple: "Si me recomiendas a alguien y contrata, te doy $25 de descuento en tu proximo servicio."</p>
+      <p>Lleva tarjetas de presentacion siempre. Deja 2-3 en cada propiedad donde trabajas.</p>
+    </div>
+
+    <div class="method-card">
+      <span class="method-rank">#3</span>
+      <span class="method-cost">Gratis</span>
+      <div class="method-title">Puerta a Puerta / Vecinos</div>
+      <p>Cuando termines un trabajo, toca la puerta de los vecinos de al lado y enfrente.</p>
+      <div class="upsell-example">"Hola, acabo de terminar un trabajo aqui al lado. Si alguna vez necesita trabajo de jardineria, aqui le dejo mi tarjeta. Cotizaciones gratis."</div>
+      <p>Funciona porque el vecino VIO tu trabajo y tu camion afuera. Ya tienes credibilidad.</p>
+    </div>
+
+    <div class="method-card">
+      <span class="method-rank">#4</span>
+      <span class="method-cost">Gratis</span>
+      <div class="method-title">Facebook Local Groups</div>
+      <p>Unete a grupos: "Fredericksburg VA Community", "Stafford VA Neighbors", "Spotsylvania County Classifieds". Cuando alguien pregunte por landscaper, responde con foto de tu trabajo y tu numero. No hagas spam. Publica antes/despues 1-2 veces por semana.</p>
+    </div>
+
+    <div class="method-card">
+      <span class="method-rank">#5</span>
+      <span class="method-cost">Gratis</span>
+      <div class="method-title">NextDoor App</div>
+      <p>Red social para vecindarios. Muchos duenos de casa buscan landscapers ahi. Crea tu perfil de negocio. Cuando pidan recomendaciones, tus clientes pueden recomendarte.</p>
+    </div>
+
+    <div class="method-card">
+      <span class="method-rank">#6</span>
+      <span class="method-cost">$200 - $500</span>
+      <div class="method-title">Letreros en tu Camion y Trailer</div>
+      <p>Pon el nombre de Fresh-Cut Landscaping, tu telefono, y tu website en tu camion y trailer. Cada vez que trabajas en un vecindario, los vecinos ven tu informacion. Es publicidad que se paga sola.</p>
+    </div>
+
+    <div class="method-card">
+      <span class="method-rank">#7</span>
+      <span class="method-cost">Gratis</span>
+      <div class="method-title">Alianzas con Otros Negocios</div>
+      <p>Habla con agentes de bienes raices (compradores nuevos siempre necesitan landscaping), empresas de limpieza de casas, tiendas de materiales (Home Depot, Lowes), y companias de fumigacion. Deja tarjetas. Ofrece comision de referido.</p>
+    </div>
+
+    <div class="method-card">
+      <span class="method-rank">#8</span>
+      <span class="method-cost">Ya lo tienes</span>
+      <div class="method-title">Tu Website (fresh-cut-landscape.com)</div>
+      <p>Ya esta en vivo con 8 articulos de blog optimizados para SEO. Con el tiempo, estos articulos van a traer trafico de Google. Asegurate de que tu numero (540-455-7405) sea facil de encontrar.</p>
+    </div>
+  </div>
+
+  <!-- 5. UPSELLING -->
+  <div class="section" id="upselling">
+    <span class="section-number">5</span>
+    <h2>Sacar Mas Dinero de Clientes Existentes</h2>
+    <p>El dinero mas facil de ganar es el que viene de un cliente que ya te conoce y confia en ti. No tienes que convencerlo de nada. Solo tienes que ofrecerle mas.</p>
+
+    <div class="strategy-card">
+      <h4>Paquetes de Mantenimiento Mensual</h4>
+      <p>En vez de cobrar trabajo por trabajo, ofrece un paquete mensual.</p>
+      <div class="upsell-example">"Por $200 al mes, vengo cada semana a cortar el cesped, hacer edging, y soplar. Sin tener que llamarme cada vez."</div>
+      <p>Los negocios con mas del 50% de ingresos en paquetes mensuales valen 2-3 veces mas que los que solo hacen trabajos individuales.</p>
+    </div>
+
+    <div class="strategy-card">
+      <h4>Servicios Estacionales (Upselling Natural)</h4>
+      <p>Cuando estes en la propiedad de un cliente, mira alrededor. Si ves algo que necesita trabajo, ofrecelo.</p>
+      <div class="upsell-example">"Oye, note que tus canaletas necesitan limpieza. Te las puedo limpiar por $150 ya que estoy aqui."</div>
+      <p>Manda texto a TODOS tus clientes al inicio de cada temporada ofreciendo el servicio de la temporada. Esto puede aumentar tus ingresos 30-50% sin conseguir ningun cliente nuevo.</p>
+    </div>
+
+    <div class="strategy-card">
+      <h4>Contratos Anuales</h4>
+      <p>Despues de 2-3 meses atendiendo a un cliente, ofrece contrato anual con descuento.</p>
+      <div class="upsell-example">"Si te comprometes por 12 meses, te doy el corte a $45 en vez de $50. Eso te ahorra $260 al ano."</div>
+      <p>Tu ganas ingreso garantizado por 12 meses. El cliente gana precio mas bajo y servicio garantizado.</p>
+    </div>
+
+    <div class="strategy-card">
+      <h4>Documentacion para Seguros (Tormentas)</h4>
+      <p>Cuando haya tormenta y vayas a limpiar, toma fotos ANTES y DESPUES. Ayuda al cliente a documentar el dano para su reclamo de seguro. No te cuesta nada extra pero el cliente te va a recomendar a todos sus vecinos.</p>
+    </div>
+
+    <div class="strategy-card">
+      <h4>Programa de Referidos</h4>
+      <p>Cada cliente satisfecho conoce 5-10 personas que necesitan landscaping.</p>
+      <div class="upsell-example">"Recomiendame a un amigo. Si contrata, te doy $25 de descuento en tu proximo servicio."</div>
+      <p>Te cuesta $25 pero te trae un cliente que puede valer $500-$5,000+ en el tiempo.</p>
+    </div>
+  </div>
+
+  <!-- 6. REVIEWS -->
+  <div class="section" id="reviews">
+    <span class="section-number">6</span>
+    <h2>Como Pedir Reviews en Google</h2>
+    <p>Los reviews en Google son lo que hace que los clientes nuevos confien en ti ANTES de llamarte. Un negocio con 20+ reviews de 5 estrellas recibe 3-5 veces mas llamadas que uno sin reviews.</p>
+
+    <h3>Cuando Pedir</h3>
+    <p>Inmediatamente despues de terminar un trabajo y el cliente esta contento. Cuando diga "quedo excelente" o "buen trabajo", ese es el momento.</p>
+
+    <h3>Script en Persona</h3>
+    <div class="review-script">"Me alegra que te gusto el trabajo. Me ayudarias mucho si pudieras dejarme un review en Google. Es rapido, como 2 minutos. Te mando el link por texto ahora mismo."</div>
+
+    <h3>Script por Texto</h3>
+    <div class="review-script">"Hola [nombre], gracias por confiar en Fresh-Cut Landscaping. Si el trabajo quedo bien, me ayudarias mucho con un review en Google. Solo toma 1-2 minutos. Aqui esta el link: [tu link de review]. Gracias!"</div>
+
+    <h3>Metas</h3>
+    <table class="price-table">
+      <tr><th>Periodo</th><th>Meta de Reviews</th></tr>
+      <tr><td>Primeros 3 meses</td><td class="price-amount">10 - 15 reviews</td></tr>
+      <tr><td>Primeros 6 meses</td><td class="price-amount">20 - 30 reviews</td></tr>
+      <tr><td>Primer ano</td><td class="price-amount">40 - 50 reviews</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>Importante:</strong> NUNCA pagues por reviews falsos (Google te borra el perfil). NUNCA pidas reviews a gente que no has atendido. SIEMPRE responde a cada review, buenos y malos.
+    </div>
+  </div>
+
+  <!-- 7. TEMPORADAS -->
+  <div class="section" id="temporadas">
+    <span class="section-number">7</span>
+    <h2>Calendario de Servicios por Temporada</h2>
+    <p>Saber que servicios ofrecer en cada temporada te ayuda a tener trabajo todo el ano.</p>
+
+    <div class="season-grid">
+      <div class="season-card">
+        <div class="season-name season-spring">Primavera</div>
+        <div class="season-months">Marzo - Mayo (TEMPORADA ALTA)</div>
+        <ul class="season-services">
+          <li>Limpieza de primavera (spring cleanup)</li>
+          <li>Mulching</li>
+          <li>Aireacion de cesped</li>
+          <li>Overseeding</li>
+          <li>Plantacion de arbustos y flores</li>
+          <li>Edging y definicion de camas</li>
+        </ul>
+      </div>
+      <div class="season-card">
+        <div class="season-name season-summer">Verano</div>
+        <div class="season-months">Junio - Agosto (TEMPORADA ALTA)</div>
+        <ul class="season-services">
+          <li>Corte de cesped semanal</li>
+          <li>Control de maleza</li>
+          <li>Poda de arbustos y setos</li>
+          <li>Mantenimiento de camas</li>
+          <li>Riego y cuidado del cesped</li>
+        </ul>
+      </div>
+      <div class="season-card">
+        <div class="season-name season-fall">Otono</div>
+        <div class="season-months">Sept - Nov (TEMPORADA MEDIA-ALTA)</div>
+        <ul class="season-services">
+          <li>Limpieza de hojas (muy rentable)</li>
+          <li>Limpieza de canaletas</li>
+          <li>Aireacion y overseeding</li>
+          <li>Ultimo mulching del ano</li>
+          <li>Preparacion para invierno</li>
+        </ul>
+      </div>
+      <div class="season-card">
+        <div class="season-name season-winter">Invierno</div>
+        <div class="season-months">Dic - Feb (TEMPORADA BAJA)</div>
+        <ul class="season-services">
+          <li>Poda de arboles (mejor momento)</li>
+          <li>Remocion de arboles</li>
+          <li>Junk removal</li>
+          <li>Limpieza de tormentas</li>
+          <li>Planificacion para primavera</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Tip de Invierno:</strong> Ofrece 10% de descuento en poda de arboles si reservan en enero. Usa ese tiempo para mantener equipo, planificar el proximo ano, y contactar clientes pasados.
+    </div>
+  </div>
+
+  <!-- 8. ERRORES -->
+  <div class="section" id="errores">
+    <span class="section-number">8</span>
+    <h2>Errores que Debes Evitar</h2>
+
+    <div class="error-item">
+      <div class="error-icon">X</div>
+      <div>
+        <div class="error-title">Cobrar Muy Barato</div>
+        <div class="error-desc">Si cobras menos que la competencia, los clientes piensan que tu trabajo es de baja calidad. Es mejor tener 10 clientes que pagan bien que 30 que pagan poco y causan problemas.</div>
+      </div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-icon">X</div>
+      <div>
+        <div class="error-title">No Contestar el Telefono</div>
+        <div class="error-desc">78% de clientes eligen al que contesta primero. Si no puedes contestar, manda texto: "Estoy en un trabajo. Te llamo en 30 minutos."</div>
+      </div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-icon">X</div>
+      <div>
+        <div class="error-title">No Tener Seguro</div>
+        <div class="error-desc">Trabaja SIEMPRE con seguro (liability insurance). Los clientes buenos PREGUNTAN si tienes seguro. Sin el, pierdes trabajos grandes.</div>
+      </div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-icon">X</div>
+      <div>
+        <div class="error-title">No Pedir Reviews</div>
+        <div class="error-desc">Cada trabajo terminado sin pedir review es oportunidad perdida. Pidelo SIEMPRE.</div>
+      </div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-icon">X</div>
+      <div>
+        <div class="error-title">Trabajos Sin Cotizacion Escrita</div>
+        <div class="error-desc">Siempre manda la cotizacion por escrito. Si solo dices el precio de voz, el cliente puede decir despues "eso no fue lo que dijiste."</div>
+      </div>
+    </div>
+
+    <div class="error-item">
+      <div class="error-icon">X</div>
+      <div>
+        <div class="error-title">No Hacer Seguimiento</div>
+        <div class="error-desc">El 60% de los trabajos se pierden por falta de seguimiento, no por precio. Si mandas cotizacion y no responden, escribeles en 2 dias.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. NUMEROS -->
+  <div class="section" id="numeros">
+    <span class="section-number">9</span>
+    <h2>Numeros que Debes Conocer</h2>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-number">76%</span>
+        <span class="stat-label">de busquedas "near me" resultan en visita en 24 horas</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">78%</span>
+        <span class="stat-label">de clientes eligen al que responde primero</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">100x</span>
+        <span class="stat-label">mas probable de cerrar si respondes en 5 minutos</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">5-7x</span>
+        <span class="stat-label">mas caro conseguir cliente nuevo vs retener uno</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">87%</span>
+        <span class="stat-label">buscan en internet antes de elegir negocio local</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">20-30%</span>
+        <span class="stat-label">margen de ganancia saludable para landscaping</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. PLAN DE ACCION -->
+  <div class="section" id="plan">
+    <span class="section-number">10</span>
+    <h2>Plan de Accion — Proximos 30 Dias</h2>
+
+    <span class="week-label">Semana 1</span>
+    <ul class="checklist">
+      <li><div class="checklist-box"></div> Completar la verificacion de video de Google Business Profile</li>
+      <li><div class="checklist-box"></div> Poner nombre de Fresh-Cut y telefono en camion/trailer</li>
+      <li><div class="checklist-box"></div> Crear cuenta en NextDoor para tu negocio</li>
+      <li><div class="checklist-box"></div> Pedir reviews a clientes actuales (meta: 3-5 esta semana)</li>
+    </ul>
+
+    <span class="week-label">Semana 2</span>
+    <ul class="checklist">
+      <li><div class="checklist-box"></div> Unirte a 3-5 grupos de Facebook locales</li>
+      <li><div class="checklist-box"></div> Hablar con 2 agentes de bienes raices sobre alianza</li>
+      <li><div class="checklist-box"></div> Preparar tu plantilla de cotizacion</li>
+      <li><div class="checklist-box"></div> Mandar texto a clientes pasados ofreciendo servicio de temporada</li>
+    </ul>
+
+    <span class="week-label">Semana 3</span>
+    <ul class="checklist">
+      <li><div class="checklist-box"></div> Publicar primera foto antes/despues en Google Business Profile</li>
+      <li><div class="checklist-box"></div> Publicar primera foto en grupo de Facebook local</li>
+      <li><div class="checklist-box"></div> Ofrecer paquete mensual a tus 3 mejores clientes</li>
+      <li><div class="checklist-box"></div> Pedir 3-5 reviews mas en Google</li>
+    </ul>
+
+    <span class="week-label">Semana 4</span>
+    <ul class="checklist">
+      <li><div class="checklist-box"></div> Revisar cuantos reviews tienes (meta: 10+ al final del mes)</li>
+      <li><div class="checklist-box"></div> Tocar puertas de vecinos donde trabajaste este mes</li>
+      <li><div class="checklist-box"></div> Crear 2 paquetes (Basico y Completo) con precios fijos</li>
+      <li><div class="checklist-box"></div> Hacer seguimiento a todas las cotizaciones pendientes</li>
+    </ul>
+
+    <div class="advantage-box" style="margin-top:30px">
+      <h3>Meta del Mes 1</h3>
+      <div class="advantage-item"><span class="advantage-check">1.</span> 10+ reviews en Google</div>
+      <div class="advantage-item"><span class="advantage-check">2.</span> 3+ clientes nuevos</div>
+      <div class="advantage-item"><span class="advantage-check">3.</span> 2+ clientes en paquete mensual de mantenimiento</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">KalnyesGrowth</div>
+  <div class="footer-contact">
+    Jose Jessyt Morales | <a href="tel:5407838835">540-783-8835</a><br>
+    <a href="https://kalnyesgrowth.com">kalnyesgrowth.com</a> | <a href="https://calendly.com/kalnyesgrowth/boost-your-business">Agendar Llamada</a>
+  </div>
+  <div class="footer-private">Este documento fue creado exclusivamente para Fresh-Cut Landscaping LLC. No compartir.</div>
+</div>
+
+</body>
+</html>
