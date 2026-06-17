@@ -164,7 +164,7 @@
     nav{position:fixed;top:0;left:0;right:0;z-index:100;background:transparent;display:flex;align-items:center;justify-content:space-between;padding:10px 5%;transition:background .3s,box-shadow .3s}
     nav.scrolled{background:rgba(27,77,46,.95);box-shadow:0 2px 20px rgba(0,0,0,.25)}
     .nav-logo{display:flex;align-items:center;gap:10px}
-    .nav-logo img{height:42px;width:auto;object-fit:contain;border-radius:6px}
+    .nav-logo img{height:48px;width:auto;object-fit:contain}
     .nav-logo-text{display:none}
     .nav-links{display:flex;align-items:center;gap:24px}
     .nav-links a{color:rgba(255,255,255,.85);font-size:.88rem;font-weight:500;transition:color .2s}
@@ -197,9 +197,10 @@
     .hero h1 em{color:var(--sun);font-style:normal}
     .hero-sub{color:rgba(255,255,255,.8);font-size:1.1rem;max-width:560px;margin-bottom:32px;line-height:1.7}
     .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px}
-    .hero-trust{display:flex;gap:20px;flex-wrap:wrap}
-    .trust-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.8);font-size:.82rem}
-    .trust-icon{width:32px;height:32px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+    .hero-trust{display:flex;gap:0;flex-wrap:wrap;align-items:center}
+    .trust-item{color:rgba(255,255,255,.8);font-size:.82rem;padding:0 16px;border-right:1px solid rgba(255,255,255,.2)}
+    .trust-item:last-child{border-right:none}
+    .trust-item:first-child{padding-left:0}
     @media(max-width:768px){
       .hero{min-height:100svh;padding-bottom:40px}
       .hero-inner{padding:84px 5% 0}
@@ -209,8 +210,8 @@
       .hero-badge{font-size:.68rem;padding:4px 10px}
       .hero-btns{flex-direction:column;gap:10px;margin-bottom:28px}
       .hero-btns .btn{width:100%;justify-content:center;padding:15px 20px;font-size:1rem}
-      .hero-trust{gap:14px;flex-direction:column}
-      .trust-item{font-size:.8rem}
+      .hero-trust{gap:0;flex-direction:row;flex-wrap:wrap}
+      .trust-item{font-size:.8rem;padding:0 12px}
     }
 
     /* ─── MARQUEE ─── */
@@ -231,7 +232,7 @@
     /* ─── SERVICE AREA ─── */
     #area{background:var(--card)}
     .area-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-    .area-map{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);position:relative}
+    .area-map{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);position:relative;z-index:1}
     .area-map iframe{display:block}
     .area-map-link{display:block;text-align:center;padding:10px;background:var(--green-dark);color:#fff;font-size:.82rem;font-weight:600}
     .area-map-link:hover{background:var(--green-mid)}
@@ -460,20 +461,16 @@
   <canvas class="hero-canvas" role="img" aria-label="Landscaping video background"></canvas>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
-    <div class="hero-badge-row">
-      <div class="hero-badge">4.9 Google Rating</div>
-      <div class="hero-badge">Virginia's Trusted Pros</div>
-      <div class="hero-badge">Free Estimates</div>
-    </div>
-    <h1><img src="freshcut-logo.png" alt="Fresh-Cut Landscaping LLC" style="height:60px;width:auto;display:block;margin-bottom:12px"> Fresh-Cut Landscaping</h1>
+    <img src="freshcut-logo.png" alt="Fresh-Cut Landscaping LLC" style="height:200px;width:auto;display:block;margin-bottom:16px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3))">
+    <h1>Fresh-Cut Landscaping</h1>
     <p class="hero-sub">Landscaping, Mulching, Tree Trimming & Removal, Gutter Cleaning, Leaf & Junk Removal, Storm Cleanup. Serving Virginia's 540 area. Owner Alex handles every job personally.</p>
     <div class="hero-btns">
       <a href="tel:5404557405" class="btn btn-outline-white">Get Your Free Estimate</a>
     </div>
     <div class="hero-trust">
-      <div class="trust-item"><div class="trust-icon">🚚</div>On-Time Service</div>
-      <div class="trust-item"><div class="trust-icon">👤</div>Owner-Operated</div>
-      <div class="trust-item"><div class="trust-icon">📍</div>540 Area, Virginia</div>
+      <div class="trust-item">On-Time Service</div>
+      <div class="trust-item">Owner-Operated</div>
+      <div class="trust-item">540 Area, Virginia</div>
     </div>
   </div>
 </section>
@@ -533,7 +530,7 @@
           <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
           <script>
           (function(){
-            var map = L.map('serviceMap',{scrollWheelZoom:true,zoomControl:true}).setView([38.35,-77.52],10);
+            var map = L.map('serviceMap',{scrollWheelZoom:false,zoomControl:true,dragging:true}).setView([38.40,-77.55],9);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
               attribution:'&copy; OpenStreetMap',maxZoom:18
             }).addTo(map);
@@ -543,12 +540,12 @@
               iconSize:[20,20],iconAnchor:[10,10],className:''
             });
             var goldIcon = L.divIcon({
-              html:'<div style="background:#C5A028;width:18px;height:18px;border-radius:50%;border:3px solid #1b4d2e;box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div>',
-              iconSize:[24,24],iconAnchor:[12,12],className:''
+              html:'<div style="background:#C5A028;width:20px;height:20px;border-radius:50%;border:3px solid #1b4d2e;box-shadow:0 2px 8px rgba(0,0,0,0.4)"></div>',
+              iconSize:[26,26],iconAnchor:[13,13],className:''
             });
 
             var areas = [
-              {lat:38.3032,lng:-77.4605,name:'Fredericksburg',main:true,desc:'📍 HQ. Call Alex: 540-455-7405'},
+              {lat:38.3032,lng:-77.4605,name:'Fredericksburg',main:true,desc:'HQ - Call Alex: 540-455-7405'},
               {lat:38.4220,lng:-77.4083,name:'Stafford',main:false,desc:'Serving all of Stafford County'},
               {lat:38.1996,lng:-77.5886,name:'Spotsylvania',main:false,desc:'Spotsylvania County & Courthouse area'},
               {lat:38.2690,lng:-77.1865,name:'King George',main:false,desc:'King George County'},
@@ -556,28 +553,34 @@
               {lat:38.6807,lng:-77.2497,name:'Woodbridge',main:false,desc:'Woodbridge & Prince William County'}
             ];
 
+            var bounds = L.latLngBounds(areas.map(function(a){return[a.lat,a.lng]}));
+            map.fitBounds(bounds,{padding:[30,30]});
+
             areas.forEach(function(a){
               L.marker([a.lat,a.lng],{icon:a.main?goldIcon:greenIcon})
                 .addTo(map)
                 .bindPopup('<div style="font-family:system-ui;text-align:center;"><strong style="font-size:14px;color:#1b4d2e;">'+a.name+'</strong><br><span style="font-size:12px;color:#555;">'+a.desc+'</span></div>');
             });
 
-            // Draw service radius circle around Fredericksburg
             L.circle([38.3032,-77.4605],{
               radius:40000,color:'#1b4d2e',fillColor:'#2e7d32',fillOpacity:0.06,weight:2,dashArray:'8,6'
             }).addTo(map);
           })();
           </script>
-          <div style="padding:12px 16px;background:var(--green-dark);border-radius:0 0 var(--r-lg) var(--r-lg);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-            <div style="display:flex;gap:16px;flex-wrap:wrap;">
-              <span style="color:#C5A028;font-size:.8rem;font-weight:700;">⭐ Fredericksburg (HQ)</span>
-              <span style="color:rgba(255,255,255,0.7);font-size:.8rem;">Stafford</span>
-              <span style="color:rgba(255,255,255,0.7);font-size:.8rem;">Spotsylvania</span>
-              <span style="color:rgba(255,255,255,0.7);font-size:.8rem;">King George</span>
-              <span style="color:rgba(255,255,255,0.7);font-size:.8rem;">Culpeper</span>
-              <span style="color:rgba(255,255,255,0.7);font-size:.8rem;">Woodbridge</span>
+          <div style="padding:10px 16px;background:var(--green-dark);border-radius:0 0 var(--r-lg) var(--r-lg);display:flex;justify-content:space-between;align-items:center;gap:8px;">
+            <div style="display:flex;gap:10px;flex-wrap:nowrap;align-items:center;font-size:.75rem;white-space:nowrap;overflow-x:auto;">
+              <span style="color:#C5A028;font-weight:700;">Fredericksburg (HQ)</span>
+              <span style="color:rgba(255,255,255,0.25);">|</span>
+              <span style="color:rgba(255,255,255,0.7);">Stafford</span>
+              <span style="color:rgba(255,255,255,0.25);">|</span>
+              <span style="color:rgba(255,255,255,0.7);">Spotsylvania</span>
+              <span style="color:rgba(255,255,255,0.25);">|</span>
+              <span style="color:rgba(255,255,255,0.7);">King George</span>
+              <span style="color:rgba(255,255,255,0.25);">|</span>
+              <span style="color:rgba(255,255,255,0.7);">Culpeper</span>
+              <span style="color:rgba(255,255,255,0.25);">|</span>
+              <span style="color:rgba(255,255,255,0.7);">Woodbridge</span>
             </div>
-            <a href="https://maps.google.com/?q=Fredericksburg,Virginia" target="_blank" rel="noopener noreferrer" style="color:#4caf50;font-size:.8rem;font-weight:600;">View on Google Maps →</a>
           </div>
         </div>
         <!-- Instant Quote Request -->
@@ -1205,7 +1208,7 @@
     vid.setAttribute('webkit-playsinline','');
     vid.preload='auto';
 
-    var sources=['hero-bg-fast.mp4','hero-bg-web.mp4','hero-bg.mp4'];
+    var sources=['hero-bg-fast.mp4'];
     var srcIdx=0;
     function loadSource(){
       if(srcIdx>=sources.length)return;
