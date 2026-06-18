@@ -349,7 +349,7 @@
     .form-group label{font-size:.82rem;font-weight:600;color:var(--text)}
     .form-group input,.form-group select,.form-group textarea{
       border:1.5px solid var(--border);border-radius:8px;padding:11px 14px;
-      font-size:.9rem;font-family:var(--font);outline:none;transition:border-color .2s;background:#fff;width:100%;box-sizing:border-box
+      font-size:16px;font-family:var(--font);outline:none;transition:border-color .2s;background:#fff;width:100%;box-sizing:border-box
     }
     .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green-mid)}
     .form-group textarea{resize:vertical;min-height:100px}
@@ -385,7 +385,7 @@
     .footer-col li{font-size:.82rem}
     .footer-col a{color:rgba(255,255,255,.65);transition:color .2s}
     .footer-col a:hover{color:var(--sun)}
-    .footer-subscribe input{width:100%;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);border-radius:8px;padding:10px 12px;color:#fff;font-size:.83rem;margin-bottom:8px;outline:none;box-sizing:border-box}
+    .footer-subscribe input{width:100%;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);border-radius:8px;padding:10px 12px;color:#fff;font-size:16px;margin-bottom:8px;outline:none;box-sizing:border-box}
     .footer-subscribe input::placeholder{color:rgba(255,255,255,.4)}
     .footer-subscribe button{width:100%;background:var(--sun);color:#fff;border:none;border-radius:8px;padding:10px;font-weight:700;font-size:.83rem;cursor:pointer;transition:background .2s}
     .footer-subscribe button:hover{background:var(--sun-dark)}
@@ -589,18 +589,18 @@
           <h3 style="color:var(--green-dark);margin-bottom:4px">Request a Free Quote</h3>
           <p style="font-size:.8rem;color:var(--muted);margin-bottom:16px">Alex will call you back within 2 hours.</p>
           <div class="quote-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <input placeholder="Your Name" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:.85rem;outline:none;font-family:var(--font)">
-            <input placeholder="Phone Number" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:.85rem;outline:none;font-family:var(--font)">
-            <select style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:.85rem;outline:none;font-family:var(--font);background:#fff;grid-column:1/-1">
+            <input id="q-name" placeholder="Your Name" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:16px;outline:none;font-family:var(--font)">
+            <input id="q-phone" type="tel" placeholder="Phone Number" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:16px;outline:none;font-family:var(--font)">
+            <select id="q-service" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:16px;outline:none;font-family:var(--font);background:#fff;grid-column:1/-1">
               <option value="">Service Needed...</option>
               <option>Landscaping</option><option>Mulching</option>
               <option>Tree Trimming & Removal</option><option>Gutter Cleaning</option>
               <option>Leaf Removal</option><option>Junk Removal</option>
               <option>Storm Damage Cleanup</option><option>Multiple Services</option>
             </select>
-            <input placeholder="Your Zip Code" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:.85rem;outline:none;font-family:var(--font);grid-column:1/-1">
+            <input id="q-zip" placeholder="Your Zip Code" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:16px;outline:none;font-family:var(--font);grid-column:1/-1">
           </div>
-          <button class="form-submit" style="margin-top:12px">🌿 Get My Free Quote</button>
+          <button class="form-submit" style="margin-top:12px" onclick="submitQuote(this)">🌿 Get My Free Quote</button>
         </div>
       </div>
     </div>
@@ -923,11 +923,11 @@
       </div>
       <div>
         <div class="form-grid">
-          <div class="form-group"><label>Name</label><input type="text" placeholder="Your full name"></div>
-          <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
-          <div class="form-group full"><label>Phone Number</label><input type="tel" placeholder="(540) 000-0000"></div>
+          <div class="form-group"><label>Name</label><input id="c-name" type="text" placeholder="Your full name" style="font-size:16px"></div>
+          <div class="form-group"><label>Email</label><input id="c-email" type="email" placeholder="your@email.com" style="font-size:16px"></div>
+          <div class="form-group full"><label>Phone Number</label><input id="c-phone" type="tel" placeholder="(540) 000-0000" style="font-size:16px"></div>
           <div class="form-group full"><label>Service Needed</label>
-            <select>
+            <select id="c-service" style="font-size:16px">
               <option value="">Select a service...</option>
               <option>Landscaping</option><option>Mulching</option>
               <option>Tree Trimming & Removal</option><option>Gutter Cleaning</option>
@@ -935,9 +935,9 @@
               <option>Storm Damage Cleanup</option><option>Multiple / Not Sure</option>
             </select>
           </div>
-          <div class="form-group full"><label>Message</label><textarea placeholder="Describe your project, property size, or any questions..."></textarea></div>
+          <div class="form-group full"><label>Message</label><textarea id="c-message" placeholder="Describe your project, property size, or any questions..." style="font-size:16px"></textarea></div>
         </div>
-        <button class="form-submit">Send Message</button>
+        <button class="form-submit" onclick="submitContact(this)">Send Message</button>
       </div>
     </div>
   </div>
@@ -1330,6 +1330,107 @@
       }
     });
   })();
+</script>
+<script>
+function submitQuote(btn){
+  var name = document.getElementById('q-name').value.trim();
+  var phone = document.getElementById('q-phone').value.trim();
+  var service = document.getElementById('q-service').value;
+  var zip = document.getElementById('q-zip').value.trim();
+  if(!name || !phone){ alert('Please enter your name and phone number.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  var msg = 'Service: ' + (service || 'Not specified') + ' | ZIP: ' + (zip || 'N/A');
+
+  fetch('https://boddsbxlaytcrkpuckyn.supabase.co/functions/v1/capture-lead', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ client_id:'54de0b7d-b1f3-4abb-82eb-2f66f2452267', name:name, phone:phone, source:'Quote Form', message:msg })
+  }).catch(function(){});
+
+  fetch('https://api.web3forms.com/submit', {
+    method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body: JSON.stringify({
+      access_key:'25a6e14c-6845-4b49-a53d-9243a51b2ed1',
+      to:'info@fresh-cut-landscape.com',
+      subject:'Quote Request -- ' + (service || 'General') + ' | ' + (zip || 'No ZIP'),
+      from_name: name, name: name, phone: phone,
+      email:'info@fresh-cut-landscape.com',
+      message: 'Name: ' + name + '\nPhone: ' + phone + '\nService: ' + (service||'Not specified') + '\nZIP: ' + (zip||'N/A')
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if(data.success){
+      btn.textContent = 'Sent! Alex will call you.';
+      btn.style.background = '#2e7d32';
+      document.getElementById('q-name').value = '';
+      document.getElementById('q-phone').value = '';
+      document.getElementById('q-service').selectedIndex = 0;
+      document.getElementById('q-zip').value = '';
+      setTimeout(function(){ btn.disabled = false; btn.textContent = '🌿 Get My Free Quote'; btn.style.background = ''; }, 4000);
+    } else {
+      btn.disabled = false; btn.textContent = '🌿 Get My Free Quote';
+      alert('Something went wrong. Please call Alex at (540) 455-7405.');
+    }
+  })
+  .catch(function(){
+    btn.disabled = false; btn.textContent = '🌿 Get My Free Quote';
+    alert('Connection error. Please call Alex at (540) 455-7405.');
+  });
+}
+
+function submitContact(btn){
+  var name = document.getElementById('c-name').value.trim();
+  var email = document.getElementById('c-email').value.trim();
+  var phone = document.getElementById('c-phone').value.trim();
+  var service = document.getElementById('c-service').value;
+  var message = document.getElementById('c-message').value.trim();
+  if(!name || (!phone && !email)){ alert('Please enter your name and a phone number or email.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  var leadMsg = 'Service: ' + (service || 'Not specified') + (message ? ' | ' + message : '');
+
+  fetch('https://boddsbxlaytcrkpuckyn.supabase.co/functions/v1/capture-lead', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ client_id:'54de0b7d-b1f3-4abb-82eb-2f66f2452267', name:name, email:email, phone:phone, source:'Contact Form', message:leadMsg })
+  }).catch(function(){});
+
+  fetch('https://api.web3forms.com/submit', {
+    method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body: JSON.stringify({
+      access_key:'25a6e14c-6845-4b49-a53d-9243a51b2ed1',
+      to:'info@fresh-cut-landscape.com',
+      subject:'Contact Message -- ' + (service || 'General Inquiry'),
+      from_name: name, name: name, phone: phone || 'Not provided',
+      email: email || 'info@fresh-cut-landscape.com',
+      message: 'Name: ' + name + '\nEmail: ' + (email||'N/A') + '\nPhone: ' + (phone||'N/A') + '\nService: ' + (service||'Not specified') + '\nMessage: ' + (message||'None')
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if(data.success){
+      btn.textContent = 'Sent! Alex will reach out.';
+      btn.style.background = '#2e7d32';
+      document.getElementById('c-name').value = '';
+      document.getElementById('c-email').value = '';
+      document.getElementById('c-phone').value = '';
+      document.getElementById('c-service').selectedIndex = 0;
+      document.getElementById('c-message').value = '';
+      setTimeout(function(){ btn.disabled = false; btn.textContent = 'Send Message'; btn.style.background = ''; }, 4000);
+    } else {
+      btn.disabled = false; btn.textContent = 'Send Message';
+      alert('Something went wrong. Please call Alex at (540) 455-7405.');
+    }
+  })
+  .catch(function(){
+    btn.disabled = false; btn.textContent = 'Send Message';
+    alert('Connection error. Please call Alex at (540) 455-7405.');
+  });
+}
 </script>
 <script src="https://project-kday6.vercel.app/tracker/tracker.js" data-client="54de0b7d-b1f3-4abb-82eb-2f66f2452267"></script>
 </body>
