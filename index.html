@@ -202,16 +202,17 @@
     .trust-item:last-child{border-right:none}
     .trust-item:first-child{padding-left:0}
     @media(max-width:768px){
-      .hero{min-height:100svh;padding-bottom:40px}
-      .hero-inner{padding:84px 5% 0}
-      .hero h1{font-size:clamp(1.9rem,8vw,2.6rem)}
-      .hero-sub{font-size:.95rem;margin-bottom:24px}
-      .hero-badge-row{gap:8px;margin-bottom:16px}
+      .hero{min-height:100svh;padding-bottom:40px;justify-content:center;background-image:url('poster-mobile.jpg')!important}
+      .hero-inner{padding:60px 5% 0;text-align:center;display:flex;flex-direction:column;align-items:center}
+      .hero-inner img{height:120px!important;margin:0 auto 12px!important}
+      .hero h1{font-size:clamp(1.6rem,7vw,2.2rem)}
+      .hero-sub{font-size:.88rem;margin-bottom:24px;text-align:center}
+      .hero-badge-row{gap:8px;margin-bottom:16px;justify-content:center}
       .hero-badge{font-size:.68rem;padding:4px 10px}
-      .hero-btns{flex-direction:column;gap:10px;margin-bottom:28px}
+      .hero-btns{flex-direction:column;gap:10px;margin-bottom:28px;width:100%}
       .hero-btns .btn{width:100%;justify-content:center;padding:15px 20px;font-size:1rem}
-      .hero-trust{gap:0;flex-direction:row;flex-wrap:wrap}
-      .trust-item{font-size:.8rem;padding:0 12px}
+      .hero-trust{gap:0;flex-direction:row;flex-wrap:wrap;justify-content:center}
+      .trust-item{font-size:.75rem;padding:0 10px}
     }
 
     /* ─── MARQUEE ─── */
@@ -1208,7 +1209,8 @@
     vid.setAttribute('webkit-playsinline','');
     vid.preload='auto';
 
-    var sources=['hero-bg-fast.mp4'];
+    var isMobile=window.innerWidth<=768;
+    var sources=isMobile?['hero-mobile.mp4']:['hero-bg-fast.mp4'];
     var srcIdx=0;
     function loadSource(){
       if(srcIdx>=sources.length)return;
@@ -1217,9 +1219,8 @@
     }
     vid.addEventListener('error',function(){srcIdx++;loadSource();});
 
-    var isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     var maxW=isMobile?640:1920;
-    var maxH=isMobile?960:1080;
+    var maxH=isMobile?1200:1080;
     var raf;
 
     function resize(){
@@ -1231,7 +1232,12 @@
     function draw(){
       if(!vid.paused&&!vid.ended&&vid.readyState>=2){
         resize();
-        ctx.drawImage(vid,0,0,canvas.width,canvas.height);
+        var vw=vid.videoWidth,vh=vid.videoHeight;
+        var cw=canvas.width,ch=canvas.height;
+        var scale=Math.max(cw/vw,ch/vh);
+        var sw=cw/scale,sh=ch/scale;
+        var sx=(vw-sw)/2,sy=(vh-sh)/2;
+        ctx.drawImage(vid,sx,sy,sw,sh,0,0,cw,ch);
       }
       raf=requestAnimationFrame(draw);
     }
