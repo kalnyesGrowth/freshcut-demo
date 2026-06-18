@@ -592,6 +592,7 @@
             <div class="form-group"><label>Name</label><input id="q-name" type="text" placeholder="Your full name" style="font-size:16px"></div>
             <div class="form-group"><label>Email</label><input id="q-email" type="email" placeholder="your@email.com" style="font-size:16px"></div>
             <div class="form-group full"><label>Phone Number</label><input id="q-phone" type="tel" placeholder="(540) 000-0000" style="font-size:16px"></div>
+            <div class="form-group full"><label>Property Address</label><input id="q-address" type="text" placeholder="123 Main St, Fredericksburg, VA 22401" style="font-size:16px"></div>
             <div class="form-group full"><label>Service Needed</label>
               <select id="q-service" style="font-size:16px">
                 <option value="">Select a service...</option>
@@ -929,6 +930,7 @@
           <div class="form-group"><label>Name</label><input id="c-name" type="text" placeholder="Your full name" style="font-size:16px"></div>
           <div class="form-group"><label>Email</label><input id="c-email" type="email" placeholder="your@email.com" style="font-size:16px"></div>
           <div class="form-group full"><label>Phone Number</label><input id="c-phone" type="tel" placeholder="(540) 000-0000" style="font-size:16px"></div>
+          <div class="form-group full"><label>Property Address</label><input id="c-address" type="text" placeholder="123 Main St, Fredericksburg, VA 22401" style="font-size:16px"></div>
           <div class="form-group full"><label>Service Needed</label>
             <select id="c-service" style="font-size:16px">
               <option value="">Select a service...</option>
@@ -1339,6 +1341,7 @@ function submitQuote(btn){
   var name = document.getElementById('q-name').value.trim();
   var email = document.getElementById('q-email').value.trim();
   var phone = document.getElementById('q-phone').value.trim();
+  var address = document.getElementById('q-address').value.trim();
   var service = document.getElementById('q-service').value;
   var message = document.getElementById('q-message').value.trim();
   if(!name || (!phone && !email)){ alert('Please enter your name and a phone number or email.'); return; }
@@ -1346,7 +1349,7 @@ function submitQuote(btn){
   btn.disabled = true;
   btn.textContent = 'Sending...';
 
-  var leadMsg = 'Service: ' + (service || 'Not specified') + (message ? ' | ' + message : '');
+  var leadMsg = 'Service: ' + (service || 'Not specified') + (address ? ' | Address: ' + address : '') + (message ? ' | ' + message : '');
 
   fetch('https://boddsbxlaytcrkpuckyn.supabase.co/functions/v1/capture-lead', {
     method:'POST', headers:{'Content-Type':'application/json'},
@@ -1361,7 +1364,7 @@ function submitQuote(btn){
       subject:'Quote Request -- ' + (service || 'General Inquiry'),
       from_name: name, name: name, phone: phone || 'Not provided',
       email: email || 'info@fresh-cut-landscape.com',
-      message: 'Name: ' + name + '\nEmail: ' + (email||'N/A') + '\nPhone: ' + (phone||'N/A') + '\nService: ' + (service||'Not specified') + '\nMessage: ' + (message||'None')
+      message: 'Name: ' + name + '\nEmail: ' + (email||'N/A') + '\nPhone: ' + (phone||'N/A') + '\nAddress: ' + (address||'N/A') + '\nService: ' + (service||'Not specified') + '\nMessage: ' + (message||'None')
     })
   })
   .then(function(r){ return r.json(); })
@@ -1372,6 +1375,7 @@ function submitQuote(btn){
       document.getElementById('q-name').value = '';
       document.getElementById('q-email').value = '';
       document.getElementById('q-phone').value = '';
+      document.getElementById('q-address').value = '';
       document.getElementById('q-service').selectedIndex = 0;
       document.getElementById('q-message').value = '';
       setTimeout(function(){ btn.disabled = false; btn.textContent = '🌿 Get My Free Quote'; btn.style.background = ''; }, 4000);
@@ -1390,6 +1394,7 @@ function submitContact(btn){
   var name = document.getElementById('c-name').value.trim();
   var email = document.getElementById('c-email').value.trim();
   var phone = document.getElementById('c-phone').value.trim();
+  var address = document.getElementById('c-address').value.trim();
   var service = document.getElementById('c-service').value;
   var message = document.getElementById('c-message').value.trim();
   if(!name || (!phone && !email)){ alert('Please enter your name and a phone number or email.'); return; }
@@ -1397,7 +1402,7 @@ function submitContact(btn){
   btn.disabled = true;
   btn.textContent = 'Sending...';
 
-  var leadMsg = 'Service: ' + (service || 'Not specified') + (message ? ' | ' + message : '');
+  var leadMsg = 'Service: ' + (service || 'Not specified') + (address ? ' | Address: ' + address : '') + (message ? ' | ' + message : '');
 
   fetch('https://boddsbxlaytcrkpuckyn.supabase.co/functions/v1/capture-lead', {
     method:'POST', headers:{'Content-Type':'application/json'},
@@ -1412,7 +1417,7 @@ function submitContact(btn){
       subject:'Contact Message -- ' + (service || 'General Inquiry'),
       from_name: name, name: name, phone: phone || 'Not provided',
       email: email || 'info@fresh-cut-landscape.com',
-      message: 'Name: ' + name + '\nEmail: ' + (email||'N/A') + '\nPhone: ' + (phone||'N/A') + '\nService: ' + (service||'Not specified') + '\nMessage: ' + (message||'None')
+      message: 'Name: ' + name + '\nEmail: ' + (email||'N/A') + '\nPhone: ' + (phone||'N/A') + '\nAddress: ' + (address||'N/A') + '\nService: ' + (service||'Not specified') + '\nMessage: ' + (message||'None')
     })
   })
   .then(function(r){ return r.json(); })
@@ -1423,6 +1428,7 @@ function submitContact(btn){
       document.getElementById('c-name').value = '';
       document.getElementById('c-email').value = '';
       document.getElementById('c-phone').value = '';
+      document.getElementById('c-address').value = '';
       document.getElementById('c-service').selectedIndex = 0;
       document.getElementById('c-message').value = '';
       setTimeout(function(){ btn.disabled = false; btn.textContent = 'Send Message'; btn.style.background = ''; }, 4000);
