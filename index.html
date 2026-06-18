@@ -244,7 +244,7 @@
     .area-cities{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0}
     .area-city{background:var(--green-light);color:var(--green-dark);padding:4px 10px;border-radius:50px;font-size:.75rem;font-weight:600}
     .area-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-    @media(max-width:768px){.area-grid{grid-template-columns:1fr}.area-stats{grid-template-columns:repeat(3,1fr);gap:10px}.area-stat{padding:12px 8px}.area-stat-num{font-size:1.3rem}.area-btns{flex-direction:column}.area-btns .btn{width:100%;justify-content:center;text-align:center;white-space:normal;box-sizing:border-box}}
+    @media(max-width:768px){.area-grid{grid-template-columns:1fr;gap:24px}.area-grid>div{min-width:0;max-width:100%;overflow:hidden}.area-stats{grid-template-columns:repeat(3,1fr);gap:10px}.area-stat{padding:12px 8px}.area-stat-num{font-size:1.3rem}.area-btns{flex-direction:column}.area-btns .btn{width:100%;justify-content:center;text-align:center;white-space:normal;box-sizing:border-box}#serviceMap{height:280px}.quote-form-grid{grid-template-columns:1fr!important}.quote-form-grid input,.quote-form-grid select{width:100%;box-sizing:border-box}}
 
     /* ─── PHOTO BAND ─── */
     .photo-band{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;overflow:hidden;padding:0 20px;max-width:1200px;margin:0 auto}
@@ -349,11 +349,11 @@
     .form-group label{font-size:.82rem;font-weight:600;color:var(--text)}
     .form-group input,.form-group select,.form-group textarea{
       border:1.5px solid var(--border);border-radius:8px;padding:11px 14px;
-      font-size:.9rem;font-family:var(--font);outline:none;transition:border-color .2s;background:#fff;width:100%
+      font-size:.9rem;font-family:var(--font);outline:none;transition:border-color .2s;background:#fff;width:100%;box-sizing:border-box
     }
     .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green-mid)}
     .form-group textarea{resize:vertical;min-height:100px}
-    .form-submit{margin-top:6px;padding:14px;font-size:1rem;border-radius:8px;cursor:pointer;border:none;background:var(--green-dark);color:#fff;font-weight:700;width:100%;transition:background .2s}
+    .form-submit{margin-top:6px;padding:14px;font-size:1rem;border-radius:8px;cursor:pointer;border:none;background:var(--green-dark);color:#fff;font-weight:700;width:100%;transition:background .2s;box-sizing:border-box}
     .form-submit:hover{background:var(--green-mid)}
     @media(max-width:768px){.contact-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
 
@@ -385,7 +385,7 @@
     .footer-col li{font-size:.82rem}
     .footer-col a{color:rgba(255,255,255,.65);transition:color .2s}
     .footer-col a:hover{color:var(--sun)}
-    .footer-subscribe input{width:100%;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);border-radius:8px;padding:10px 12px;color:#fff;font-size:.83rem;margin-bottom:8px;outline:none}
+    .footer-subscribe input{width:100%;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);border-radius:8px;padding:10px 12px;color:#fff;font-size:.83rem;margin-bottom:8px;outline:none;box-sizing:border-box}
     .footer-subscribe input::placeholder{color:rgba(255,255,255,.4)}
     .footer-subscribe button{width:100%;background:var(--sun);color:#fff;border:none;border-radius:8px;padding:10px;font-weight:700;font-size:.83rem;cursor:pointer;transition:background .2s}
     .footer-subscribe button:hover{background:var(--sun-dark)}
@@ -588,7 +588,7 @@
         <div style="background:#fff;border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow);margin-top:20px;border:1.5px solid var(--border)">
           <h3 style="color:var(--green-dark);margin-bottom:4px">Request a Free Quote</h3>
           <p style="font-size:.8rem;color:var(--muted);margin-bottom:16px">Alex will call you back within 2 hours.</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="quote-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
             <input placeholder="Your Name" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:.85rem;outline:none;font-family:var(--font)">
             <input placeholder="Phone Number" style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:.85rem;outline:none;font-family:var(--font)">
             <select style="border:1.5px solid var(--border);border-radius:8px;padding:10px;font-size:.85rem;outline:none;font-family:var(--font);background:#fff;grid-column:1/-1">
