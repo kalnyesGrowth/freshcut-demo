@@ -249,12 +249,21 @@
     .area-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
     @media(max-width:768px){.area-grid{grid-template-columns:1fr;gap:24px}.area-grid>div{min-width:0;max-width:100%;overflow:hidden}.area-stats{grid-template-columns:repeat(3,1fr);gap:10px}.area-stat{padding:12px 8px}.area-stat-num{font-size:1.3rem}.area-btns{flex-direction:column}.area-btns .btn{width:100%;justify-content:center;text-align:center;white-space:normal;box-sizing:border-box}#serviceMap{height:280px}.quote-form-grid{grid-template-columns:1fr!important}.quote-form-grid input,.quote-form-grid select{width:100%;box-sizing:border-box}}
 
-    /* ─── PHOTO BAND ─── */
-    .photo-band{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;overflow:hidden;padding:0 20px;max-width:1200px;margin:0 auto}
-    .photo-band-item{position:relative;overflow:hidden;cursor:pointer;background:#0d2b18;border-radius:12px}
-    .photo-band-item img{width:100%;height:auto;object-fit:contain;display:block;transition:transform .4s ease}
-    .photo-band-item:hover img{transform:scale(1.03)}
-    @media(max-width:600px){.photo-band{grid-template-columns:1fr}}
+    /* ─── BEFORE/AFTER SLIDERS ─── */
+    .ba-section{padding:76px 5%}
+    .ba-section .section-inner{max-width:1200px;margin:0 auto}
+    .ba-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:40px}
+    .ba-slider{position:relative;overflow:hidden;border-radius:var(--r-lg);box-shadow:var(--shadow);cursor:col-resize;-webkit-user-select:none;user-select:none;aspect-ratio:16/9;background:#0d2b18}
+    .ba-slider img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+    .ba-slider .ba-after{clip-path:inset(0 0 0 50%)}
+    .ba-slider .ba-handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;z-index:3;transform:translateX(-50%);pointer-events:none}
+    .ba-slider .ba-handle::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:#fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center}
+    .ba-slider .ba-handle::before{content:'\2039  \203A';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:16px;font-weight:700;color:var(--green-dark);z-index:4;letter-spacing:8px;white-space:nowrap}
+    .ba-slider .ba-label{position:absolute;bottom:12px;padding:5px 14px;border-radius:50px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;z-index:4;pointer-events:none}
+    .ba-slider .ba-label-before{left:12px;background:rgba(0,0,0,.6);color:#fff}
+    .ba-slider .ba-label-after{right:12px;background:rgba(27,77,46,.85);color:#fff}
+    .ba-slider .ba-service-label{position:absolute;top:12px;left:12px;padding:5px 14px;border-radius:50px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;z-index:4;pointer-events:none;background:rgba(245,166,35,.9);color:#fff}
+    @media(max-width:768px){.ba-grid{grid-template-columns:1fr;gap:16px}}
 
     /* ─── 5-STEP PROCESS (scroll-animated timeline) ─── */
     #process{background:#fff}
@@ -615,14 +624,59 @@
 </section>
 
 <!-- ═══════════════════════════════
-     PHOTO BAND
+     BEFORE & AFTER SLIDERS
      ═══════════════════════════════ -->
-<div class="photo-band">
-  <div class="photo-band-item"><img src="ba-1.jpg" alt="Before & After,Garden Transformation in Fredericksburg VA" loading="lazy" decoding="async" width="600" height="400"></div>
-  <div class="photo-band-item"><img src="ba-2.jpg" alt="Before & After,Italian Garden landscaping Virginia" loading="lazy" decoding="async" width="600" height="400"></div>
-  <div class="photo-band-item"><img src="ba-3.jpg" alt="Before & After,Path & Flowers landscaping Stafford VA" loading="lazy" decoding="async" width="600" height="400"></div>
-  <div class="photo-band-item"><img src="ba-4.jpg" alt="Before & After,Modern Landscaping Spotsylvania VA" loading="lazy" decoding="async" width="600" height="400"></div>
-</div>
+<section class="ba-section" id="results">
+  <div class="section-inner">
+    <div style="text-align:center" class="reveal">
+      <span class="sec-label">Real Results</span>
+      <h2>See the Difference</h2>
+      <p class="sec-sub sec-sub-center">Drag the slider to compare before and after on real Virginia properties.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-slider" data-service="Lawn Mowing">
+        <img src="lawn-before.jpg" alt="Overgrown lawn before mowing in Fredericksburg VA" class="ba-before" loading="lazy">
+        <img src="lawn-after.jpg" alt="Freshly mowed lawn with mowing lines in Fredericksburg VA" class="ba-after" loading="lazy">
+        <div class="ba-handle"></div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+        <span class="ba-service-label">Lawn Mowing</span>
+      </div>
+      <div class="ba-slider" data-service="Mulching">
+        <img src="mulch-before.jpg" alt="Neglected flower beds before mulching in Virginia" class="ba-before" loading="lazy">
+        <img src="mulch-after.jpg" alt="Fresh mulch installed in flower beds in Virginia" class="ba-after" loading="lazy">
+        <div class="ba-handle"></div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+        <span class="ba-service-label">Mulching</span>
+      </div>
+      <div class="ba-slider" data-service="Tree Trimming">
+        <img src="tree-before.jpg" alt="Overgrown tree branches over roof before trimming" class="ba-before" loading="lazy">
+        <img src="tree-after.jpg" alt="Professionally trimmed tree with clearance from roof" class="ba-after" loading="lazy">
+        <div class="ba-handle"></div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+        <span class="ba-service-label">Tree Trimming</span>
+      </div>
+      <div class="ba-slider" data-service="Gutter Cleaning">
+        <img src="gutter-before.jpg" alt="Clogged gutters with leaves and debris" class="ba-before" loading="lazy">
+        <img src="gutter-after.jpg" alt="Clean gutters after professional cleaning" class="ba-after" loading="lazy">
+        <div class="ba-handle"></div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+        <span class="ba-service-label">Gutter Cleaning</span>
+      </div>
+      <div class="ba-slider" style="grid-column:1/-1;max-width:580px;margin:0 auto;width:100%" data-service="Leaf Removal">
+        <img src="leaf-before.jpg" alt="Yard covered in fall leaves before removal" class="ba-before" loading="lazy">
+        <img src="leaf-after.jpg" alt="Clean yard after professional leaf removal" class="ba-after" loading="lazy">
+        <div class="ba-handle"></div>
+        <span class="ba-label ba-label-before">Before</span>
+        <span class="ba-label ba-label-after">After</span>
+        <span class="ba-service-label">Leaf Removal</span>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ═══════════════════════════════
      5-STEP PROCESS
@@ -1362,6 +1416,30 @@ function submitContact(btn){
     alert('Connection error. Please call Alex at (540) 455-7405.');
   });
 }
+</script>
+<script>
+(function(){
+  document.querySelectorAll('.ba-slider').forEach(function(slider){
+    var handle = slider.querySelector('.ba-handle');
+    var afterImg = slider.querySelector('.ba-after');
+    var dragging = false;
+
+    function setPosition(x){
+      var rect = slider.getBoundingClientRect();
+      var pct = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+      handle.style.left = (pct * 100) + '%';
+      afterImg.style.clipPath = 'inset(0 0 0 ' + (pct * 100) + '%)';
+    }
+
+    slider.addEventListener('mousedown', function(e){ dragging = true; setPosition(e.clientX); e.preventDefault(); });
+    window.addEventListener('mousemove', function(e){ if(dragging) setPosition(e.clientX); });
+    window.addEventListener('mouseup', function(){ dragging = false; });
+
+    slider.addEventListener('touchstart', function(e){ dragging = true; setPosition(e.touches[0].clientX); }, {passive:true});
+    window.addEventListener('touchmove', function(e){ if(dragging) setPosition(e.touches[0].clientX); }, {passive:true});
+    window.addEventListener('touchend', function(){ dragging = false; });
+  });
+})();
 </script>
 <script src="https://project-kday6.vercel.app/tracker/tracker.js" data-client="54de0b7d-b1f3-4abb-82eb-2f66f2452267"></script>
 </body>
