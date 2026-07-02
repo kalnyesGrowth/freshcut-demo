@@ -1,0 +1,55 @@
+{
+  "_note": "All prices are Alex-editable. Fields marked _confirm: true need Alex's sign-off before launch.",
+  "mowing": {
+    "_confirm": true,
+    "min_price": 60,
+    "per_1k_sqft_over_5k": 6,
+    "base_sqft": 5000,
+    "biweekly_multiplier": 1.25,
+    "overgrown_multiplier": 1.5,
+    "description": "Per-visit pricing. Base covers up to 5,000 sqft. Add $6 per additional 1,000 sqft. Biweekly service is 1.25x per-visit. Overgrown/first-time cleanup is 1.5x."
+  },
+  "mulch": {
+    "_confirm": true,
+    "price_per_cubic_yard": 95,
+    "min_price": 250,
+    "default_depth_inches": 3,
+    "description": "Price per cubic yard installed. Bed area (sqft) x depth (inches) / 324 = yards needed. Minimum job is $250."
+  },
+  "leaf_cleanup": {
+    "_confirm": true,
+    "light": { "low": 180, "high": 280 },
+    "average": { "low": 280, "high": 450 },
+    "heavy": { "low": 450, "high": 750 },
+    "description": "Range based on yard size and leaf coverage. AI photo analysis or customer self-assessment determines tier."
+  },
+  "gutter": {
+    "_confirm": true,
+    "one_story": 140,
+    "two_story": 220,
+    "guard_surcharge": 40,
+    "description": "Flat rate by story count. Add $40 if gutter guards are installed."
+  },
+  "tree_trim": {
+    "_confirm": true,
+    "small": { "low": 250, "high": 400 },
+    "medium": { "low": 400, "high": 800 },
+    "large": { "low": 800, "high": 1600 },
+    "removal_multiplier": 1.8,
+    "hazard_surcharge_pct": 15,
+    "hazards": ["near_structure", "near_powerlines", "steep_slope", "poor_access"],
+    "xl_or_powerlines_review_only": true,
+    "description": "Range by tree size. Removal is 1.8x trim price. Each hazard adds 15%. XL trees or near powerlines always require Alex's review."
+  },
+  "storm_cleanup": {
+    "_confirm": true,
+    "review_only": true,
+    "description": "Always review-only. Storm damage varies too much for automated pricing."
+  },
+  "service_area": {
+    "center_lat": 38.3032,
+    "center_lng": -77.4605,
+    "radius_miles": 30,
+    "cities": ["Fredericksburg", "Stafford", "Spotsylvania", "Culpeper", "Woodbridge", "King George"]
+  }
+}

@@ -1,5 +1,5 @@
 # Google Business Profile — Fresh-Cut Landscaping LLC
-## STATUS: CREATED — Pending Address Verification (June 4, 2026)
+## STATUS: VERIFIED (via jessyt440@gmail.com account)
 
 **GBP Owner Account:** jessyt440@gmail.com (KalnyesGrowth manages it)
 **Business Google Account:** freshcutlandscapingva@gmail.com / FreshCut!2026$VA
@@ -11,14 +11,15 @@
 - [x] Business name, category, service areas, phone, website, hours, description filled
 - [x] 9 services added from Google's standard list
 - [x] Website connected: https://fresh-cut-landscape.com
+- [x] GBP verified via jessyt440@gmail.com account
+- [x] Google Search Console verification meta tag added
 
 ## What's Next
-- [ ] Complete address verification (need Alex's mailing address)
 - [ ] Add additional categories (lawn care, tree service, gutter cleaning, mulch, landscape designer)
 - [ ] Upload photos (logo, cover, before/after, work photos)
 - [ ] Add custom services (tree trimming, gutter cleaning, leaf removal, junk removal, storm damage)
 - [ ] Create first Google Post
-- [ ] Set up Google Search Console + submit sitemap
+- [ ] Submit sitemap to Google Search Console
 - [ ] Set up Google Analytics (GA4)
 - [ ] Get first 5 Google reviews
 - [ ] Transfer GBP ownership to freshcutlandscapingva@gmail.com

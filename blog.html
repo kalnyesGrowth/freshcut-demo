@@ -20,7 +20,17 @@
       {"@type": "ListItem", "position": 5, "url": "https://fresh-cut-landscape.com/blog-spring-lawn-care-checklist-virginia.html", "name": "Spring Lawn Care Checklist for Virginia"},
       {"@type": "ListItem", "position": 6, "url": "https://fresh-cut-landscape.com/blog-when-to-mulch-virginia.html", "name": "When to Mulch in Virginia"},
       {"@type": "ListItem", "position": 7, "url": "https://fresh-cut-landscape.com/blog-summer-lawn-care-virginia.html", "name": "Summer Lawn Care Tips for Virginia"},
-      {"@type": "ListItem", "position": 8, "url": "https://fresh-cut-landscape.com/blog-power-washing-stafford-va.html", "name": "Power Washing Services in Stafford VA"}
+      {"@type": "ListItem", "position": 8, "url": "https://fresh-cut-landscape.com/blog-power-washing-stafford-va.html", "name": "Power Washing Services in Stafford VA"},
+      {"@type": "ListItem", "position": 9, "url": "https://fresh-cut-landscape.com/blog-winter-yard-prep-virginia.html", "name": "How to Prepare Your Yard for Winter in Virginia"},
+      {"@type": "ListItem", "position": 10, "url": "https://fresh-cut-landscape.com/blog-tree-removal-cost-fredericksburg-va.html", "name": "Tree Removal Cost in Fredericksburg VA"},
+      {"@type": "ListItem", "position": 11, "url": "https://fresh-cut-landscape.com/blog-signs-tree-needs-trimming.html", "name": "7 Signs Your Tree Needs Professional Trimming"},
+      {"@type": "ListItem", "position": 12, "url": "https://fresh-cut-landscape.com/blog-best-mulch-types-virginia.html", "name": "Best Mulch Types for Virginia Gardens"},
+      {"@type": "ListItem", "position": 13, "url": "https://fresh-cut-landscape.com/blog-gutter-cleaning-frequency-virginia.html", "name": "How Often Should You Clean Your Gutters in Virginia"},
+      {"@type": "ListItem", "position": 14, "url": "https://fresh-cut-landscape.com/blog-junk-removal-fredericksburg-va.html", "name": "Junk Removal Services in Fredericksburg VA"},
+      {"@type": "ListItem", "position": 15, "url": "https://fresh-cut-landscape.com/blog-storm-damage-cleanup-virginia.html", "name": "Storm Damage Cleanup for Virginia Homeowners"},
+      {"@type": "ListItem", "position": 16, "url": "https://fresh-cut-landscape.com/blog-fall-yard-cleanup-fredericksburg.html", "name": "Fall Yard Cleanup Checklist for Fredericksburg"},
+      {"@type": "ListItem", "position": 17, "url": "https://fresh-cut-landscape.com/blog-how-to-choose-landscaper-fredericksburg.html", "name": "How to Choose a Landscaper in Fredericksburg VA"},
+      {"@type": "ListItem", "position": 18, "url": "https://fresh-cut-landscape.com/blog-lawn-aeration-guide-virginia.html", "name": "Lawn Aeration Guide for Virginia Homeowners"}
     ]
   }
   </script>
@@ -34,11 +44,11 @@
   <style>
     html,body{overflow-x:hidden}
     :root{
-      --green-dark:#1b4d2e;--green-mid:#2e7d32;--green-bright:#4caf50;
-      --green-light:#e8f5e9;--sun:#f5a623;--sun-dark:#d4861a;
-      --bg:#fff;--card:#f5f7f5;--text:#1a1a1a;--muted:#5a5a5a;
-      --border:rgba(0,0,0,0.08);--shadow:0 4px 24px rgba(0,0,0,0.09);
-      --r:12px;--r-lg:20px;--font:'Inter',system-ui,sans-serif;
+      --green-dark:#14332a;--green-mid:#1e6b4a;--green-bright:#278a5b;
+      --green-light:#eef5f1;--sun:#1e6b4a;--sun-dark:#14332a;
+      --bg:#fff;--card:#f7f8f9;--text:#1a1e23;--muted:#5c6370;
+      --border:rgba(0,0,0,0.1);--shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+      --r:6px;--r-lg:8px;--font:'Inter',system-ui,sans-serif;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
@@ -46,20 +56,19 @@
     a{text-decoration:none;color:inherit}
     img{max-width:100%}
 
-    /* ─── NAV ─── */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(27,77,46,.97);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;padding:10px 5%;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(20,51,42,.97);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;padding:10px 5%;box-shadow:0 2px 20px rgba(0,0,0,.25)}
     .nav-logo{display:flex;align-items:center}
     .nav-logo img{height:42px;width:auto;object-fit:contain;border-radius:6px}
     .nav-links{display:flex;align-items:center;gap:24px}
     .nav-links a{color:rgba(255,255,255,.85);font-size:.88rem;font-weight:500;transition:color .2s}
-    .nav-links a:hover,.nav-links a.active{color:var(--sun)}
-    .nav-cta{background:var(--sun);color:#fff !important;padding:9px 20px;border-radius:50px;font-weight:700 !important;font-size:.88rem;transition:all .2s}
-    .nav-cta:hover{background:var(--sun-dark) !important}
+    .nav-links a:hover,.nav-links a.active{color:#fff}
+    .nav-cta{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff !important;padding:9px 20px;border-radius:var(--r);font-weight:700 !important;font-size:.88rem;transition:all .2s}
+    .nav-cta:hover{background:rgba(255,255,255,.2) !important}
     .ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;position:relative;z-index:101}
     .ham span{width:24px;height:2px;background:#fff;border-radius:2px;display:block}
     .mob-menu{display:none;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:var(--green-dark);z-index:99;box-shadow:0 8px 32px rgba(0,0,0,.3)}
     .mob-menu a{color:#fff;padding:14px 5%;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);display:block}
-    .mob-menu a.mob-cta{background:var(--sun);margin:12px 5%;border-radius:50px;text-align:center;border-bottom:none}
+    .mob-menu a.mob-cta{background:var(--green-mid);margin:12px 5%;border-radius:var(--r);text-align:center;border-bottom:none}
     #mob-tog{display:none}
     #mob-tog:checked~.mob-menu{display:flex}
     @media(max-width:768px){
@@ -67,41 +76,37 @@
       .ham{display:flex}
     }
 
-    /* ─── BLOG HERO ─── */
     .blog-hero{background:var(--green-dark);padding:120px 5% 64px;text-align:center}
-    .blog-hero-label{display:inline-block;background:rgba(245,166,35,.18);border:1px solid rgba(245,166,35,.4);color:var(--sun);padding:5px 16px;border-radius:50px;font-size:.72rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:16px}
+    .blog-hero-label{display:inline-block;background:rgba(39,138,91,.18);border:1px solid rgba(39,138,91,.4);color:var(--green-bright);padding:5px 16px;border-radius:var(--r);font-size:.72rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:16px}
     .blog-hero h1{color:#fff;font-size:clamp(2rem,4vw,3rem);font-weight:900;line-height:1.1;margin-bottom:14px}
     .blog-hero p{color:rgba(255,255,255,.78);font-size:1rem;max-width:560px;margin:0 auto}
 
-    /* ─── BLOG GRID ─── */
     .blog-section{padding:72px 5%}
     .blog-inner{max-width:1200px;margin:0 auto}
     .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
     @media(max-width:900px){.blog-grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:580px){.blog-grid{grid-template-columns:1fr}}
 
-    /* ─── BLOG CARD ─── */
-    .blog-card{background:#fff;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);border:1.5px solid var(--border);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
-    .blog-card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.13)}
+    .blog-card{background:#fff;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+    .blog-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
     .blog-card-img{position:relative;height:200px;overflow:hidden;background:var(--green-dark)}
     .blog-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
-    .blog-card:hover .blog-card-img img{transform:scale(1.05)}
-    .blog-card-badge{position:absolute;top:12px;left:12px;background:var(--sun);color:#fff;padding:3px 10px;border-radius:50px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+    .blog-card:hover .blog-card-img img{transform:scale(1.03)}
+    .blog-card-badge{position:absolute;top:12px;left:12px;background:var(--green-mid);color:#fff;padding:3px 10px;border-radius:var(--r);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
     .blog-card-body{padding:20px 22px 24px;flex:1;display:flex;flex-direction:column}
     .blog-card-body h2{font-size:1rem;font-weight:700;color:var(--green-dark);line-height:1.4;margin-bottom:8px}
     .blog-card-excerpt{font-size:.85rem;color:var(--muted);line-height:1.6;flex:1;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
     .blog-card-link{display:inline-flex;align-items:center;gap:6px;color:var(--green-mid);font-size:.85rem;font-weight:700;transition:gap .2s,color .2s}
-    .blog-card-link:hover{color:var(--sun);gap:10px}
+    .blog-card-link:hover{color:var(--green-bright);gap:10px}
 
-    /* ─── FOOTER ─── */
     footer{background:var(--green-dark);color:#fff;padding:56px 5% 0}
     .footer-inner{max-width:1200px;margin:0 auto}
     .footer-flex{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px}
     .footer-brand img{height:48px;width:auto;border-radius:6px;margin-bottom:16px;display:block}
     .footer-brand p{color:rgba(255,255,255,.7);font-size:.85rem;line-height:1.7;margin-bottom:16px}
-    .footer-phone{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:#fff;padding:10px 20px;border-radius:50px;font-weight:700;font-size:.9rem;transition:background .2s}
-    .footer-phone:hover{background:var(--sun-dark)}
-    .footer-col h4{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--sun);margin-bottom:14px}
+    .footer-phone{display:inline-flex;align-items:center;gap:8px;background:var(--green-mid);color:#fff;padding:10px 20px;border-radius:var(--r);font-weight:700;font-size:.9rem;transition:background .2s}
+    .footer-phone:hover{background:var(--green-bright)}
+    .footer-col h4{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.9);margin-bottom:14px}
     .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:7px}
     .footer-col ul li a,.footer-col ul li{color:rgba(255,255,255,.7);font-size:.85rem;transition:color .2s}
     .footer-col ul li a:hover{color:#fff}
@@ -112,7 +117,6 @@
       .footer-bottom{flex-direction:column;text-align:center}
     }
   </style>
-  <meta name="robots" content="index, follow">
 </head>
 <body>
 
@@ -130,7 +134,7 @@
     <a href="index.html#reviews">Reviews</a>
     <a href="blog.html" class="active">Blog</a>
     <a href="index.html#contact">Contact</a>
-    <a href="tel:5404557405" class="nav-cta">📞 Free Estimate</a>
+    <a href="tel:5404557405" class="nav-cta">Free Estimate</a>
   </div>
   <input type="checkbox" id="mob-tog" style="display:none">
   <div class="mob-menu">
@@ -146,14 +150,13 @@
 <section class="blog-hero">
   <div class="blog-hero-label">Expert Lawn Care Tips</div>
   <h1>Virginia Landscaping Blog</h1>
-  <p>Seasonal guides, pricing breakdowns, and local lawn care advice for homeowners in Stafford, Fredericksburg &amp; Spotsylvania.</p>
+  <p>Seasonal guides, pricing breakdowns, and local lawn care advice for homeowners in Stafford, Fredericksburg and Spotsylvania.</p>
 </section>
 
 <section class="blog-section">
   <div class="blog-inner">
     <div class="blog-grid">
 
-      <!-- Card 1 -->
       <article class="blog-card">
         <div class="blog-card-img">
           <img src="ba-1.jpg" alt="Landscaping cost Fredericksburg VA">
@@ -161,12 +164,11 @@
         </div>
         <div class="blog-card-body">
           <h2>How Much Does Landscaping Cost in Fredericksburg, VA? (2026 Guide)</h2>
-          <p class="blog-card-excerpt">Wondering what landscaping costs in the 540 area? We break down real prices for every service — no surprises.</p>
-          <a href="blog-landscaping-cost-fredericksburg-va.html" class="blog-card-link">Read More →</a>
+          <p class="blog-card-excerpt">Wondering what landscaping costs in the 540 area? We break down real prices for every service.</p>
+          <a href="blog-landscaping-cost-fredericksburg-va.html" class="blog-card-link">Read More</a>
         </div>
       </article>
 
-      <!-- Card 2 -->
       <article class="blog-card">
         <div class="blog-card-img">
           <img src="trust-1.jpg" alt="Best grass types for Virginia lawns">
@@ -175,11 +177,10 @@
         <div class="blog-card-body">
           <h2>Best Grass Types for Virginia Lawns in the 540 Area</h2>
           <p class="blog-card-excerpt">Not all grass is created equal. Here's exactly which grass varieties thrive in Virginia's climate.</p>
-          <a href="blog-best-grass-types-virginia.html" class="blog-card-link">Read More →</a>
+          <a href="blog-best-grass-types-virginia.html" class="blog-card-link">Read More</a>
         </div>
       </article>
 
-      <!-- Card 3 -->
       <article class="blog-card">
         <div class="blog-card-img">
           <img src="ba-3.jpg" alt="Spring lawn care checklist Virginia">
@@ -188,11 +189,10 @@
         <div class="blog-card-body">
           <h2>Spring Lawn Care Checklist for Virginia Homeowners</h2>
           <p class="blog-card-excerpt">March through May is make-or-break for your yard. Here's the full spring checklist Virginia pros follow.</p>
-          <a href="blog-spring-lawn-care-checklist-virginia.html" class="blog-card-link">Read More →</a>
+          <a href="blog-spring-lawn-care-checklist-virginia.html" class="blog-card-link">Read More</a>
         </div>
       </article>
 
-      <!-- Card 4 -->
       <article class="blog-card">
         <div class="blog-card-img">
           <img src="ba-2.jpg" alt="Best time to mulch in Virginia">
@@ -201,11 +201,10 @@
         <div class="blog-card-body">
           <h2>When Is the Best Time to Mulch in Virginia?</h2>
           <p class="blog-card-excerpt">Mulching at the wrong time can hurt your plants. Here's the Virginia mulching calendar you need.</p>
-          <a href="blog-when-to-mulch-virginia.html" class="blog-card-link">Read More →</a>
+          <a href="blog-when-to-mulch-virginia.html" class="blog-card-link">Read More</a>
         </div>
       </article>
 
-      <!-- Card 5 -->
       <article class="blog-card">
         <div class="blog-card-img">
           <img src="trust-2.jpg" alt="Power washing Stafford VA">
@@ -214,11 +213,10 @@
         <div class="blog-card-body">
           <h2>Power Washing Services in Stafford, VA: What It Costs and What to Expect</h2>
           <p class="blog-card-excerpt">From driveways to siding, what power washing costs in the 540 area and how often you need it.</p>
-          <a href="blog-power-washing-stafford-va.html" class="blog-card-link">Read More →</a>
+          <a href="blog-power-washing-stafford-va.html" class="blog-card-link">Read More</a>
         </div>
       </article>
 
-      <!-- Card 6 -->
       <article class="blog-card">
         <div class="blog-card-img">
           <img src="trust-3.jpg" alt="Gutter cleaning Virginia">
@@ -227,11 +225,10 @@
         <div class="blog-card-body">
           <h2>How Often Should Virginia Homeowners Clean Their Gutters?</h2>
           <p class="blog-card-excerpt">Skipping gutter cleaning in Virginia's tree-heavy 540 area can cost you thousands. Here's the schedule.</p>
-          <a href="blog-gutter-cleaning-virginia.html" class="blog-card-link">Read More →</a>
+          <a href="blog-gutter-cleaning-virginia.html" class="blog-card-link">Read More</a>
         </div>
       </article>
 
-      <!-- Card 7 -->
       <article class="blog-card">
         <div class="blog-card-img">
           <img src="ba-4.jpg" alt="Summer lawn care Virginia">
@@ -240,11 +237,10 @@
         <div class="blog-card-body">
           <h2>Surviving Virginia Summer: How to Keep Your Lawn Green</h2>
           <p class="blog-card-excerpt">Virginia summers are brutal on grass. Here's exactly how to protect your lawn from July heat stress.</p>
-          <a href="blog-summer-lawn-care-virginia.html" class="blog-card-link">Read More →</a>
+          <a href="blog-summer-lawn-care-virginia.html" class="blog-card-link">Read More</a>
         </div>
       </article>
 
-      <!-- Card 8 -->
       <article class="blog-card">
         <div class="blog-card-img">
           <img src="ba-3.jpg" alt="Leaf removal vs mulching Virginia">
@@ -253,7 +249,127 @@
         <div class="blog-card-body">
           <h2>Leaf Removal vs. Mulching: What's Best for Your Virginia Yard?</h2>
           <p class="blog-card-excerpt">Should you remove leaves or mulch them into the ground? The answer depends on your yard.</p>
-          <a href="blog-leaf-removal-vs-mulching-virginia.html" class="blog-card-link">Read More →</a>
+          <a href="blog-leaf-removal-vs-mulching-virginia.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="ba-5.jpg" alt="Winter yard preparation Virginia">
+          <span class="blog-card-badge">Seasonal</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>How to Prepare Your Yard for Winter in Virginia</h2>
+          <p class="blog-card-excerpt">A solid winter prep routine protects your lawn, trees, and garden beds through Virginia's coldest months.</p>
+          <a href="blog-winter-yard-prep-virginia.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="tree-before.jpg" alt="Tree removal cost Fredericksburg VA">
+          <span class="blog-card-badge">Tree Service</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>Tree Removal Cost in Fredericksburg VA: What to Expect</h2>
+          <p class="blog-card-excerpt">Tree removal costs in the 540 area vary by size, location, and condition. Here's the full pricing breakdown.</p>
+          <a href="blog-tree-removal-cost-fredericksburg-va.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="tree-after.jpg" alt="Signs tree needs trimming">
+          <span class="blog-card-badge">Tree Service</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>7 Signs Your Tree Needs Professional Trimming</h2>
+          <p class="blog-card-excerpt">Dead branches, roof contact, lopsided canopy. Know when to call a pro before the damage gets worse.</p>
+          <a href="blog-signs-tree-needs-trimming.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="mulch-after.jpg" alt="Best mulch types Virginia">
+          <span class="blog-card-badge">Mulching</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>Best Mulch Types for Virginia Gardens and Flower Beds</h2>
+          <p class="blog-card-excerpt">Hardwood, pine bark, pine straw, rubber, stone. Which mulch works best for Virginia's clay soil?</p>
+          <a href="blog-best-mulch-types-virginia.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="gutter-before.jpg" alt="Gutter cleaning frequency Virginia">
+          <span class="blog-card-badge">Gutters</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>How Often Should You Clean Your Gutters in Virginia?</h2>
+          <p class="blog-card-excerpt">Twice a year minimum, but many 540 area homes need three or four cleanings. Here's how to tell.</p>
+          <a href="blog-gutter-cleaning-frequency-virginia.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="ba-1.jpg" alt="Junk removal Fredericksburg VA">
+          <span class="blog-card-badge">Junk Removal</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>Junk Removal Services in Fredericksburg VA: What You Need to Know</h2>
+          <p class="blog-card-excerpt">Yard debris, old furniture, construction waste. What gets hauled, what it costs, and when to call a pro.</p>
+          <a href="blog-junk-removal-fredericksburg-va.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="ba-4.jpg" alt="Storm damage cleanup Virginia">
+          <span class="blog-card-badge">Storm Cleanup</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>Storm Damage Cleanup: What Virginia Homeowners Should Know</h2>
+          <p class="blog-card-excerpt">Fallen trees, broken limbs, scattered debris. Safety steps, insurance tips, and when to call for help.</p>
+          <a href="blog-storm-damage-cleanup-virginia.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="leaf-before.jpg" alt="Fall yard cleanup Fredericksburg">
+          <span class="blog-card-badge">Seasonal</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>Fall Yard Cleanup Checklist for Fredericksburg Homeowners</h2>
+          <p class="blog-card-excerpt">Leaf removal, last mow, mulch refresh, gutter cleaning. The complete fall checklist for the 540 area.</p>
+          <a href="blog-fall-yard-cleanup-fredericksburg.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="trust-1.jpg" alt="How to choose landscaper Fredericksburg">
+          <span class="blog-card-badge">Buyer Guide</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>How to Choose a Landscaper in Fredericksburg VA</h2>
+          <p class="blog-card-excerpt">What to look for, questions to ask, and red flags to avoid when hiring a landscaper in the 540 area.</p>
+          <a href="blog-how-to-choose-landscaper-fredericksburg.html" class="blog-card-link">Read More</a>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="lawn-before.jpg" alt="Lawn aeration guide Virginia">
+          <span class="blog-card-badge">Lawn Care</span>
+        </div>
+        <div class="blog-card-body">
+          <h2>Lawn Aeration Guide for Virginia Homeowners</h2>
+          <p class="blog-card-excerpt">Virginia's clay soil compacts fast. Here's when, why, and how to aerate for a healthier lawn.</p>
+          <a href="blog-lawn-aeration-guide-virginia.html" class="blog-card-link">Read More</a>
         </div>
       </article>
 
@@ -266,15 +382,15 @@
     <div class="footer-flex">
       <div class="footer-brand">
         <img src="freshcut-logo.png" alt="Fresh-Cut Landscaping LLC">
-        <p>Professional landscaping, mulching, tree trimming & removal, gutter cleaning, leaf &amp; junk removal, and storm damage cleanup. Serving Virginia's 540 area — owner Alex handles every job personally.</p>
-        <a href="tel:5404557405" class="footer-phone">📞 540-455-7405</a>
+        <p>Professional landscaping, mulching, tree trimming and removal, gutter cleaning, leaf and junk removal, and storm damage cleanup. Serving Virginia's 540 area. Owner Alex handles every job personally.</p>
+        <a href="tel:5404557405" class="footer-phone">540-455-7405</a>
       </div>
       <div class="footer-col">
         <h4>Services</h4>
         <ul>
           <li><a href="landscaping-fredericksburg-va.html">Landscaping</a></li>
           <li><a href="mulching-service-virginia.html">Mulching</a></li>
-          <li><a href="tree-trimming-removal-virginia.html">Tree Trimming & Removal</a></li>
+          <li><a href="tree-trimming-removal-virginia.html">Tree Trimming and Removal</a></li>
           <li><a href="gutter-cleaning-virginia.html">Gutter Cleaning</a></li>
           <li><a href="index.html#services">Leaf Removal</a></li>
           <li><a href="index.html#services">Storm Cleanup</a></li>
@@ -293,8 +409,8 @@
     </div>
     <hr class="footer-divider">
     <div class="footer-bottom">
-      <span>© 2026 Fresh-Cut Landscaping LLC · All Rights Reserved</span>
-      <span>Stafford · Fredericksburg · Spotsylvania, VA</span>
+      <span>2026 Fresh-Cut Landscaping LLC. All Rights Reserved</span>
+      <span>Stafford. Fredericksburg. Spotsylvania, VA</span>
     </div>
   </div>
 </footer>
