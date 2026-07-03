@@ -492,6 +492,7 @@ var MAPS_LOADED = false;
 var MAPS_FAILED = false;
 function initMap(){ MAPS_LOADED = true; if(typeof onMapsReady === 'function') onMapsReady(); }
 function mapsError(){ MAPS_FAILED = true; showMapFallback(); }
+window.gm_authFailure = function(){ MAPS_FAILED = true; showMapFallback(); };
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places,drawing,geometry&callback=initMap" async defer onerror="mapsError()"></script>
 
