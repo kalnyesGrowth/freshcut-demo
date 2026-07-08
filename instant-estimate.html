@@ -900,74 +900,53 @@ function initAddressInput(){
   if(!container) return;
 
   try {
-    if(!window.google || !google.maps || !google.maps.places || !google.maps.places.PlaceAutocompleteElement) throw 0;
+    if(!window.google || !google.maps || !google.maps.places || !google.maps.places.Autocomplete) throw 0;
 
-    var pac = new google.maps.places.PlaceAutocompleteElement({
-      componentRestrictions: {country: 'us'}
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.id = 'address-input';
+    input.placeholder = '123 Main St, Fredericksburg, VA 22401';
+    input.autocomplete = 'off';
+    input.style.cssText = 'width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:16px;font-family:Inter,system-ui,-apple-system,sans-serif;background:#fff;color:var(--text);outline:none;box-sizing:border-box';
+    container.appendChild(input);
+
+    var ac = new google.maps.places.Autocomplete(input, {
+      componentRestrictions: {country: 'us'},
+      fields: ['formatted_address','geometry','name']
     });
-    container.appendChild(pac);
-    autocompleteReady = true;
 
-    /* Bias to Fredericksburg area */
     try {
-      pac.locationBias = new google.maps.LatLngBounds(
+      var fredBounds = new google.maps.LatLngBounds(
         new google.maps.LatLng(38.0, -77.8),
         new google.maps.LatLng(38.7, -77.0)
       );
+      ac.setBounds(fredBounds);
     } catch(e){}
 
-    pac.addEventListener('gmp-placeselect', function(e){
-      var place = e.place || (e.detail && e.detail.place);
-      if(!place) return;
-      var inp = findPacInput();
-      var displayText = (place.displayName || (inp && inp.value) || '').trim();
-      if(displayText){
-        state.address = displayText;
-        document.getElementById('btn-step2').disabled = false;
-      }
-      function applyPlace(p){
-        state.address = p.formattedAddress || p.displayName || state.address;
-        var loc = p.location;
-        if(loc){
-          state.addressLat = typeof loc.lat === 'function' ? loc.lat() : loc.lat;
-          state.addressLng = typeof loc.lng === 'function' ? loc.lng() : loc.lng;
-          state.areaUnverified = false;
-          checkServiceArea();
-        }
-        document.getElementById('btn-step2').disabled = false;
-      }
-      if(place.fetchFields){
-        place.fetchFields({fields:['formattedAddress','location','displayName']}).then(function(){ applyPlace(place); }).catch(function(){ applyPlace(place); });
+    ac.addListener('place_changed', function(){
+      var place = ac.getPlace();
+      if(place && place.formatted_address){
+        state.address = place.formatted_address;
+      } else if(place && place.name){
+        state.address = place.name;
       } else {
-        applyPlace(place);
+        state.address = input.value;
       }
+      if(place && place.geometry && place.geometry.location){
+        state.addressLat = place.geometry.location.lat();
+        state.addressLng = place.geometry.location.lng();
+        state.areaUnverified = false;
+        checkServiceArea();
+      }
+      document.getElementById('btn-step2').disabled = false;
     });
 
-    /* Track typed text for geocoding fallback */
-    function findPacInput(){
-      var inp = pac.querySelector && pac.querySelector('input');
-      if(!inp && pac.shadowRoot) inp = pac.shadowRoot.querySelector('input');
-      return inp;
-    }
-    var pacInput = findPacInput();
-    if(pacInput){
-      pacInput.addEventListener('input', function(){
-        state.address = pacInput.value;
-        document.getElementById('btn-step2').disabled = pacInput.value.length <= 10;
-      });
-    } else {
-      /* Retry once after a frame in case the shadow DOM isn't ready yet */
-      requestAnimationFrame(function(){
-        pacInput = findPacInput();
-        if(pacInput){
-          pacInput.addEventListener('input', function(){
-            state.address = pacInput.value;
-            document.getElementById('btn-step2').disabled = pacInput.value.length <= 10;
-          });
-        }
-      });
-    }
+    input.addEventListener('input', function(){
+      state.address = input.value;
+      document.getElementById('btn-step2').disabled = input.value.length <= 10;
+    });
 
+    autocompleteReady = true;
     var notice = document.getElementById('autocomplete-notice');
     if(notice) notice.style.display = 'none';
 
