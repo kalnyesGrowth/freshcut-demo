@@ -919,8 +919,14 @@ function initAddressInput(){
     pac.addEventListener('gmp-placeselect', function(e){
       var place = e.place || (e.detail && e.detail.place);
       if(!place) return;
+      var inp = findPacInput();
+      var displayText = (place.displayName || (inp && inp.value) || '').trim();
+      if(displayText){
+        state.address = displayText;
+        document.getElementById('btn-step2').disabled = false;
+      }
       function applyPlace(p){
-        state.address = p.formattedAddress || p.displayName || '';
+        state.address = p.formattedAddress || p.displayName || state.address;
         var loc = p.location;
         if(loc){
           state.addressLat = typeof loc.lat === 'function' ? loc.lat() : loc.lat;
@@ -931,7 +937,7 @@ function initAddressInput(){
         document.getElementById('btn-step2').disabled = false;
       }
       if(place.fetchFields){
-        place.fetchFields({fields:['formattedAddress','location']}).then(function(){ applyPlace(place); });
+        place.fetchFields({fields:['formattedAddress','location','displayName']}).then(function(){ applyPlace(place); }).catch(function(){ applyPlace(place); });
       } else {
         applyPlace(place);
       }
