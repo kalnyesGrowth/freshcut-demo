@@ -1,0 +1,8 @@
+[project]
+id = "boddsbxlaytcrkpuckyn"
+
+[functions.upload-estimate-photo]
+verify_jwt = false
+
+[functions.analyze-estimate]
+verify_jwt = false

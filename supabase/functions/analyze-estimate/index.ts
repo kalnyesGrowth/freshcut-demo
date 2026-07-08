@@ -6,6 +6,7 @@ const ALLOWED_ORIGINS = [
   "https://www.fresh-cut-landscape.com",
   "http://localhost:3000",
   "http://localhost:5500",
+  "http://localhost:8768",
   "http://127.0.0.1:5500",
 ];
 
@@ -15,26 +16,32 @@ function corsHeaders(req: Request) {
   return {
     "Access-Control-Allow-Origin": allowed,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, apikey, x-client-info",
   };
 }
 
 const BUCKET = "estimate-photos";
 
-// TODO: move to persistent counter (see KG hotfix pattern)
-const rateLimits = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 5;
-const RATE_WINDOW = 60_000;
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimits.get(ip);
-  if (!entry || now > entry.resetAt) {
-    rateLimits.set(ip, { count: 1, resetAt: now + RATE_WINDOW });
-    return true;
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  const CHUNK = 32768;
+  let result = "";
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    const slice = bytes.subarray(i, Math.min(i + CHUNK, bytes.length));
+    result += String.fromCharCode(...slice);
   }
-  entry.count++;
-  return entry.count <= RATE_LIMIT;
+  return btoa(result);
+}
+
+function fallbackAnalysis(treeSize: string, condition: string, notes: string) {
+  return {
+    service_match: true,
+    size_class: treeSize || "medium",
+    condition: condition || "average",
+    hazards: [],
+    confidence: 0.3,
+    notes,
+  };
 }
 
 const SERVICE_PROMPTS: Record<string, string> = {
@@ -83,8 +90,18 @@ Deno.serve(async (req: Request) => {
     });
   }
 
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  );
+
   const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (!checkRateLimit(clientIp)) {
+  const { data: limited } = await supabase.rpc("check_rate_limit", {
+    p_key: `analyze-estimate:ip:${clientIp}`,
+    p_max: 5,
+    p_window: "1 minute",
+  });
+  if (limited) {
     return new Response(JSON.stringify({ error: "Too many requests" }), {
       status: 429,
       headers: { ...headers, "Content-Type": "application/json" },
@@ -102,22 +119,10 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
-
     const anthropicKey = Deno.env.get("ANTHROPIC_API_KEY");
     if (!anthropicKey) {
       return new Response(JSON.stringify({
-        analysis: {
-          service_match: true,
-          size_class: tree_size || "medium",
-          condition: condition || "average",
-          hazards: [],
-          confidence: 0.3,
-          notes: "AI analysis unavailable. Using manual input.",
-        },
+        analysis: fallbackAnalysis(tree_size, condition, "AI analysis unavailable. Using manual input."),
       }), {
         status: 200,
         headers: { ...headers, "Content-Type": "application/json" },
@@ -138,7 +143,7 @@ Deno.serve(async (req: Request) => {
       }
 
       const arrayBuffer = await fileData.arrayBuffer();
-      const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+      const base64 = arrayBufferToBase64(arrayBuffer);
       const mediaType = path.endsWith(".png") ? "image/png" : path.endsWith(".webp") ? "image/webp" : "image/jpeg";
 
       imageContents.push({
@@ -148,7 +153,7 @@ Deno.serve(async (req: Request) => {
 
       const { data: signedUrl } = await supabase.storage
         .from(BUCKET)
-        .createSignedUrl(path, 3600);
+        .createSignedUrl(path, 604800);
 
       if (signedUrl?.signedUrl) {
         signedUrls.push(signedUrl.signedUrl);
@@ -157,14 +162,7 @@ Deno.serve(async (req: Request) => {
 
     if (imageContents.length === 0) {
       return new Response(JSON.stringify({
-        analysis: {
-          service_match: true,
-          size_class: tree_size || "medium",
-          condition: condition || "average",
-          hazards: [],
-          confidence: 0.3,
-          notes: "Could not process photos. Using manual input.",
-        },
+        analysis: fallbackAnalysis(tree_size, condition, "Could not process photos. Using manual input."),
       }), {
         status: 200,
         headers: { ...headers, "Content-Type": "application/json" },
@@ -188,7 +186,7 @@ Deno.serve(async (req: Request) => {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-6-20250514",
+        model: "claude-sonnet-4-6",
         max_tokens: 512,
         system: systemPrompt,
         messages: [
@@ -204,17 +202,10 @@ Deno.serve(async (req: Request) => {
     });
 
     if (!claudeResponse.ok) {
-      const errText = await claudeResponse.text();
+      const errText = await claudeResponse.text().catch(() => "");
       console.error("Claude API error:", claudeResponse.status, errText);
       return new Response(JSON.stringify({
-        analysis: {
-          service_match: true,
-          size_class: tree_size || "medium",
-          condition: condition || "average",
-          hazards: [],
-          confidence: 0.3,
-          notes: "AI analysis temporarily unavailable. Using manual input.",
-        },
+        analysis: fallbackAnalysis(tree_size, condition, "AI analysis temporarily unavailable. Using manual input."),
         signed_urls: signedUrls,
       }), {
         status: 200,
@@ -231,14 +222,7 @@ Deno.serve(async (req: Request) => {
       const cleaned = raw.replace(/^```(?:json)?\n?/i, "").replace(/\n?```$/i, "").trim();
       analysis = JSON.parse(cleaned);
     } catch {
-      analysis = {
-        service_match: true,
-        size_class: tree_size || "medium",
-        condition: condition || "average",
-        hazards: [],
-        confidence: 0.3,
-        notes: "AI response parsing failed. Using manual input.",
-      };
+      analysis = fallbackAnalysis(tree_size, condition, "AI response parsing failed. Using manual input.");
     }
 
     return new Response(JSON.stringify({
@@ -250,8 +234,10 @@ Deno.serve(async (req: Request) => {
     });
   } catch (err) {
     console.error("Analyze estimate error:", err);
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
+    return new Response(JSON.stringify({
+      analysis: fallbackAnalysis("medium", "average", "Internal error. Using manual input."),
+    }), {
+      status: 200,
       headers: { ...headers, "Content-Type": "application/json" },
     });
   }

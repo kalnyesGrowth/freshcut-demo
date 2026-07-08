@@ -75,6 +75,11 @@
     .field textarea{min-height:80px;resize:vertical}
     .field-hint{font-size:.75rem;color:var(--muted);margin-top:4px}
 
+    /* PlaceAutocompleteElement styling */
+    gmp-place-autocomplete{display:block;width:100%}
+    gmp-place-autocomplete::part(input){width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:16px;font-family:'Inter',system-ui,-apple-system,sans-serif;background:#fff;color:var(--text);outline:none;transition:border-color .15s;box-sizing:border-box}
+    gmp-place-autocomplete::part(input):focus{border-color:var(--green-mid)}
+
     /* Map */
     #map-container{width:100%;height:360px;border-radius:var(--r-lg);overflow:hidden;border:1.5px solid var(--border);margin-bottom:12px;background:var(--card)}
     .map-controls{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
@@ -84,6 +89,18 @@
 
     /* Fallback input (when Maps fails) */
     .map-fallback{display:none;padding:20px;background:var(--card);border-radius:var(--r-lg);border:1.5px solid var(--border)}
+
+    /* Geocode banner */
+    .map-geocode-banner{display:none;padding:12px 16px;background:#fff8e1;border-radius:var(--r);border:1.5px solid #ffe082;margin-bottom:12px;font-size:.82rem;color:#795548}
+    .map-geocode-banner a{color:var(--green-mid);font-weight:600;cursor:pointer}
+
+    /* Sqft gate hint */
+    .sqft-gate-hint{display:none;padding:10px 14px;background:#fce4ec;border-radius:var(--r);border:1.5px solid #ef9a9a;margin-top:8px;font-size:.82rem;color:#c62828}
+    .sqft-gate-hint a{color:var(--green-mid);font-weight:600;cursor:pointer}
+
+    /* Shake animation for validation */
+    @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+    .shake{animation:shake .4s ease}
 
     /* Photo upload */
     .photo-zone{border:2px dashed var(--border);border-radius:var(--r-lg);padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--card)}
@@ -140,6 +157,10 @@
 
     /* Honeypot */
     .hp-field{position:absolute;left:-9999px;opacity:0;height:0;width:0;overflow:hidden}
+
+    /* Manual entry link */
+    .manual-entry-link{display:block;margin-top:6px;font-size:.78rem;color:var(--muted);cursor:pointer}
+    .manual-entry-link:hover{color:var(--green-mid)}
 
     /* Responsive */
     @media(max-width:480px){
@@ -226,12 +247,12 @@
   <div class="wizard-step" id="step-2">
     <h2 class="step-title" data-i18n="step2_title">Where's your property?</h2>
     <p class="step-sub" data-i18n="step2_sub">We need your address to check our service area and show your property on the map.</p>
-    <div class="field">
-      <label for="address-input" data-i18n="label_address">Property Address</label>
-      <input id="address-input" type="text" placeholder="123 Main St, Fredericksburg, VA 22401" autocomplete="off" style="font-size:16px">
+    <div class="field" id="address-field">
+      <label data-i18n="label_address">Property Address</label>
+      <div id="address-container"></div>
     </div>
     <div id="autocomplete-notice" style="display:none;padding:10px;background:var(--card);border-radius:var(--r);border:1.5px solid var(--border);margin-bottom:12px">
-      <p style="font-size:.8rem;color:var(--muted)">Address suggestions unavailable. Type your full address including city and state.</p>
+      <p style="font-size:.8rem;color:var(--muted)" data-i18n="autocomplete_notice">Address suggestions unavailable. Type your full address including city and state.</p>
     </div>
     <div id="area-warning" style="display:none;padding:14px;background:#fff8e1;border-radius:var(--r);border:1.5px solid #ffe082;margin-bottom:16px">
       <p style="font-size:.84rem;color:#795548;font-weight:600" data-i18n="area_warning_title">We may not reach this address.</p>
@@ -248,14 +269,31 @@
 
     <!-- 3A: MOWING / MULCH (polygon draw) -->
     <div id="measure-polygon" style="display:none">
-      <h2 class="step-title" id="polygon-title">Tap the corners of your lawn</h2>
-      <p class="step-sub" id="polygon-sub">Draw the area on the map. We'll calculate the size automatically.</p>
-      <div id="map-container"></div>
+      <h2 class="step-title" id="polygon-title" data-i18n="polygon_title_mow">Tap the corners of your lawn</h2>
+      <p class="step-sub" id="polygon-sub" data-i18n="polygon_sub_mow">Draw the area on the map. We'll calculate the size automatically.</p>
+
+      <div id="map-geocode-banner" class="map-geocode-banner">
+        <span data-i18n="geocode_fail_msg">Couldn't pinpoint that address.</span>
+        Pan to your property, or <a onclick="showManualEntry()" data-i18n="geocode_fail_link">enter size manually</a>.
+      </div>
+
+      <div style="position:relative">
+        <div id="map-container"></div>
+        <div id="map-hint" style="position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(20,51,42,.92);color:#fff;padding:10px 20px;border-radius:6px;font-size:.82rem;font-weight:600;z-index:10;pointer-events:none;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.3)" data-i18n="map_hint_start">Tap the pen, then tap corners to draw your area.</div>
+        <button id="draw-pen" onclick="toggleDrawMode()" style="position:absolute;bottom:16px;left:16px;z-index:10;width:48px;height:48px;border-radius:50%;border:none;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;-webkit-tap-highlight-color:transparent" title="Draw area">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1e6b4a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+      </div>
       <div class="map-controls">
-        <button class="map-btn" onclick="clearPolygons()">Clear</button>
-        <button class="map-btn" onclick="undoLastPoint()">Undo</button>
+        <button class="map-btn" onclick="clearPolygons()" data-i18n="btn_clear">Clear</button>
+        <button class="map-btn" onclick="undoLastPoint()" data-i18n="btn_undo">Undo</button>
       </div>
       <div class="sqft-display" id="sqft-display">0 sq ft</div>
+      <a class="manual-entry-link" id="manual-entry-link" onclick="showManualEntry()" data-i18n="manual_entry_link">No map? Enter size manually.</a>
+
+      <div id="sqft-gate-hint" class="sqft-gate-hint" data-i18n="sqft_gate_hint">
+        Draw your area on the map, or <a onclick="showManualEntry()">enter a size manually</a> to continue.
+      </div>
 
       <!-- Mulch depth (shown only for mulch) -->
       <div id="mulch-depth" style="display:none;margin-top:12px">
@@ -287,8 +325,8 @@
 
       <!-- Maps fallback -->
       <div class="map-fallback" id="map-fallback">
-        <p id="fallback-heading" style="font-size:.86rem;font-weight:600;margin-bottom:4px">No map? No problem.</p>
-        <p id="fallback-helper" style="font-size:.8rem;color:var(--muted);margin-bottom:12px">Enter your approximate lawn size. Not sure? A typical quarter-acre lawn is about 7,000-9,000 sq ft of grass.</p>
+        <p id="fallback-heading" style="font-size:.86rem;font-weight:600;margin-bottom:4px" data-i18n="map_fallback_title">No map? No problem.</p>
+        <p id="fallback-helper" style="font-size:.8rem;color:var(--muted);margin-bottom:12px"></p>
         <div class="field">
           <label id="fallback-label" data-i18n="label_sqft">Approximate square feet</label>
           <input id="manual-sqft" type="number" placeholder="e.g. 8000" min="100" style="font-size:16px">
@@ -517,14 +555,14 @@ var GOOGLE_MAPS_KEY = 'AIzaSyAJxP99ZEnFEjbU_W54NPhFHHOhnL3Xlms';
 
 var ENABLE_SPANISH = true;
 
-/* Load Google Maps dynamically from the key const */
+/* Load Google Maps dynamically -- places + geometry only (no drawing library) */
 (function(){
   if(!GOOGLE_MAPS_KEY || GOOGLE_MAPS_KEY.indexOf('YOUR_') === 0){
     MAPS_FAILED = true;
     return;
   }
   var s = document.createElement('script');
-  s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_KEY + '&libraries=places,drawing,geometry&callback=initMap';
+  s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_KEY + '&libraries=places,geometry&callback=initMap';
   s.async = true;
   s.defer = true;
   s.onerror = mapsError;
@@ -536,7 +574,7 @@ var PRICING = null;
 /* Load pricing config */
 fetch('pricing.config.json').then(function(r){return r.json()}).then(function(data){PRICING=data}).catch(function(){
   PRICING = {
-    mowing:{min_price:60,per_1k_sqft_over_5k:6,base_sqft:5000,biweekly_multiplier:1.25,overgrown_multiplier:1.5},
+    mowing:{min_price:60,per_1k_sqft_over_5k:6,base_sqft:5000,biweekly_multiplier:1.25,onetime_multiplier:1.4,overgrown_multiplier:1.5},
     mulch:{price_per_cubic_yard:95,min_price:250,default_depth_inches:3},
     leaf_cleanup:{light:{low:180,high:280},average:{low:280,high:450},heavy:{low:450,high:750}},
     gutter:{one_story:140,two_story:220,guard_surcharge:40},
@@ -570,6 +608,8 @@ var state = {
   hazards: [],
   photos: [],
   photoUrls: [],
+  photoPaths: [],
+  photoUploadFailed: false,
   aiAnalysis: null,
   name: '',
   phone: '',
@@ -581,9 +621,171 @@ var state = {
 };
 
 var map = null;
-var drawingManager = null;
 var polygons = [];
-var autocomplete = null;
+var autocompleteReady = false;
+var autocompleteInitDone = false;
+var isDrawing = false;
+var currentPath = [];
+var currentPolyline = null;
+var currentDots = [];
+
+/* ════════════════════════════════════════
+   I18N DICTIONARY
+   ════════════════════════════════════════ */
+var currentLang = 'en';
+var i18n = {
+  en: {
+    polygon_title_mow: 'Tap the corners of your lawn',
+    polygon_sub_mow: 'Draw the mowing area on the satellite map.',
+    polygon_title_mulch: 'Tap the corners of your mulch beds',
+    polygon_sub_mulch: 'Draw the bed areas you want mulched.',
+    photo_sub: 'Photos help us give you the most accurate estimate possible.',
+    photo_sub_tree: 'Take a photo far enough back to see the whole tree AND your house.',
+    photo_sub_storm: 'Show us the damage. Multiple angles help.',
+    map_hint_start: 'Tap the pen, then tap corners to draw your area.',
+    map_hint_draw: 'Tap each corner of the area. Tap the first dot to close.',
+    map_hint_continue: 'Keep tapping corners. Need at least 3 points.',
+    map_hint_close: 'Tap the first dot to close the shape, or keep adding corners.',
+    btn_locating: 'Locating...',
+    btn_next: 'Next',
+    btn_clear: 'Clear',
+    btn_undo: 'Undo',
+    geocode_fail_msg: "Couldn't pinpoint that address.",
+    geocode_fail_link: 'enter size manually',
+    map_fallback_title: 'No map? No problem.',
+    map_fallback_mow: 'Enter your approximate lawn size. Not sure? A typical quarter-acre lawn is about 7,000-9,000 sq ft of grass.',
+    map_fallback_mulch: 'Enter your mulch bed area in square feet. Not sure? A typical front-yard bed is 100-300 sq ft. Measure length x width for each bed and add them up.',
+    label_sqft: 'Approximate square feet',
+    label_sqft_mulch: 'Bed area (square feet)',
+    manual_entry_link: 'No map? Enter size manually.',
+    sqft_gate_hint: 'Draw your area on the map, or enter a size manually to continue.',
+    autocomplete_notice: 'Address suggestions unavailable. Type your full address including city and state.'
+  },
+  es: {
+    wizard_title: 'Obten un Estimado Instantaneo',
+    wizard_sub: 'Responde unas preguntas y recibe tu precio. Sin necesidad de llamar.',
+    step1_title: 'Que necesitas?',
+    step1_sub: 'Elige el servicio que mejor describe tu proyecto.',
+    svc_mowing: 'Corte de Cesped',
+    svc_mowing_desc: 'Corte regular y mantenimiento del jardin',
+    svc_mulch: 'Mulch / Mantillo',
+    svc_mulch_desc: 'Entrega, colocacion y preparacion de camas',
+    svc_cleanup: 'Limpieza de Hojas / Jardin',
+    svc_cleanup_desc: 'Limpieza estacional y remocion de escombros',
+    svc_gutter: 'Limpieza de Canaletas',
+    svc_gutter_desc: 'Limpiar, enjuagar e inspeccionar sus canaletas',
+    svc_tree: 'Poda / Remocion de Arboles',
+    svc_tree_desc: 'Podar, dar forma o remover arboles de forma segura',
+    svc_storm: 'Limpieza de Tormentas',
+    svc_storm_desc: 'Respuesta de emergencia por danos de tormenta',
+    step2_title: 'Donde esta tu propiedad?',
+    step2_sub: 'Necesitamos tu direccion para verificar nuestra area de servicio.',
+    label_address: 'Direccion de la Propiedad',
+    area_warning_title: 'Es posible que no lleguemos a esta direccion.',
+    area_warning_sub: 'Enviale de todas formas y Alex confirmara.',
+    btn_next: 'Siguiente',
+    btn_locating: 'Localizando...',
+    btn_clear: 'Borrar',
+    btn_undo: 'Deshacer',
+    step4_title: 'Como puede contactarte Alex?',
+    step4_sub: 'Alex confirma cada estimado personalmente por texto o llamada.',
+    label_name: 'Tu Nombre *',
+    label_phone: 'Numero de Telefono *',
+    phone_hint: 'Requerido. Alex trabaja principalmente por texto.',
+    label_email: 'Correo (opcional)',
+    label_notes: 'Algo mas? (opcional)',
+    btn_submit: 'Obtener Mi Estimado',
+    result_your_price: 'Tu precio:',
+    result_your_estimate: 'Tu estimado:',
+    range_detail: 'Alex confirmara tu precio exacto a partir de tus fotos en 2 horas habiles. Sin necesidad de visita.',
+    review_title: 'Este necesita la revision de Alex.',
+    review_detail: 'Revisara tus fotos y te enviara tu cotizacion en 2 horas habiles.',
+    cta_lock: 'Confirmalo. Alex te responde por texto hoy.',
+    cta_walkthrough: 'Reservar una visita en persona',
+    disclaimer: 'Los estimados no son precios finales; la cotizacion final se confirma por escrito por Fresh-Cut.',
+    map_fallback_title: 'Sin mapa? No hay problema.',
+    fallback_text: 'Prefieres enviar fotos por texto?',
+    locked_title: 'Estimado enviado. Alex te confirmara por texto hoy.',
+    locked_sub: 'Revisa tu telefono. Recibiras respuesta en horario laboral (Lun-Vie 7AM-6PM, Sab 8AM-4PM).',
+    btn_home: 'Volver a Fresh-Cut Landscaping',
+    polygon_title_mow: 'Toca las esquinas de tu cesped',
+    polygon_sub_mow: 'Dibuja el area de corte en el mapa satelital.',
+    polygon_title_mulch: 'Toca las esquinas de tus camas de mulch',
+    polygon_sub_mulch: 'Dibuja las areas que quieres cubrir con mulch.',
+    photo_sub: 'Las fotos nos ayudan a darte el estimado mas preciso posible.',
+    photo_sub_tree: 'Toma una foto desde lejos para ver el arbol completo Y tu casa.',
+    photo_sub_storm: 'Muestranos los danos. Varios angulos ayudan.',
+    map_hint_start: 'Toca el lapiz, luego toca las esquinas para dibujar tu area.',
+    map_hint_draw: 'Toca cada esquina del area. Toca el primer punto para cerrar.',
+    map_hint_continue: 'Sigue tocando esquinas. Necesitas al menos 3 puntos.',
+    map_hint_close: 'Toca el primer punto para cerrar la forma, o sigue agregando esquinas.',
+    geocode_fail_msg: 'No pudimos ubicar esa direccion.',
+    geocode_fail_link: 'ingresa el tamano manualmente',
+    map_fallback_mow: 'Ingresa el tamano aproximado de tu cesped. No estas seguro? Un cesped de un cuarto de acre es aproximadamente 7,000-9,000 pies cuadrados.',
+    map_fallback_mulch: 'Ingresa el area de tus camas de mulch en pies cuadrados. No estas seguro? Una cama tipica del frente es de 100-300 pies cuadrados.',
+    label_sqft: 'Pies cuadrados aproximados',
+    label_sqft_mulch: 'Area de camas (pies cuadrados)',
+    manual_entry_link: 'Sin mapa? Ingresa el tamano manualmente.',
+    sqft_gate_hint: 'Dibuja tu area en el mapa, o ingresa un tamano manualmente para continuar.',
+    autocomplete_notice: 'Sugerencias de direccion no disponibles. Escribe tu direccion completa incluyendo ciudad y estado.'
+  }
+};
+
+function t(key){
+  if(currentLang === 'es' && i18n.es[key]) return i18n.es[key];
+  if(i18n.en[key]) return i18n.en[key];
+  return '';
+}
+
+/* ════════════════════════════════════════
+   DOT OVERLAY (custom OverlayView, replaces deprecated google.maps.Marker)
+   ════════════════════════════════════════ */
+var DotOverlay = null;
+function buildDotOverlayClass(){
+  DotOverlay = function(latlng, gmap, opts){
+    this.latlng = latlng;
+    this._isFirst = !!(opts && opts.isFirst);
+    this._onClick = (opts && opts.onClick) || null;
+    this.div = null;
+    this.setMap(gmap);
+  };
+  DotOverlay.prototype = Object.create(google.maps.OverlayView.prototype);
+  DotOverlay.prototype.constructor = DotOverlay;
+
+  DotOverlay.prototype.onAdd = function(){
+    var div = document.createElement('div');
+    div.style.cssText = 'position:absolute;border-radius:50%;background:#fff;border:2.5px solid #1e6b4a;box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;transform:translate(-50%,-50%);z-index:20;';
+    div.style.width = (this._isFirst ? '16px' : '12px');
+    div.style.height = (this._isFirst ? '16px' : '12px');
+    if(this._isFirst){
+      var hit = document.createElement('div');
+      hit.style.cssText = 'position:absolute;width:36px;height:36px;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer;';
+      div.appendChild(hit);
+    }
+    if(this._onClick){
+      var cb = this._onClick;
+      var handler = function(e){ e.stopPropagation(); cb(); };
+      div.addEventListener('click', handler);
+      div.addEventListener('touchend', function(e){ e.stopPropagation(); e.preventDefault(); cb(); });
+    }
+    this.div = div;
+    this.getPanes().overlayMouseTarget.appendChild(div);
+  };
+
+  DotOverlay.prototype.draw = function(){
+    if(!this.div) return;
+    var proj = this.getProjection();
+    if(!proj) return;
+    var pos = proj.fromLatLngToDivPixel(this.latlng);
+    this.div.style.left = pos.x + 'px';
+    this.div.style.top = pos.y + 'px';
+  };
+
+  DotOverlay.prototype.onRemove = function(){
+    if(this.div && this.div.parentNode) this.div.parentNode.removeChild(this.div);
+    this.div = null;
+  };
+}
 
 /* ════════════════════════════════════════
    STEP NAVIGATION
@@ -613,7 +815,61 @@ function updateProgress(){
 
 function nextStep(){
   if(state.step === 1 && !state.service) return;
-  if(state.step === 2 && !state.address) return;
+
+  /* Step 2 -> 3: geocode if no coordinates */
+  if(state.step === 2){
+    if(!state.address) return;
+    if(!state.addressLat){
+      if(window.google && google.maps && google.maps.Geocoder){
+        var btn = document.getElementById('btn-step2');
+        btn.disabled = true;
+        btn.textContent = t('btn_locating') || 'Locating...';
+        new google.maps.Geocoder().geocode(
+          {address: state.address, componentRestrictions: {country: 'US'}},
+          function(results, geoStatus){
+            btn.disabled = false;
+            btn.textContent = t('btn_next') || 'Next';
+            if(geoStatus === 'OK' && results[0] && results[0].geometry){
+              state.addressLat = results[0].geometry.location.lat();
+              state.addressLng = results[0].geometry.location.lng();
+              state.address = results[0].formatted_address || state.address;
+              state.areaUnverified = false;
+              checkServiceArea();
+            } else {
+              state.areaUnverified = true;
+            }
+            setupMeasurementStep();
+            showStep(3);
+          }
+        );
+        return;
+      }
+      state.areaUnverified = true;
+    }
+    setupMeasurementStep();
+    showStep(3);
+    return;
+  }
+
+  /* Step 3 -> 4: validate sqft for mowing/mulch */
+  if(state.step === 3 && (state.service === 'mowing' || state.service === 'mulch')){
+    var manualEl = document.getElementById('manual-sqft');
+    var manualVal = manualEl ? (parseInt(manualEl.value) || 0) : 0;
+    var sqft = state.sqft || manualVal;
+    if(sqft < 100){
+      var display = document.getElementById('sqft-display');
+      if(display && display.offsetParent !== null){
+        display.style.color = '#c62828';
+        display.classList.add('shake');
+        setTimeout(function(){ display.classList.remove('shake'); display.style.color = ''; }, 600);
+      }
+      var gateHint = document.getElementById('sqft-gate-hint');
+      if(gateHint) gateHint.style.display = 'block';
+      return;
+    }
+    state.sqft = sqft;
+  }
+
   var next = state.step + 1;
   if(next === 3) setupMeasurementStep();
   showStep(next);
@@ -634,12 +890,96 @@ function selectService(card){
 }
 
 /* ════════════════════════════════════════
-   STEP 2: ADDRESS (Places Autocomplete)
+   STEP 2: ADDRESS (PlaceAutocompleteElement + fallback)
    ════════════════════════════════════════ */
-/* Basic address input always works, even without Maps */
-(function(){
-  var input = document.getElementById('address-input');
-  if(!input) return;
+function initAddressInput(){
+  if(autocompleteInitDone) return;
+  autocompleteInitDone = true;
+
+  var container = document.getElementById('address-container');
+  if(!container) return;
+
+  try {
+    if(!window.google || !google.maps || !google.maps.places || !google.maps.places.PlaceAutocompleteElement) throw 0;
+
+    var pac = new google.maps.places.PlaceAutocompleteElement({
+      componentRestrictions: {country: 'us'}
+    });
+    container.appendChild(pac);
+    autocompleteReady = true;
+
+    /* Bias to Fredericksburg area */
+    try {
+      pac.locationBias = new google.maps.LatLngBounds(
+        new google.maps.LatLng(38.0, -77.8),
+        new google.maps.LatLng(38.7, -77.0)
+      );
+    } catch(e){}
+
+    pac.addEventListener('gmp-placeselect', function(e){
+      var place = e.place || (e.detail && e.detail.place);
+      if(!place) return;
+      function applyPlace(p){
+        state.address = p.formattedAddress || p.displayName || '';
+        var loc = p.location;
+        if(loc){
+          state.addressLat = typeof loc.lat === 'function' ? loc.lat() : loc.lat;
+          state.addressLng = typeof loc.lng === 'function' ? loc.lng() : loc.lng;
+          state.areaUnverified = false;
+          checkServiceArea();
+        }
+        document.getElementById('btn-step2').disabled = false;
+      }
+      if(place.fetchFields){
+        place.fetchFields({fields:['formattedAddress','location']}).then(function(){ applyPlace(place); });
+      } else {
+        applyPlace(place);
+      }
+    });
+
+    /* Track typed text for geocoding fallback */
+    function findPacInput(){
+      var inp = pac.querySelector && pac.querySelector('input');
+      if(!inp && pac.shadowRoot) inp = pac.shadowRoot.querySelector('input');
+      return inp;
+    }
+    var pacInput = findPacInput();
+    if(pacInput){
+      pacInput.addEventListener('input', function(){
+        state.address = pacInput.value;
+        document.getElementById('btn-step2').disabled = pacInput.value.length <= 10;
+      });
+    } else {
+      /* Retry once after a frame in case the shadow DOM isn't ready yet */
+      requestAnimationFrame(function(){
+        pacInput = findPacInput();
+        if(pacInput){
+          pacInput.addEventListener('input', function(){
+            state.address = pacInput.value;
+            document.getElementById('btn-step2').disabled = pacInput.value.length <= 10;
+          });
+        }
+      });
+    }
+
+    var notice = document.getElementById('autocomplete-notice');
+    if(notice) notice.style.display = 'none';
+
+  } catch(err){
+    createFallbackInput(container);
+  }
+}
+
+function createFallbackInput(container){
+  var input = document.createElement('input');
+  input.id = 'address-input';
+  input.type = 'text';
+  input.placeholder = '123 Main St, Fredericksburg, VA 22401';
+  input.autocomplete = 'off';
+  input.style.cssText = 'font-size:16px;width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-family:inherit;background:#fff;color:var(--text);outline:none;transition:border-color .15s;';
+  input.addEventListener('focus', function(){ input.style.borderColor = 'var(--green-mid)'; });
+  input.addEventListener('blur', function(){ input.style.borderColor = ''; });
+  container.appendChild(input);
   input.addEventListener('input', function(){
     if(input.value.length > 10){
       state.address = input.value;
@@ -648,48 +988,37 @@ function selectService(card){
       document.getElementById('btn-step2').disabled = true;
     }
   });
-})();
+  var notice = document.getElementById('autocomplete-notice');
+  if(notice) notice.style.display = 'block';
+}
 
-function initAutocomplete(){
-  if(!MAPS_LOADED || MAPS_FAILED) return;
-  var input = document.getElementById('address-input');
-  if(!input) return;
-  try {
-    autocomplete = new google.maps.places.Autocomplete(input, {
-      componentRestrictions: {country: 'us'},
-      fields: ['formatted_address','geometry'],
-      types: ['address']
-    });
-    autocomplete.setBounds(new google.maps.LatLngBounds(
-      new google.maps.LatLng(38.0, -77.8),
-      new google.maps.LatLng(38.7, -77.0)
-    ));
-    autocomplete.addListener('place_changed', function(){
-      var place = autocomplete.getPlace();
-      if(place && place.geometry){
-        state.address = place.formatted_address || input.value;
-        state.addressLat = place.geometry.location.lat();
-        state.addressLng = place.geometry.location.lng();
-        state.areaUnverified = false;
-        checkServiceArea();
-        document.getElementById('btn-step2').disabled = false;
+var _acCheckTimer = null;
+function checkAutocompleteState(){
+  if(autocompleteReady) return;
+  if(MAPS_FAILED){
+    ensureFallbackInput();
+    var notice = document.getElementById('autocomplete-notice');
+    if(notice) notice.style.display = 'block';
+    return;
+  }
+  /* 3-second grace period before showing the notice */
+  if(!_acCheckTimer){
+    _acCheckTimer = setTimeout(function(){
+      _acCheckTimer = null;
+      if(!autocompleteReady){
+        ensureFallbackInput();
+        var notice = document.getElementById('autocomplete-notice');
+        if(notice) notice.style.display = 'block';
       }
-    });
-  } catch(e){
-    console.warn('[FC] Autocomplete init failed:', e);
-    checkAutocompleteState();
+    }, 3000);
   }
 }
 
-function checkAutocompleteState(){
-  if(MAPS_FAILED || (!MAPS_LOADED && !autocomplete)){
-    state.areaUnverified = true;
-    state.inServiceArea = true;
-    var notice = document.getElementById('autocomplete-notice');
-    if(notice) notice.style.display = 'block';
-    var areaWarn = document.getElementById('area-warning');
-    if(areaWarn) areaWarn.style.display = 'none';
-  }
+function ensureFallbackInput(){
+  if(autocompleteInitDone) return;
+  autocompleteInitDone = true;
+  var container = document.getElementById('address-container');
+  if(container && !container.querySelector('input')) createFallbackInput(container);
 }
 
 function checkServiceArea(){
@@ -721,10 +1050,10 @@ function setupMeasurementStep(){
     document.getElementById('mulch-depth').style.display = state.service === 'mulch' ? 'block' : 'none';
     document.getElementById('mow-frequency').style.display = state.service === 'mowing' ? 'block' : 'none';
     document.getElementById('mow-condition').style.display = state.service === 'mowing' ? 'block' : 'none';
-    var title = state.service === 'mowing' ? 'Tap the corners of your lawn' : 'Tap the corners of your mulch beds';
-    var sub = state.service === 'mowing' ? 'Draw the mowing area on the satellite map.' : 'Draw the bed areas you want mulched.';
-    document.getElementById('polygon-title').textContent = title;
-    document.getElementById('polygon-sub').textContent = sub;
+    var titleKey = state.service === 'mowing' ? 'polygon_title_mow' : 'polygon_title_mulch';
+    var subKey = state.service === 'mowing' ? 'polygon_sub_mow' : 'polygon_sub_mulch';
+    document.getElementById('polygon-title').textContent = t(titleKey);
+    document.getElementById('polygon-sub').textContent = t(subKey);
     if(MAPS_FAILED || !window.google || !window.google.maps){
       showMapFallback();
     } else {
@@ -735,56 +1064,156 @@ function setupMeasurementStep(){
   } else {
     document.getElementById('measure-photo').style.display = 'block';
     document.getElementById('tree-questions').style.display = state.service === 'tree_trim' ? 'block' : 'none';
-    if(state.service === 'tree_trim'){
-      document.getElementById('photo-sub').textContent = 'Take a photo far enough back to see the whole tree AND your house.';
-    } else if(state.service === 'storm_cleanup'){
-      document.getElementById('photo-sub').textContent = 'Show us the damage. Multiple angles help.';
-    } else {
-      document.getElementById('photo-sub').textContent = 'Photos help us give you the most accurate estimate possible.';
-    }
+    var photoSubKey = 'photo_sub';
+    if(state.service === 'tree_trim') photoSubKey = 'photo_sub_tree';
+    else if(state.service === 'storm_cleanup') photoSubKey = 'photo_sub_storm';
+    document.getElementById('photo-sub').textContent = t(photoSubKey);
   }
 }
 
 /* ── Map initialization ── */
 function initMapView(){
-  if(MAPS_FAILED){showMapFallback();return;}
-  if(!MAPS_LOADED){setTimeout(initMapView,500);return;}
-  if(!window.google || !window.google.maps || !window.google.maps.Map){showMapFallback();return;}
+  try {
+    if(MAPS_FAILED){showMapFallback();return;}
+    if(!MAPS_LOADED){setTimeout(initMapView,500);return;}
+    if(!window.google || !window.google.maps || !window.google.maps.Map){showMapFallback();return;}
 
-  var center = state.addressLat ? {lat:state.addressLat,lng:state.addressLng} : {lat:38.3032,lng:-77.4605};
-  if(!map){
-    map = new google.maps.Map(document.getElementById('map-container'),{
-      center: center,
-      zoom: 19,
-      mapTypeId: 'satellite',
-      tilt: 0,
-      disableDefaultUI: true,
-      zoomControl: true,
-      gestureHandling: 'greedy'
-    });
-    drawingManager = new google.maps.drawing.DrawingManager({
-      drawingMode: google.maps.drawing.OverlayType.POLYGON,
-      drawingControl: false,
-      polygonOptions: {
-        fillColor: '#278a5b',
-        fillOpacity: 0.3,
-        strokeColor: '#1e6b4a',
-        strokeWeight: 2,
-        editable: true
-      }
-    });
-    drawingManager.setMap(map);
-    google.maps.event.addListener(drawingManager, 'polygoncomplete', function(poly){
-      polygons.push(poly);
-      drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-      google.maps.event.addListener(poly.getPath(), 'set_at', updateArea);
-      google.maps.event.addListener(poly.getPath(), 'insert_at', updateArea);
-      google.maps.event.addListener(poly.getPath(), 'remove_at', updateArea);
-      updateArea();
-    });
+    if(!DotOverlay) buildDotOverlayClass();
+
+    var center = state.addressLat ? {lat:state.addressLat,lng:state.addressLng} : {lat:38.3032,lng:-77.4605};
+    if(!map){
+      map = new google.maps.Map(document.getElementById('map-container'),{
+        center: center,
+        zoom: 19,
+        mapTypeId: 'satellite',
+        tilt: 0,
+        disableDefaultUI: true,
+        zoomControl: true,
+        gestureHandling: 'greedy'
+      });
+      map.addListener('click', function(e){
+        if(!isDrawing) return;
+        addDrawPoint(e.latLng);
+      });
+    } else {
+      map.setCenter(center);
+      map.setZoom(19);
+    }
+    stopDrawing();
+
+    /* Geocode banner */
+    var banner = document.getElementById('map-geocode-banner');
+    if(banner) banner.style.display = state.areaUnverified ? 'block' : 'none';
+
+    var hint = document.getElementById('map-hint');
+    if(hint){
+      hint.textContent = t('map_hint_start');
+      hint.style.display = state.areaUnverified ? 'none' : 'block';
+    }
+  } catch(e){
+    console.error('[FC] Map init error:', e);
+    showMapFallback();
+  }
+}
+
+function addDrawPoint(latLng){
+  currentPath.push(latLng);
+  var isFirst = currentPath.length === 1;
+  var dot = new DotOverlay(latLng, map, {
+    isFirst: isFirst,
+    onClick: isFirst ? function(){
+      if(currentPath.length >= 3) finishPolygon();
+    } : null
+  });
+  currentDots.push(dot);
+
+  if(currentPolyline) currentPolyline.setMap(null);
+  currentPolyline = new google.maps.Polyline({
+    path: currentPath,
+    map: map,
+    strokeColor: '#fff',
+    strokeWeight: 3,
+    strokeOpacity: 0.9
+  });
+
+  var hint = document.getElementById('map-hint');
+  if(hint){
+    if(currentPath.length >= 3){
+      hint.textContent = t('map_hint_close');
+    } else {
+      hint.textContent = t('map_hint_continue');
+    }
+    hint.style.display = 'block';
+  }
+}
+
+function finishPolygon(){
+  if(currentPolyline){ currentPolyline.setMap(null); currentPolyline = null; }
+  currentDots.forEach(function(d){ d.setMap(null); });
+  currentDots = [];
+
+  var poly = new google.maps.Polygon({
+    paths: currentPath,
+    map: map,
+    fillColor: '#278a5b',
+    fillOpacity: 0.35,
+    strokeColor: '#fff',
+    strokeWeight: 3,
+    editable: true
+  });
+  polygons.push(poly);
+  google.maps.event.addListener(poly.getPath(), 'set_at', updateArea);
+  google.maps.event.addListener(poly.getPath(), 'insert_at', updateArea);
+  google.maps.event.addListener(poly.getPath(), 'remove_at', updateArea);
+  currentPath = [];
+  updateArea();
+  stopDrawing();
+
+  var gateHint = document.getElementById('sqft-gate-hint');
+  if(gateHint) gateHint.style.display = 'none';
+}
+
+function toggleDrawMode(){
+  if(!map) return;
+  if(isDrawing){
+    if(currentPath.length >= 3) finishPolygon();
+    else stopDrawing();
   } else {
-    map.setCenter(center);
-    map.setZoom(19);
+    startDrawing();
+  }
+}
+
+function startDrawing(){
+  isDrawing = true;
+  currentPath = [];
+  updatePenState(true);
+  var hint = document.getElementById('map-hint');
+  if(hint){
+    hint.textContent = t('map_hint_draw');
+    hint.style.display = 'block';
+  }
+  map.setOptions({draggableCursor: 'crosshair'});
+}
+
+function stopDrawing(){
+  isDrawing = false;
+  currentPath = [];
+  if(currentPolyline){ currentPolyline.setMap(null); currentPolyline = null; }
+  currentDots.forEach(function(d){ d.setMap(null); });
+  currentDots = [];
+  updatePenState(false);
+  if(map) map.setOptions({draggableCursor: null});
+}
+
+function updatePenState(active){
+  var pen = document.getElementById('draw-pen');
+  if(!pen) return;
+  if(active){
+    pen.style.background = '#1e6b4a';
+    pen.querySelector('svg').setAttribute('stroke', '#fff');
+  } else {
+    pen.style.background = '#fff';
+    pen.querySelector('svg').setAttribute('stroke', '#1e6b4a');
   }
 }
 
@@ -798,36 +1227,62 @@ function showMapFallback(){
     var controls = document.querySelector('.map-controls');
     var sqftEl = document.getElementById('sqft-display');
     var fallback = document.getElementById('map-fallback');
-    var manualInput = document.getElementById('manual-sqft');
-    var heading = document.getElementById('fallback-heading');
-    var helper = document.getElementById('fallback-helper');
-    var label = document.getElementById('fallback-label');
+    var penBtn = document.getElementById('draw-pen');
+    var hintEl = document.getElementById('map-hint');
+    var geocodeBanner = document.getElementById('map-geocode-banner');
+    var manualLink = document.getElementById('manual-entry-link');
 
     if(mapEl) mapEl.style.display = 'none';
     if(controls) controls.style.display = 'none';
     if(sqftEl) sqftEl.style.display = 'none';
+    if(penBtn) penBtn.style.display = 'none';
+    if(hintEl) hintEl.style.display = 'none';
+    if(geocodeBanner) geocodeBanner.style.display = 'none';
+    if(manualLink) manualLink.style.display = 'none';
     if(fallback) fallback.style.display = 'block';
 
-    if(state.service === 'mulch'){
-      if(heading) heading.textContent = 'No map? No problem.';
-      if(helper) helper.textContent = 'Enter your mulch bed area in square feet. Not sure? A typical front-yard bed is 100-300 sq ft. Measure length x width for each bed and add them up.';
-      if(label) label.textContent = 'Bed area (square feet)';
-      if(manualInput) manualInput.placeholder = 'e.g. 200';
-    } else {
-      if(heading) heading.textContent = 'No map? No problem.';
-      if(helper) helper.textContent = 'Enter your approximate lawn size. Not sure? A typical quarter-acre lawn is about 7,000-9,000 sq ft of grass.';
-      if(label) label.textContent = 'Approximate square feet';
-      if(manualInput) manualInput.placeholder = 'e.g. 8000';
-    }
-
-    if(manualInput && !manualInput._listenerAttached){
-      manualInput._listenerAttached = true;
-      manualInput.addEventListener('input', function(){
-        state.sqft = parseInt(this.value) || 0;
-      });
-    }
+    applyFallbackText();
+    wireManualInput();
   } catch(e){
     console.warn('[FC] Fallback render error:', e);
+  }
+}
+
+function showManualEntry(){
+  var fallback = document.getElementById('map-fallback');
+  if(fallback) fallback.style.display = 'block';
+  applyFallbackText();
+  wireManualInput();
+}
+
+function applyFallbackText(){
+  var heading = document.getElementById('fallback-heading');
+  var helper = document.getElementById('fallback-helper');
+  var label = document.getElementById('fallback-label');
+  var manualInput = document.getElementById('manual-sqft');
+
+  if(state.service === 'mulch'){
+    if(heading) heading.textContent = t('map_fallback_title');
+    if(helper) helper.textContent = t('map_fallback_mulch');
+    if(label) label.textContent = t('label_sqft_mulch');
+    if(manualInput) manualInput.placeholder = 'e.g. 200';
+  } else {
+    if(heading) heading.textContent = t('map_fallback_title');
+    if(helper) helper.textContent = t('map_fallback_mow');
+    if(label) label.textContent = t('label_sqft');
+    if(manualInput) manualInput.placeholder = 'e.g. 8000';
+  }
+}
+
+function wireManualInput(){
+  var manualInput = document.getElementById('manual-sqft');
+  if(manualInput && !manualInput._listenerAttached){
+    manualInput._listenerAttached = true;
+    manualInput.addEventListener('input', function(){
+      state.sqft = parseInt(this.value) || 0;
+      var gateHint = document.getElementById('sqft-gate-hint');
+      if(gateHint && state.sqft >= 100) gateHint.style.display = 'none';
+    });
   }
 }
 
@@ -841,6 +1296,7 @@ function updateArea(){
 }
 
 function clearPolygons(){
+  stopDrawing();
   polygons.forEach(function(p){p.setMap(null)});
   polygons = [];
   state.sqft = 0;
@@ -848,14 +1304,29 @@ function clearPolygons(){
 }
 
 function undoLastPoint(){
-  if(polygons.length > 0){
+  if(isDrawing){
+    /* In draw mode: remove last working point */
+    if(currentPath.length > 0){
+      currentPath.pop();
+      var dot = currentDots.pop();
+      if(dot) dot.setMap(null);
+      if(currentPolyline) currentPolyline.setMap(null);
+      currentPolyline = null;
+      if(currentPath.length > 0){
+        currentPolyline = new google.maps.Polyline({
+          path: currentPath, map: map, strokeColor: '#fff', strokeWeight: 3, strokeOpacity: 0.9
+        });
+      }
+    }
+    if(currentPath.length === 0) stopDrawing();
+  } else if(polygons.length > 0){
+    /* Outside draw mode: remove last vertex of newest polygon, delete if < 3 */
     var last = polygons[polygons.length - 1];
     var path = last.getPath();
-    if(path.getLength() > 0){
-      path.removeAt(path.getLength()-1);
+    if(path.getLength() > 3){
+      path.removeAt(path.getLength() - 1);
       updateArea();
-    }
-    if(path.getLength() === 0){
+    } else {
       last.setMap(null);
       polygons.pop();
       updateArea();
@@ -864,7 +1335,7 @@ function undoLastPoint(){
 }
 
 function onMapsReady(){
-  if(!MAPS_FAILED) initAutocomplete();
+  if(!MAPS_FAILED) initAddressInput();
 }
 
 /* ── Service-specific selectors ── */
@@ -996,16 +1467,18 @@ async function submitEstimate(){
     if(state.photos.length > 0 && (state.service === 'tree_trim' || state.service === 'leaf_cleanup' || state.service === 'storm_cleanup')){
       await runAIAnalysis();
     }
-
-    /* Calculate price */
-    calculatePrice();
-
-    /* Show result */
-    showStep(5);
-    showResult();
   } catch(e){
     console.error('Estimate error:', e);
+  }
+
+  try {
     calculatePrice();
+    showStep(5);
+    showResult();
+    if(state.photoUploadFailed) showPhotoFailNotice();
+  } catch(e2){
+    console.error('Price calc error:', e2);
+    state.resultMode = 'review';
     showStep(5);
     showResult();
   } finally {
@@ -1015,7 +1488,7 @@ async function submitEstimate(){
 }
 
 async function uploadPhotos(){
-  var urls = [];
+  var paths = [];
   var sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substr(2,12);
 
   for(var i = 0; i < state.photos.length; i++){
@@ -1038,13 +1511,15 @@ async function uploadPhotos(){
           headers: {'Content-Type': state.photos[i].type},
           body: state.photos[i]
         });
-        urls.push(data.storage_path);
+        paths.push(data.storage_path);
       }
     } catch(e){
       console.warn('Photo upload failed:', e);
     }
   }
-  state.photoUrls = urls;
+  state.photoPaths = paths;
+  state.photoUrls = paths;
+  if(state.photos.length > 0 && paths.length === 0) state.photoUploadFailed = true;
 }
 
 async function runAIAnalysis(){
@@ -1085,8 +1560,7 @@ function calculatePrice(){
 
   switch(state.service){
     case 'mowing':
-      var sqft = state.sqft || parseInt(document.getElementById('manual-sqft')?.value) || 5000;
-      state.sqft = sqft;
+      var sqft = state.sqft;
       var base = p.mowing.min_price;
       var extra = Math.max(0, sqft - p.mowing.base_sqft);
       var extraCost = Math.ceil(extra / 1000) * p.mowing.per_1k_sqft_over_5k;
@@ -1094,16 +1568,20 @@ function calculatePrice(){
       if(state.mowCondition === 'overgrown') perVisit = Math.round(perVisit * p.mowing.overgrown_multiplier);
       var weekly = perVisit;
       var biweekly = Math.round(perVisit * p.mowing.biweekly_multiplier);
-      state.estimateLow = state.mowFrequency === 'biweekly' ? biweekly : weekly;
-      state.estimateHigh = state.estimateLow;
+      var onetimeMult = p.mowing.onetime_multiplier || 1.4;
+      var onetime = Math.round(perVisit * onetimeMult);
       state.weeklyPrice = weekly;
       state.biweeklyPrice = biweekly;
+      state.onetimePrice = onetime;
+      if(state.mowFrequency === 'onetime') state.estimateLow = onetime;
+      else if(state.mowFrequency === 'biweekly') state.estimateLow = biweekly;
+      else state.estimateLow = weekly;
+      state.estimateHigh = state.estimateLow;
       state.resultMode = 'instant';
       break;
 
     case 'mulch':
-      var sqft = state.sqft || parseInt(document.getElementById('manual-sqft')?.value) || 200;
-      state.sqft = sqft;
+      var sqft = state.sqft;
       var yards = (sqft * state.mulchDepth) / 324;
       yards = Math.max(yards, 1);
       var total = Math.round(yards * p.mulch.price_per_cubic_yard);
@@ -1130,6 +1608,13 @@ function calculatePrice(){
       break;
 
     case 'tree_trim':
+      state.hazards = [];
+      document.querySelectorAll('.hazard-check:checked').forEach(function(cb){state.hazards.push(cb.value)});
+      if(state.aiAnalysis && Array.isArray(state.aiAnalysis.hazards)){
+        state.aiAnalysis.hazards.forEach(function(h){
+          if(state.hazards.indexOf(h) < 0) state.hazards.push(h);
+        });
+      }
       if(state.treeSize === 'xl' || state.hazards.indexOf('near_powerlines') >= 0){
         state.resultMode = 'review';
         break;
@@ -1143,8 +1628,6 @@ function calculatePrice(){
         low = Math.round(low * p.tree_trim.removal_multiplier);
         high = Math.round(high * p.tree_trim.removal_multiplier);
       }
-      state.hazards = [];
-      document.querySelectorAll('.hazard-check:checked').forEach(function(cb){state.hazards.push(cb.value)});
       var hazardCount = state.hazards.filter(function(h){return h !== 'near_powerlines'}).length;
       if(hazardCount > 0){
         var surcharge = 1 + (hazardCount * p.tree_trim.hazard_surcharge_pct / 100);
@@ -1184,8 +1667,13 @@ function showResult(){
     document.getElementById('price-amount').textContent = '$' + state.estimateLow;
     var detail = '';
     if(state.service === 'mowing'){
-      detail = state.sqft.toLocaleString() + ' sq ft, ' + state.mowFrequency + ', per visit';
-      document.getElementById('frequency-toggle-wrap').style.display = 'block';
+      if(state.mowFrequency === 'onetime'){
+        detail = state.sqft.toLocaleString() + ' sq ft, one-time visit';
+        document.getElementById('frequency-toggle-wrap').style.display = 'none';
+      } else {
+        detail = state.sqft.toLocaleString() + ' sq ft, ' + state.mowFrequency + ', per visit';
+        document.getElementById('frequency-toggle-wrap').style.display = 'block';
+      }
     } else if(state.service === 'mulch'){
       detail = state.sqft.toLocaleString() + ' sq ft of beds, ' + state.mulchYards + ' cubic yards, ' + state.mulchDepth + '" depth';
     } else if(state.service === 'gutter'){
@@ -1249,6 +1737,7 @@ async function lockEstimate(){
     messageData.stories = state.gutterStories;
     messageData.guards = state.gutterGuards;
   }
+  if(state.photoPaths.length > 0) messageData.photo_paths = state.photoPaths;
   if(state.photoUrls.length > 0) messageData.photo_urls = state.photoUrls;
   if(state.aiAnalysis) messageData.ai_analysis = state.aiAnalysis;
   if(state.service === 'tree_trim'){
@@ -1266,11 +1755,14 @@ async function lockEstimate(){
         name: state.name,
         email: state.email || '',
         phone: state.phone,
+        notes: state.notes || '',
+        address: state.address || '',
         source: 'Instant Estimate',
+        source_url: window.location.href,
         message: JSON.stringify(messageData)
       })
     });
-    fcTrack('est_lead_submitted', {service: state.service, mode: state.resultMode});
+    fcTrack('est_lock', {service: state.service, mode: state.resultMode});
   } catch(e){
     console.warn('Lead submission error:', e);
   }
@@ -1288,8 +1780,20 @@ async function lockEstimate(){
 function fcTrack(eventName, data){
   try{
     if(window.gtag) gtag('event', eventName, data || {});
+    /* TODO: KGTrack has no custom-event API yet (only .lead/.email/.addToCart/.order).
+       Add KGTrack.event(name, data) to tracker.js, then wire it here:
+       if(window.KGTrack && typeof KGTrack.event==='function') KGTrack.event(eventName, data); */
     console.log('[FC Estimate]', eventName, data || '');
   }catch(e){}
+}
+
+function showPhotoFailNotice(){
+  var ctas = document.getElementById('result-ctas');
+  if(!ctas) return;
+  var notice = document.createElement('p');
+  notice.style.cssText = 'text-align:center;margin-top:12px;padding:10px 14px;background:#fff8e1;border-radius:6px;border:1.5px solid #ffe082;font-size:.82rem;color:#795548';
+  notice.innerHTML = 'Photos didn\'t attach. Text them to Alex at <a href="sms:5404557405" style="font-weight:600;color:#1e6b4a">540-455-7405</a>.';
+  ctas.appendChild(notice);
 }
 
 document.addEventListener('click', function(e){
@@ -1298,64 +1802,16 @@ document.addEventListener('click', function(e){
 });
 
 /* ════════════════════════════════════════
-   I18N (DORMANT - set ENABLE_SPANISH = true)
+   LANGUAGE TOGGLE
    ════════════════════════════════════════ */
-var currentLang = 'en';
-var i18n = {
-  es: {
-    wizard_title: 'Obten un Estimado Instantaneo',
-    wizard_sub: 'Responde unas preguntas y recibe tu precio. Sin necesidad de llamar.',
-    step1_title: 'Que necesitas?',
-    step1_sub: 'Elige el servicio que mejor describe tu proyecto.',
-    svc_mowing: 'Corte de Cesped',
-    svc_mowing_desc: 'Corte regular y mantenimiento del jardin',
-    svc_mulch: 'Mulch / Mantillo',
-    svc_mulch_desc: 'Entrega, colocacion y preparacion de camas',
-    svc_cleanup: 'Limpieza de Hojas / Jardin',
-    svc_cleanup_desc: 'Limpieza estacional y remocion de escombros',
-    svc_gutter: 'Limpieza de Canaletas',
-    svc_gutter_desc: 'Limpiar, enjuagar e inspeccionar sus canaletas',
-    svc_tree: 'Poda / Remocion de Arboles',
-    svc_tree_desc: 'Podar, dar forma o remover arboles de forma segura',
-    svc_storm: 'Limpieza de Tormentas',
-    svc_storm_desc: 'Respuesta de emergencia por danos de tormenta',
-    step2_title: 'Donde esta tu propiedad?',
-    step2_sub: 'Necesitamos tu direccion para verificar nuestra area de servicio.',
-    label_address: 'Direccion de la Propiedad',
-    area_warning_title: 'Es posible que no lleguemos a esta direccion.',
-    area_warning_sub: 'Enviale de todas formas y Alex confirmara.',
-    btn_next: 'Siguiente',
-    step4_title: 'Como puede contactarte Alex?',
-    step4_sub: 'Alex confirma cada estimado personalmente por texto o llamada.',
-    label_name: 'Tu Nombre *',
-    label_phone: 'Numero de Telefono *',
-    phone_hint: 'Requerido. Alex trabaja principalmente por texto.',
-    label_email: 'Correo (opcional)',
-    label_notes: 'Algo mas? (opcional)',
-    btn_submit: 'Obtener Mi Estimado',
-    result_your_price: 'Tu precio:',
-    result_your_estimate: 'Tu estimado:',
-    range_detail: 'Alex confirmara tu precio exacto a partir de tus fotos en 2 horas habiles. Sin necesidad de visita.',
-    review_title: 'Este necesita la revision de Alex.',
-    review_detail: 'Revisara tus fotos y te enviara tu cotizacion en 2 horas habiles.',
-    cta_lock: 'Confirmalo. Alex te responde por texto hoy.',
-    cta_walkthrough: 'Reservar una visita en persona',
-    disclaimer: 'Los estimados no son precios finales; la cotizacion final se confirma por escrito por Fresh-Cut.',
-    map_fallback_title: 'Sin mapa? No hay problema.',
-    fallback_text: 'Prefieres enviar fotos por texto?',
-    locked_title: 'Estimado enviado. Alex te confirmara por texto hoy.',
-    locked_sub: 'Revisa tu telefono. Recibiras respuesta en horario laboral (Lun-Vie 7AM-6PM, Sab 8AM-4PM).',
-    btn_home: 'Volver a Fresh-Cut Landscaping'
-  }
-};
-
 function toggleLanguage(){
   currentLang = currentLang === 'en' ? 'es' : 'en';
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     var key = el.getAttribute('data-i18n');
-    if(currentLang === 'es' && i18n.es[key]){
+    var translated = (currentLang === 'es' && i18n.es[key]) ? i18n.es[key] : null;
+    if(translated){
       if(!el._origText) el._origText = el.textContent;
-      el.textContent = i18n.es[key];
+      el.textContent = translated;
     } else if(el._origText){
       el.textContent = el._origText;
     }
@@ -1372,9 +1828,9 @@ if(ENABLE_SPANISH){
    INIT
    ════════════════════════════════════════ */
 updateProgress();
-if(MAPS_LOADED && !MAPS_FAILED) initAutocomplete();
+if(MAPS_LOADED && !MAPS_FAILED) initAddressInput();
 
-/* 6-second Maps load timeout: if Maps hasn't loaded by now, give up gracefully */
+/* 6-second Maps load timeout */
 setTimeout(function(){
   if(!MAPS_LOADED && !MAPS_FAILED){
     console.warn('[FC] Maps load timeout (6s), activating fallback');

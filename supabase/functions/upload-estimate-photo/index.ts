@@ -6,6 +6,7 @@ const ALLOWED_ORIGINS = [
   "https://www.fresh-cut-landscape.com",
   "http://localhost:3000",
   "http://localhost:5500",
+  "http://localhost:8768",
   "http://127.0.0.1:5500",
 ];
 
@@ -15,30 +16,14 @@ function corsHeaders(req: Request) {
   return {
     "Access-Control-Allow-Origin": allowed,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization, apikey, x-client-info",
   };
 }
 
-const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
+const MAX_FILE_SIZE = 8 * 1024 * 1024;
 const MAX_PHOTOS_PER_SESSION = 6;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const BUCKET = "estimate-photos";
-
-// TODO: move to persistent counter (see KG hotfix pattern)
-const rateLimits = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 20;
-const RATE_WINDOW = 60_000;
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimits.get(ip);
-  if (!entry || now > entry.resetAt) {
-    rateLimits.set(ip, { count: 1, resetAt: now + RATE_WINDOW });
-    return true;
-  }
-  entry.count++;
-  return entry.count <= RATE_LIMIT;
-}
 
 Deno.serve(async (req: Request) => {
   const headers = corsHeaders(req);
@@ -54,8 +39,18 @@ Deno.serve(async (req: Request) => {
     });
   }
 
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  );
+
   const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (!checkRateLimit(clientIp)) {
+  const { data: limited } = await supabase.rpc("check_rate_limit", {
+    p_key: `upload-photo:ip:${clientIp}`,
+    p_max: 20,
+    p_window: "1 minute",
+  });
+  if (limited) {
     return new Response(JSON.stringify({ error: "Too many requests" }), {
       status: 429,
       headers: { ...headers, "Content-Type": "application/json" },
@@ -86,11 +81,6 @@ Deno.serve(async (req: Request) => {
         headers: { ...headers, "Content-Type": "application/json" },
       });
     }
-
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-    );
 
     const { data: existing } = await supabase.storage
       .from(BUCKET)

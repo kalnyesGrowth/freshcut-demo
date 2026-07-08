@@ -66,12 +66,14 @@ Key formulas:
 | `est_result_instant` | Instant price shown |
 | `est_result_range` | Range shown |
 | `est_result_review` | Review-only shown |
-| `est_lead_submitted` | Lead locked in |
+| `est_lock` | Lead locked in (renamed from est_lead_submitted) |
 | `est_calendly` | Calendly link on result page |
 | `est_sms_fallback` | SMS fallback link on result page |
 | `hero_instant_estimate` | Hero CTA to wizard |
 | `spotlight_estimate_*` | Spotlight CTA to wizard |
 | `sticky_instant_estimate` | Mobile sticky bar |
+
+**KG Dashboard integration:** tracker.js has no custom-event API (only `.lead()`, `.email()`, `.addToCart()`, `.order()`). A `KGTrack.event(name, data)` method needs to be added to tracker.js for these events to appear in the KG Dashboard. TODO is documented inline in `fcTrack()`. Pageview and form-submit events still auto-capture via the existing tracker.
 
 ## Google Maps API Key
 
@@ -107,13 +109,22 @@ Step 2 autocomplete fallback:
 ## Spanish i18n
 Active. `ENABLE_SPANISH = true`. Sticky toggle button in bottom-right. Full translations for all wizard text.
 
+## Anthropic API Cost (AI Photo Analysis)
+AI analysis runs only on tree_trim, leaf_cleanup, and storm_cleanup submissions with photos.
+- Model: `claude-sonnet-4-6` (Sonnet tier)
+- Input: 1-6 photos (base64) + ~200 token prompt. Typical 2-photo call: ~1500 input tokens (text) + image tokens.
+- Output: ~150 tokens (structured JSON)
+- Cost per analysis: ~$0.01-0.03 depending on photo count and resolution.
+- Volume: at current traffic (<50 photo estimates/month), expected spend is under $1.50/month.
+- Graceful degradation: if ANTHROPIC_API_KEY is unset or API errors, returns manual-input fallback (confidence 0.3). No 500s to the browser.
+
 ## Security
-- Private storage bucket (signed URLs only)
-- Rate limiting on both edge functions (in-memory, resets on cold start)
+- Private storage bucket (signed URLs only, 7-day TTL)
+- Rate limiting on both edge functions (durable SQL-based via `check_rate_limit` RPC, survives cold starts)
 - Honeypot field on contact step
-- No JWT required (public wizard) but abuse protected via rate limits
+- No JWT required (public wizard, `verify_jwt = false` in config.toml) but abuse protected via rate limits
 - File type and size validation on both client and server
-- CORS tightened to `fresh-cut-landscape.com` + localhost variants (deployed v2, 2026-07-03)
+- CORS tightened to `fresh-cut-landscape.com` + localhost variants. Allowed headers include Content-Type, Authorization, apikey, x-client-info.
 
 ## Fixed Issues (2026-07-03)
 

@@ -337,7 +337,7 @@
     }
 
     /* ─── WHY TRUST ─── */
-    #why-trust{background:var(--card);padding:76px 5%}
+    #reviews{background:var(--card);padding:76px 5%}
     .why-trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
     .why-trust-card{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:none;transition:box-shadow .15s;border:1px solid var(--border)}
     .why-trust-card:hover{box-shadow:var(--shadow)}
@@ -461,7 +461,7 @@
     <span></span><span></span><span></span>
   </label>
 </nav>
-<label for="menu-toggle" class="mob-menu">
+<div class="mob-menu">
   <a href="landscaping-fredericksburg-va.html">Landscaping</a>
   <a href="mulching-service-virginia.html">Mulching</a>
   <a href="tree-trimming-removal-virginia.html">Tree Service</a>
@@ -470,12 +470,12 @@
   <a href="#contact">Contact</a>
   <a href="blog.html">Blog</a>
   <a href="tel:5404557405" class="mob-cta">Call Alex: 540-455-7405</a>
-</label>
+</div>
 
 <!-- ═══════════════════════════════
      STORM BANNER (toggle SHOW_STORM_BANNER in JS)
      ═══════════════════════════════ -->
-<div id="storm-banner" style="display:none;background:var(--green-dark);color:#fff;padding:10px 16px;font-size:.82rem;text-align:center;position:relative;line-height:1.5">
+<div id="storm-banner" style="display:none;background:var(--green-dark);color:#fff;padding:10px 16px;font-size:.82rem;text-align:center;position:fixed;top:0;left:0;right:0;z-index:101;line-height:1.5">
   <a href="sms:5404557405?body=Storm%20damage%20%E2%80%94%20photos%20attached.%20Address%3A%20" style="color:#fff;text-decoration:none;font-weight:600" data-fc-event="storm_band_click">Storm damage? Text photos to 540-455-7405. We respond within 24-48 hours.</a>
   <button onclick="this.parentElement.style.display='none';sessionStorage.setItem('fc-storm-dismissed','1')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.7);font-size:1.1rem;cursor:pointer;padding:4px" aria-label="Dismiss storm banner">&times;</button>
 </div>
@@ -956,7 +956,7 @@
      WHAT HOMEOWNERS SAY
      ═══════════════════════════════ -->
 <!-- TODO: JJ confirm testimonials are real clients (FTC) — Sarah M., Robert K., Tanya W. must be verifiable customers before launch -->
-<section id="why-trust">
+<section id="reviews">
   <div class="section-inner">
     <div style="text-align:center" class="reveal">
       <span class="sec-label">What Homeowners Say</span>
@@ -1006,6 +1006,9 @@
         </div>
       </div>
 
+    </div>
+    <div style="text-align:center;margin-top:36px" class="reveal">
+      <a href="https://g.page/r/CVVOks0d4bZgEBM/review" target="_blank" rel="noopener" class="btn btn-green" data-fc-event="leave_google_review">Leave Us a Google Review</a>
     </div>
   </div>
 </section>
@@ -1244,8 +1247,8 @@
       <div class="footer-col footer-subscribe">
         <h4>Stay In Touch</h4>
         <p style="font-size:.8rem;margin-bottom:12px">Get seasonal lawn tips and service reminders.</p>
-        <input type="email" placeholder="Your email address">
-        <button>Sign Up</button>
+        <input id="footer-email" type="email" placeholder="Your email address">
+        <button onclick="submitFooterEmail(this)">Sign Up</button>
         <div style="margin-top:16px;font-size:.78rem">
           <a href="tel:5404557405" style="color:rgba(255,255,255,.7)">540-455-7405</a><br>
           <a href="sms:5404557405" style="color:rgba(255,255,255,.7)">Text for Quick Quote</a><br>
@@ -1275,7 +1278,14 @@
     if(!SHOW_STORM_BANNER) return;
     if(sessionStorage.getItem('fc-storm-dismissed')) return;
     var banner = document.getElementById('storm-banner');
-    if(banner) banner.style.display = 'block';
+    if(!banner) return;
+    banner.style.display = 'block';
+    var nav = document.querySelector('nav');
+    var mobMenu = document.querySelector('.mob-menu');
+    function adjustNav(){ var h = banner.offsetHeight; nav.style.top = h + 'px'; if(mobMenu) mobMenu.style.top = (h + 64) + 'px'; }
+    adjustNav();
+    window.addEventListener('resize', adjustNav);
+    banner.querySelector('button').onclick = function(){ banner.style.display='none'; sessionStorage.setItem('fc-storm-dismissed','1'); nav.style.top='0'; if(mobMenu) mobMenu.style.top='64px'; };
   })();
 
   // Highlight today in hours table
@@ -1644,7 +1654,24 @@ document.addEventListener('click', function(e){
 
   var calendly = e.target.closest('a[href*="calendly"]');
   if(calendly) fcTrack('click_calendly', {link: calendly.href});
+
+  var mobLink = e.target.closest('.mob-menu a');
+  if(mobLink) document.getElementById('menu-toggle').checked = false;
 });
+
+function submitFooterEmail(btn){
+  var email = document.getElementById('footer-email').value.trim();
+  if(!email || email.indexOf('@') < 1) { btn.textContent = 'Enter valid email'; setTimeout(function(){ btn.textContent = 'Sign Up'; }, 2000); return; }
+  btn.disabled = true; btn.textContent = 'Sending...';
+  fetch('https://boddsbxlaytcrkpuckyn.supabase.co/functions/v1/capture-lead', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ client_id:'54de0b7d-b1f3-4abb-82eb-2f66f2452267', name:'Newsletter Subscriber', email:email, phone:'', service:'Newsletter Signup', message:'Footer email signup', source:'footer_subscribe' })
+  }).then(function(r){ return r.json(); }).then(function(){
+    btn.textContent = 'Subscribed!'; btn.style.background = 'var(--green-mid)';
+    document.getElementById('footer-email').value = '';
+    if(typeof fcTrack==='function') fcTrack('footer_subscribe');
+  }).catch(function(){ btn.textContent = 'Try again'; btn.disabled = false; });
+}
 </script>
 <script src="https://project-kday6.vercel.app/tracker/tracker.js" data-client="54de0b7d-b1f3-4abb-82eb-2f66f2452267"></script>
 </body>
