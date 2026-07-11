@@ -1,4 +1,27 @@
 User-agent: *
 Allow: /
+Disallow: /pricing-review.html
+Disallow: /logos.html
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
 
 Sitemap: https://fresh-cut-landscape.com/sitemap.xml
