@@ -820,13 +820,26 @@ function nextStep(){
   if(state.step === 2){
     if(!state.address) return;
     if(!state.addressLat){
-      if(window.google && google.maps && google.maps.Geocoder){
+      if(!MAPS_FAILED && window.google && google.maps && google.maps.Geocoder){
         var btn = document.getElementById('btn-step2');
         btn.disabled = true;
         btn.textContent = t('btn_locating') || 'Locating...';
+        var geocodeDone = false;
+        var geocodeTimeout = setTimeout(function(){
+          if(geocodeDone) return;
+          geocodeDone = true;
+          btn.disabled = false;
+          btn.textContent = t('btn_next') || 'Next';
+          state.areaUnverified = true;
+          setupMeasurementStep();
+          showStep(3);
+        }, 5000);
         new google.maps.Geocoder().geocode(
           {address: state.address, componentRestrictions: {country: 'US'}},
           function(results, geoStatus){
+            if(geocodeDone) return;
+            geocodeDone = true;
+            clearTimeout(geocodeTimeout);
             btn.disabled = false;
             btn.textContent = t('btn_next') || 'Next';
             if(geoStatus === 'OK' && results[0] && results[0].geometry){
