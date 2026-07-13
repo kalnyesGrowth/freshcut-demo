@@ -903,7 +903,7 @@ function selectService(card){
 }
 
 /* ════════════════════════════════════════
-   STEP 2: ADDRESS (PlaceAutocompleteElement + fallback)
+   STEP 2: ADDRESS (custom input + AutocompleteSuggestion API)
    ════════════════════════════════════════ */
 function initAddressInput(){
   if(autocompleteInitDone) return;
@@ -915,99 +915,90 @@ function initAddressInput(){
   try {
     if(!window.google || !google.maps || !google.maps.places) throw 0;
 
-    /* Strategy 1: New PlaceAutocompleteElement (required for API keys created after March 2025) */
-    if(google.maps.places.PlaceAutocompleteElement){
-      var placeAc = new google.maps.places.PlaceAutocompleteElement({
-        componentRestrictions: {country: 'us'}
-      });
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.id = 'address-input';
+    input.placeholder = '123 Main St, Fredericksburg, VA 22401';
+    input.autocomplete = 'off';
+    input.style.cssText = 'width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:16px;font-family:Inter,system-ui,-apple-system,sans-serif;background:#fff;color:var(--text);outline:none;box-sizing:border-box';
+    container.style.position = 'relative';
+    container.appendChild(input);
 
-      try {
-        placeAc.locationBias = new google.maps.LatLngBounds(
-          new google.maps.LatLng(38.0, -77.8),
-          new google.maps.LatLng(38.7, -77.0)
-        );
-      } catch(e){}
+    var dropdown = document.createElement('div');
+    dropdown.style.cssText = 'position:absolute;left:0;right:0;top:100%;z-index:1000;background:#fff;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;max-height:220px;overflow-y:auto';
+    container.appendChild(dropdown);
 
-      container.appendChild(placeAc);
+    var fredBounds = null;
+    try {
+      fredBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(38.0, -77.8),
+        new google.maps.LatLng(38.7, -77.0)
+      );
+    } catch(e){}
 
-      placeAc.addEventListener('gmp-placeselect', async function(evt){
-        var place = evt.place;
-        try { await place.fetchFields({fields: ['formattedAddress', 'location']}); } catch(e){}
-        if(place.formattedAddress) state.address = place.formattedAddress;
-        if(place.location){
-          state.addressLat = place.location.lat();
-          state.addressLng = place.location.lng();
-          state.areaUnverified = false;
-          checkServiceArea();
-        }
-        document.getElementById('btn-step2').disabled = false;
-      });
+    var debounceTimer = null;
+    input.addEventListener('input', function(){
+      state.address = input.value;
+      state.addressLat = null;
+      state.addressLng = null;
+      document.getElementById('btn-step2').disabled = input.value.length <= 10;
+      clearTimeout(debounceTimer);
+      if(input.value.length > 3){
+        debounceTimer = setTimeout(function(){ fetchSuggestions(input.value); }, 300);
+      } else {
+        dropdown.style.display = 'none';
+      }
+    });
 
-      placeAc.addEventListener('input', function(evt){
-        var path = evt.composedPath && evt.composedPath();
-        var src = path && path[0] && path[0].value !== undefined ? path[0] : null;
-        if(src){
-          state.address = src.value;
-          state.addressLat = null;
-          state.addressLng = null;
-          document.getElementById('btn-step2').disabled = src.value.length <= 10;
-        }
-      });
+    input.addEventListener('focus', function(){ input.style.borderColor = 'var(--green-mid)'; });
+    input.addEventListener('blur', function(){ setTimeout(function(){ input.style.borderColor = ''; dropdown.style.display = 'none'; }, 200); });
 
-      autocompleteReady = true;
-      var notice = document.getElementById('autocomplete-notice');
-      if(notice) notice.style.display = 'none';
-      return;
+    function makeItem(text, onSelect){
+      var item = document.createElement('div');
+      item.style.cssText = 'padding:10px 14px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:14px;color:var(--text)';
+      item.textContent = text;
+      item.onmouseenter = function(){ item.style.backgroundColor = '#f5f5f5'; };
+      item.onmouseleave = function(){ item.style.backgroundColor = ''; };
+      item.onmousedown = function(e){ e.preventDefault(); onSelect(); };
+      return item;
     }
 
-    /* Strategy 2: Legacy Autocomplete widget (pre March 2025 keys) */
-    if(google.maps.places.Autocomplete){
-      var input = document.createElement('input');
-      input.type = 'text';
-      input.id = 'address-input';
-      input.placeholder = '123 Main St, Fredericksburg, VA 22401';
-      input.autocomplete = 'off';
-      input.style.cssText = 'width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:16px;font-family:Inter,system-ui,-apple-system,sans-serif;background:#fff;color:var(--text);outline:none;box-sizing:border-box';
-      container.appendChild(input);
-
-      var ac = new google.maps.places.Autocomplete(input, {
-        componentRestrictions: {country: 'us'},
-        fields: ['formatted_address','geometry','name']
-      });
-
+    async function fetchSuggestions(text){
       try {
-        ac.setBounds(new google.maps.LatLngBounds(
-          new google.maps.LatLng(38.0, -77.8),
-          new google.maps.LatLng(38.7, -77.0)
-        ));
-      } catch(e){}
-
-      ac.addListener('place_changed', function(){
-        var place = ac.getPlace();
-        if(place && place.formatted_address) state.address = place.formatted_address;
-        else if(place && place.name) state.address = place.name;
-        else state.address = input.value;
-        if(place && place.geometry && place.geometry.location){
-          state.addressLat = place.geometry.location.lat();
-          state.addressLng = place.geometry.location.lng();
-          state.areaUnverified = false;
-          checkServiceArea();
+        if(google.maps.places.AutocompleteSuggestion){
+          var req = {input: text, includedRegionCodes: ['us']};
+          if(fredBounds) req.locationBias = fredBounds;
+          var resp = await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(req);
+          var suggs = resp.suggestions || [];
+          if(!suggs.length){ dropdown.style.display = 'none'; return; }
+          dropdown.innerHTML = '';
+          suggs.forEach(function(s){
+            var pred = s.placePrediction;
+            var label = (pred.text && pred.text.text) || (pred.mainText && pred.mainText.text) || '';
+            dropdown.appendChild(makeItem(label, async function(){
+              dropdown.style.display = 'none';
+              input.value = label;
+              state.address = label;
+              try {
+                var place = pred.toPlace();
+                await place.fetchFields({fields: ['formattedAddress', 'location']});
+                if(place.formattedAddress){ input.value = place.formattedAddress; state.address = place.formattedAddress; }
+                if(place.location){ state.addressLat = place.location.lat(); state.addressLng = place.location.lng(); state.areaUnverified = false; checkServiceArea(); }
+              } catch(e){}
+              document.getElementById('btn-step2').disabled = false;
+            }));
+          });
+          dropdown.style.display = 'block';
+          return;
         }
-        document.getElementById('btn-step2').disabled = false;
-      });
-
-      input.addEventListener('input', function(){
-        state.address = input.value;
-        document.getElementById('btn-step2').disabled = input.value.length <= 10;
-      });
-
-      autocompleteReady = true;
-      var notice = document.getElementById('autocomplete-notice');
-      if(notice) notice.style.display = 'none';
-      return;
+      } catch(e){}
+      dropdown.style.display = 'none';
     }
 
-    throw 0;
+    autocompleteReady = true;
+    var notice = document.getElementById('autocomplete-notice');
+    if(notice) notice.style.display = 'none';
+    return;
   } catch(err){
     createFallbackInput(container);
   }
