@@ -1323,6 +1323,25 @@ function onMapsReady(){
   if(!MAPS_FAILED) initAddressInput();
 }
 
+function resetToFallbackAddress(){
+  MAPS_FAILED = true;
+  autocompleteReady = false;
+  autocompleteInitDone = false;
+  var container = document.getElementById('address-container');
+  if(container){
+    container.innerHTML = '';
+    createFallbackInput(container);
+  }
+  var notice = document.getElementById('autocomplete-notice');
+  if(notice) notice.style.display = 'block';
+}
+
+window.gm_authFailure = function(){
+  console.warn('[FC] Google Maps auth failure, switching to manual address input');
+  resetToFallbackAddress();
+  showMapFallback();
+};
+
 /* ── Service-specific selectors ── */
 function selectDepth(el){
   el.parentElement.querySelectorAll('.opt-btn').forEach(function(b){b.classList.remove('selected')});
@@ -1819,9 +1838,8 @@ if(MAPS_LOADED && !MAPS_FAILED) initAddressInput();
 setTimeout(function(){
   if(!MAPS_LOADED && !MAPS_FAILED){
     console.warn('[FC] Maps load timeout (6s), activating fallback');
-    MAPS_FAILED = true;
+    resetToFallbackAddress();
     showMapFallback();
-    checkAutocompleteState();
   }
 }, 6000);
 
