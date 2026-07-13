@@ -533,7 +533,7 @@ var MAPS_LOADED = false;
 var MAPS_FAILED = false;
 function initMap(){ MAPS_LOADED = true; if(typeof onMapsReady === 'function') onMapsReady(); }
 function mapsError(){ MAPS_FAILED = true; if(typeof showMapFallback === 'function') showMapFallback(); if(typeof checkAutocompleteState === 'function') checkAutocompleteState(); }
-window.gm_authFailure = function(){ MAPS_FAILED = true; if(typeof showMapFallback === 'function') showMapFallback(); if(typeof checkAutocompleteState === 'function') checkAutocompleteState(); };
+window.gm_authFailure = function(){ if(typeof checkAutocompleteState === 'function') checkAutocompleteState(); };
 </script>
 
 <script>
@@ -1373,7 +1373,6 @@ function onMapsReady(){
 }
 
 function resetToFallbackAddress(){
-  MAPS_FAILED = true;
   autocompleteReady = false;
   autocompleteInitDone = false;
   var container = document.getElementById('address-container');
@@ -1386,9 +1385,8 @@ function resetToFallbackAddress(){
 }
 
 window.gm_authFailure = function(){
-  console.warn('[FC] Google Maps auth failure, switching to manual address input');
-  resetToFallbackAddress();
-  showMapFallback();
+  console.warn('[FC] Google Maps auth notice (Places API), autocomplete may be limited');
+  checkAutocompleteState();
 };
 
 /* ── Service-specific selectors ── */
@@ -1883,14 +1881,20 @@ if(ENABLE_SPANISH){
 updateProgress();
 if(MAPS_LOADED && !MAPS_FAILED) initAddressInput();
 
-/* 6-second Maps load timeout */
+/* 10-second Maps load timeout -- only kills map if script truly never loaded */
 setTimeout(function(){
   if(!MAPS_LOADED && !MAPS_FAILED){
-    console.warn('[FC] Maps load timeout (6s), activating fallback');
-    resetToFallbackAddress();
-    showMapFallback();
+    if(!window.google || !window.google.maps){
+      console.warn('[FC] Maps script never loaded (10s), activating full fallback');
+      MAPS_FAILED = true;
+      showMapFallback();
+    } else {
+      console.warn('[FC] Maps libraries still loading after 10s, calling initMap');
+      MAPS_LOADED = true;
+      if(typeof onMapsReady === 'function') onMapsReady();
+    }
   }
-}, 6000);
+}, 10000);
 
 /* Deep-link: ?service=mowing auto-selects and skips to step 2 */
 (function(){
