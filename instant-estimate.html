@@ -562,7 +562,7 @@ var ENABLE_SPANISH = true;
     return;
   }
   var s = document.createElement('script');
-  s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_KEY + '&libraries=places,geometry&callback=initMap';
+  s.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_KEY + '&libraries=places,geometry&callback=initMap&v=weekly';
   s.async = true;
   s.defer = true;
   s.onerror = mapsError;
@@ -900,56 +900,101 @@ function initAddressInput(){
   if(!container) return;
 
   try {
-    if(!window.google || !google.maps || !google.maps.places || !google.maps.places.Autocomplete) throw 0;
+    if(!window.google || !google.maps || !google.maps.places) throw 0;
 
-    var input = document.createElement('input');
-    input.type = 'text';
-    input.id = 'address-input';
-    input.placeholder = '123 Main St, Fredericksburg, VA 22401';
-    input.autocomplete = 'off';
-    input.style.cssText = 'width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:16px;font-family:Inter,system-ui,-apple-system,sans-serif;background:#fff;color:var(--text);outline:none;box-sizing:border-box';
-    container.appendChild(input);
+    /* Strategy 1: New PlaceAutocompleteElement (required for API keys created after March 2025) */
+    if(google.maps.places.PlaceAutocompleteElement){
+      var placeAc = new google.maps.places.PlaceAutocompleteElement({
+        componentRestrictions: {country: 'us'}
+      });
 
-    var ac = new google.maps.places.Autocomplete(input, {
-      componentRestrictions: {country: 'us'},
-      fields: ['formatted_address','geometry','name']
-    });
+      try {
+        placeAc.locationBias = new google.maps.LatLngBounds(
+          new google.maps.LatLng(38.0, -77.8),
+          new google.maps.LatLng(38.7, -77.0)
+        );
+      } catch(e){}
 
-    try {
-      var fredBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(38.0, -77.8),
-        new google.maps.LatLng(38.7, -77.0)
-      );
-      ac.setBounds(fredBounds);
-    } catch(e){}
+      container.appendChild(placeAc);
 
-    ac.addListener('place_changed', function(){
-      var place = ac.getPlace();
-      if(place && place.formatted_address){
-        state.address = place.formatted_address;
-      } else if(place && place.name){
-        state.address = place.name;
-      } else {
+      placeAc.addEventListener('gmp-placeselect', async function(evt){
+        var place = evt.place;
+        try { await place.fetchFields({fields: ['formattedAddress', 'location']}); } catch(e){}
+        if(place.formattedAddress) state.address = place.formattedAddress;
+        if(place.location){
+          state.addressLat = place.location.lat();
+          state.addressLng = place.location.lng();
+          state.areaUnverified = false;
+          checkServiceArea();
+        }
+        document.getElementById('btn-step2').disabled = false;
+      });
+
+      placeAc.addEventListener('input', function(evt){
+        var path = evt.composedPath && evt.composedPath();
+        var src = path && path[0] && path[0].value !== undefined ? path[0] : null;
+        if(src){
+          state.address = src.value;
+          state.addressLat = null;
+          state.addressLng = null;
+          document.getElementById('btn-step2').disabled = src.value.length <= 10;
+        }
+      });
+
+      autocompleteReady = true;
+      var notice = document.getElementById('autocomplete-notice');
+      if(notice) notice.style.display = 'none';
+      return;
+    }
+
+    /* Strategy 2: Legacy Autocomplete widget (pre March 2025 keys) */
+    if(google.maps.places.Autocomplete){
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.id = 'address-input';
+      input.placeholder = '123 Main St, Fredericksburg, VA 22401';
+      input.autocomplete = 'off';
+      input.style.cssText = 'width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-size:16px;font-family:Inter,system-ui,-apple-system,sans-serif;background:#fff;color:var(--text);outline:none;box-sizing:border-box';
+      container.appendChild(input);
+
+      var ac = new google.maps.places.Autocomplete(input, {
+        componentRestrictions: {country: 'us'},
+        fields: ['formatted_address','geometry','name']
+      });
+
+      try {
+        ac.setBounds(new google.maps.LatLngBounds(
+          new google.maps.LatLng(38.0, -77.8),
+          new google.maps.LatLng(38.7, -77.0)
+        ));
+      } catch(e){}
+
+      ac.addListener('place_changed', function(){
+        var place = ac.getPlace();
+        if(place && place.formatted_address) state.address = place.formatted_address;
+        else if(place && place.name) state.address = place.name;
+        else state.address = input.value;
+        if(place && place.geometry && place.geometry.location){
+          state.addressLat = place.geometry.location.lat();
+          state.addressLng = place.geometry.location.lng();
+          state.areaUnverified = false;
+          checkServiceArea();
+        }
+        document.getElementById('btn-step2').disabled = false;
+      });
+
+      input.addEventListener('input', function(){
         state.address = input.value;
-      }
-      if(place && place.geometry && place.geometry.location){
-        state.addressLat = place.geometry.location.lat();
-        state.addressLng = place.geometry.location.lng();
-        state.areaUnverified = false;
-        checkServiceArea();
-      }
-      document.getElementById('btn-step2').disabled = false;
-    });
+        document.getElementById('btn-step2').disabled = input.value.length <= 10;
+      });
 
-    input.addEventListener('input', function(){
-      state.address = input.value;
-      document.getElementById('btn-step2').disabled = input.value.length <= 10;
-    });
+      autocompleteReady = true;
+      var notice = document.getElementById('autocomplete-notice');
+      if(notice) notice.style.display = 'none';
+      return;
+    }
 
-    autocompleteReady = true;
-    var notice = document.getElementById('autocomplete-notice');
-    if(notice) notice.style.display = 'none';
-
+    throw 0;
   } catch(err){
     createFallbackInput(container);
   }
